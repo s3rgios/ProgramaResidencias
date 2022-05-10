@@ -56,6 +56,8 @@
             this.cboOpcionesMostrar = new System.Windows.Forms.ComboBox();
             this.btnReporte = new System.Windows.Forms.Button();
             this.cboMostrar = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtUsuario = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -193,7 +195,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(501, 6);
+            this.label8.Location = new System.Drawing.Point(501, 40);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(153, 21);
             this.label8.TabIndex = 16;
@@ -201,7 +203,7 @@
             // 
             // rtxtServicio
             // 
-            this.rtxtServicio.Location = new System.Drawing.Point(501, 30);
+            this.rtxtServicio.Location = new System.Drawing.Point(501, 64);
             this.rtxtServicio.Name = "rtxtServicio";
             this.rtxtServicio.Size = new System.Drawing.Size(673, 95);
             this.rtxtServicio.TabIndex = 17;
@@ -211,7 +213,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(501, 128);
+            this.label9.Location = new System.Drawing.Point(501, 162);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(123, 21);
             this.label9.TabIndex = 18;
@@ -219,7 +221,7 @@
             // 
             // rtxtFallas
             // 
-            this.rtxtFallas.Location = new System.Drawing.Point(501, 152);
+            this.rtxtFallas.Location = new System.Drawing.Point(501, 186);
             this.rtxtFallas.Name = "rtxtFallas";
             this.rtxtFallas.Size = new System.Drawing.Size(673, 95);
             this.rtxtFallas.TabIndex = 19;
@@ -297,12 +299,30 @@
             this.cboMostrar.Size = new System.Drawing.Size(134, 29);
             this.cboMostrar.TabIndex = 27;
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(501, 7);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(70, 21);
+            this.label10.TabIndex = 28;
+            this.label10.Text = "Usuario:";
+            // 
+            // txtUsuario
+            // 
+            this.txtUsuario.Location = new System.Drawing.Point(577, 3);
+            this.txtUsuario.Name = "txtUsuario";
+            this.txtUsuario.Size = new System.Drawing.Size(461, 27);
+            this.txtUsuario.TabIndex = 29;
+            // 
             // Servicios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1186, 712);
+            this.Controls.Add(this.txtUsuario);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.cboMostrar);
             this.Controls.Add(this.btnReporte);
             this.Controls.Add(this.cboOpcionesMostrar);
@@ -373,5 +393,7 @@
         private ComboBox cboOpcionesMostrar;
         private Button btnReporte;
         private ComboBox cboMostrar;
+        private Label label10;
+        private TextBox txtUsuario;
     }
 }
