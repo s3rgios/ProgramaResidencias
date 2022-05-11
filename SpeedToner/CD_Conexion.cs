@@ -26,6 +26,8 @@ namespace SpeedToner
             if (Conexion.State == ConnectionState.Open)
             {
                 Conexion.Close();
+                int contador = 0;
+                int Numero = 0;
             }
             return Conexion;
         }
