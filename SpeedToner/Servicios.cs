@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,18 +13,20 @@ namespace SpeedToner
 {
     public partial class Servicios : Form
     {
+        CD_Servicios objetoCN = new CD_Servicios();
+        CD_Conexion cn = new CD_Conexion();
+        //private string NumeroFolio = null;
         public Servicios()
         {
             InitializeComponent();
             ControlesDesactivadosInicialmente();
             AgregarOpcionesBusqueda();
-            AgregarModelos();
             AgregarOpcionesMostrar();
         }
 
         private void Servicios_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void ControlesDesactivadosInicialmente()
@@ -33,10 +36,13 @@ namespace SpeedToner
             btnModificar.Enabled = false;
             btnReporte.Enabled = false;
             //Denegar escritura en combo boxs
-            cboModelos.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboMarca.DropDownStyle = ComboBoxStyle.DropDownList;
             cboMostrar.DropDownStyle = ComboBoxStyle.DropDownList;
             cboClientes.DropDownStyle = ComboBoxStyle.DropDownList;
             cboOpcionesMostrar.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            LlenarComboBox(cboClientes, "SeleccionarClientes", 0);
+            LlenarComboBox(cboMarca, "SeleccionarMarca", 1);
         }
 
         public void AgregarOpcionesBusqueda()
@@ -57,15 +63,6 @@ namespace SpeedToner
             cboMostrar.Items.Add("Todos");
         }
 
-        public void AgregarModelos()
-        {
-            cboModelos.Items.Add("Hp");
-            cboModelos.Items.Add("Brother");
-            cboModelos.Items.Add("Canon");
-            cboModelos.Items.Add("Samsung");
-            cboModelos.Items.Add("Otro");
-            cboModelos.Items.Add("Ricon Aficio");
-        }
 
         private void cboOpcionesMostrar_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -79,13 +76,64 @@ namespace SpeedToner
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            try
+            {
+                string NumeroFolio = txtNumeroFolio.Text;
+                string IdCliente = cboClientes.SelectedItem.ToString();
+                string IdMarca = cboMarca.SelectedItem.ToString();
+                string Modelo = txtModelo.Text;
+                string Serie = txtSerie.Text;
+                string Contador = txtContador.Text;
+                string Fecha = dtpFecha.Value.ToString("yyy-MM-dd");
+                string Hora = DateTime.Now.ToString("hh:mm:ss tt");
+                string Tecnico = txtTecnico.Text;
+                string Usuario = txtUsuario.Text;
+                string Fusor = txtFusor.Text;
+                string Servicio = rtxtServicio.Text;
+                string Falla = rtxtFallas.Text;
 
-            string Hora = DateTime.Now.ToString("hh:mm:ss tt");
-            string Fecha = dtpFecha.Value.ToString("yyy-MM-dd");
+                
+                objetoCN.Insertar(NumeroFolio,  IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Hora, Tecnico, Usuario, Fusor, Servicio, Falla);
+                MessageBox.Show("Servicio registrado correctamente");
+                LimpiarForm();
+            }
+            catch (Exception ex)
+            {
+               MessageBox.Show("no se pudo editar los datos por: " + ex);
+                
+            }
 
+          
+        }
+        private void LimpiarForm()
+        {
+            foreach (Control c in grpDatos.Controls)
+            {
+                if (c is TextBox)
+                {
+                    c.Text = "";
+                }
+                txtNumeroFolio.Focus();
+            }
+        }
 
+        public void LlenarComboBox(ComboBox cb, string sp, int indice)
+        {
+            cb.Items.Clear();
 
-            MessageBox.Show(Fecha + " " + " " + Hora); 
+            SqlDataReader dr = objetoCN.LlenarComboBox(sp);
+
+            while (dr.Read())
+            {
+                cb.Items.Add(dr[indice].ToString());
+            }
+            
+            cb.Items.Insert(0, " ");
+            cb.SelectedIndex = 0;
+            dr.Close();
+            cn.CerrarConexion();
         }
     }
+
+    
 }

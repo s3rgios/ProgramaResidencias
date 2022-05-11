@@ -67,5 +67,10 @@ namespace SpeedToner
         {
             AbrirForm(new Clientes());
         }
+
+        private void btnInventario_Click(object sender, EventArgs e)
+        {
+            AbrirForm(new Inventario());
+        }
     }
 }

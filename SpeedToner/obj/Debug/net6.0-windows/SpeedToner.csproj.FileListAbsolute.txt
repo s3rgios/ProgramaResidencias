@@ -25,3 +25,4 @@ C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\bin\Debug\net6.0-windows\run
 C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\bin\Debug\net6.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\bin\Debug\net6.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.csproj.CopyComplete
+C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.Inventario.resources

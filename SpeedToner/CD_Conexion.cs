@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace SpeedToner
 {
     internal class CD_Conexion
@@ -26,8 +27,6 @@ namespace SpeedToner
             if (Conexion.State == ConnectionState.Open)
             {
                 Conexion.Close();
-                int contador = 0;
-                int Numero = 0;
             }
             return Conexion;
         }
