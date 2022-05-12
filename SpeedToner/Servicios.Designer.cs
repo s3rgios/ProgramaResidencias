@@ -80,15 +80,15 @@
             // 
             this.txtCliente.Location = new System.Drawing.Point(85, 70);
             this.txtCliente.Name = "txtCliente";
-            this.txtCliente.Size = new System.Drawing.Size(183, 27);
+            this.txtCliente.Size = new System.Drawing.Size(52, 27);
             this.txtCliente.TabIndex = 1;
             // 
             // cboClientes
             // 
             this.cboClientes.FormattingEnabled = true;
-            this.cboClientes.Location = new System.Drawing.Point(274, 70);
+            this.cboClientes.Location = new System.Drawing.Point(143, 70);
             this.cboClientes.Name = "cboClientes";
-            this.cboClientes.Size = new System.Drawing.Size(190, 29);
+            this.cboClientes.Size = new System.Drawing.Size(321, 29);
             this.cboClientes.TabIndex = 2;
             // 
             // label2

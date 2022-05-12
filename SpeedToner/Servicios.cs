@@ -80,7 +80,9 @@ namespace SpeedToner
             {
                 string NumeroFolio = txtNumeroFolio.Text;
                 string IdCliente = cboClientes.SelectedItem.ToString();
+                int IdC = BuscarId(IdCliente, "ObtenerIdCliente");
                 string IdMarca = cboMarca.SelectedItem.ToString();
+                int IdM = BuscarId(IdMarca, "ObtenerIdMarca");
                 string Modelo = txtModelo.Text;
                 string Serie = txtSerie.Text;
                 string Contador = txtContador.Text;
@@ -93,8 +95,8 @@ namespace SpeedToner
                 string Falla = rtxtFallas.Text;
 
                 
-                objetoCN.Insertar(NumeroFolio,  IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Hora, Tecnico, Usuario, Fusor, Servicio, Falla);
-                MessageBox.Show("Servicio registrado correctamente");
+                //objetoCN.Insertar(NumeroFolio,  IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Hora, Tecnico, Usuario, Fusor, Servicio, Falla);
+                MessageBox.Show("Servicio registrado correctamente " + IdC + " IdMarca:" + IdM);
                 LimpiarForm();
             }
             catch (Exception ex)
@@ -132,6 +134,21 @@ namespace SpeedToner
             cb.SelectedIndex = 0;
             dr.Close();
             cn.CerrarConexion();
+        }
+
+        public int BuscarId(string campo, string sp)
+        {
+            SqlDataReader dr = objetoCN.BuscarId(campo,sp);
+            int id = 0;
+
+            while (dr.Read())
+            {
+                id = int.Parse(dr[0].ToString());
+            }
+
+            dr.Close();
+            cn.CerrarConexion();
+            return id;
         }
     }
 

@@ -40,6 +40,34 @@ namespace SpeedToner
             return leer;
         }
 
+        //public int BuscarId(string campo)
+        //{
+        //    int id = 0;
+        //    SqlConnection Conexion = new SqlConnection("Server=DESKTOP-QEE7JA6;DataBase= Pruebas;Integrated Security=true");
+        //    Conexion.Open();
+        //    string query = "SELECT IdCliente FROM Clientes WHERE Empresa =" + campo;
+        //    SqlCommand cm = new SqlCommand(query, Conexion);
+        //    SqlDataReader leer = cm.ExecuteReader();
+        //    if (leer.Read())
+        //    {
+        //        id = int.Parse(leer["IdCliente"].ToString());
+        //    }
+        //    conexion.CerrarConexion();
+        //    return id;
+        //}
+
+        public SqlDataReader BuscarId(string campo, string sp)
+        {
+            SqlDataReader leer;
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = sp;
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@CampoBusqueda", campo);
+            leer = comando.ExecuteReader();
+            comando.Parameters.Clear();
+            return leer;
+        }
+
         public void Insertar(string NumeroFolio,string IdCliente, string IdMarca, string Modelo, string Serie, string Contador, string Fecha, string Hora, string Tecnico, string Usuario, string Fusor, string ServicioRealizado, string ReporteFalla )
         {
             comando.Connection = conexion.AbrirConexion();
