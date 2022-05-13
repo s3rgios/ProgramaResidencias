@@ -46,6 +46,8 @@
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.cboModelos = new System.Windows.Forms.ComboBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -108,7 +110,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(509, 64);
+            this.label5.Location = new System.Drawing.Point(481, 56);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 21);
             this.label5.TabIndex = 7;
@@ -117,15 +119,15 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(585, 56);
+            this.comboBox1.Location = new System.Drawing.Point(629, 48);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(375, 29);
+            this.comboBox1.Size = new System.Drawing.Size(437, 29);
             this.comboBox1.TabIndex = 8;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(509, 21);
+            this.label6.Location = new System.Drawing.Point(481, 21);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(142, 21);
             this.label6.TabIndex = 9;
@@ -133,15 +135,15 @@
             // 
             // txtCantidadSalida
             // 
-            this.txtCantidadSalida.Location = new System.Drawing.Point(657, 15);
+            this.txtCantidadSalida.Location = new System.Drawing.Point(629, 15);
             this.txtCantidadSalida.Name = "txtCantidadSalida";
-            this.txtCantidadSalida.Size = new System.Drawing.Size(303, 27);
+            this.txtCantidadSalida.Size = new System.Drawing.Size(437, 27);
             this.txtCantidadSalida.TabIndex = 10;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(509, 106);
+            this.label7.Location = new System.Drawing.Point(481, 95);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(159, 21);
             this.label7.TabIndex = 11;
@@ -149,14 +151,14 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(674, 101);
+            this.textBox1.Location = new System.Drawing.Point(646, 89);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(286, 27);
+            this.textBox1.Size = new System.Drawing.Size(437, 27);
             this.textBox1.TabIndex = 12;
             // 
             // btnBuscarInventario
             // 
-            this.btnBuscarInventario.Location = new System.Drawing.Point(556, 194);
+            this.btnBuscarInventario.Location = new System.Drawing.Point(481, 181);
             this.btnBuscarInventario.Name = "btnBuscarInventario";
             this.btnBuscarInventario.Size = new System.Drawing.Size(170, 47);
             this.btnBuscarInventario.TabIndex = 13;
@@ -165,7 +167,7 @@
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(12, 198);
+            this.btnAgregar.Location = new System.Drawing.Point(22, 183);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(114, 43);
             this.btnAgregar.TabIndex = 14;
@@ -174,7 +176,7 @@
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(156, 196);
+            this.btnModificar.Location = new System.Drawing.Point(142, 183);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(114, 43);
             this.btnModificar.TabIndex = 15;
@@ -183,7 +185,7 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(296, 194);
+            this.btnEliminar.Location = new System.Drawing.Point(262, 183);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(114, 43);
             this.btnEliminar.TabIndex = 16;
@@ -198,11 +200,21 @@
             this.cboModelos.Size = new System.Drawing.Size(375, 29);
             this.cboModelos.TabIndex = 17;
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(22, 247);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowTemplate.Height = 25;
+            this.dataGridView1.Size = new System.Drawing.Size(1650, 393);
+            this.dataGridView1.TabIndex = 18;
+            // 
             // Inventario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1684, 997);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.cboModelos);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnModificar);
@@ -226,6 +238,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Inventario";
             this.Text = "Inventario";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -251,5 +264,6 @@
         private Button btnModificar;
         private Button btnEliminar;
         private ComboBox cboModelos;
+        private DataGridView dataGridView1;
     }
 }
