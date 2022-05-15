@@ -53,7 +53,6 @@
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnMostrar = new System.Windows.Forms.Button();
-            this.cboOpcionesMostrar = new System.Windows.Forms.ComboBox();
             this.btnReporte = new System.Windows.Forms.Button();
             this.cboMostrar = new System.Windows.Forms.ComboBox();
             this.v = new System.Windows.Forms.Label();
@@ -80,15 +79,15 @@
             // 
             this.txtCliente.Location = new System.Drawing.Point(85, 70);
             this.txtCliente.Name = "txtCliente";
-            this.txtCliente.Size = new System.Drawing.Size(183, 27);
+            this.txtCliente.Size = new System.Drawing.Size(52, 27);
             this.txtCliente.TabIndex = 1;
             // 
             // cboClientes
             // 
             this.cboClientes.FormattingEnabled = true;
-            this.cboClientes.Location = new System.Drawing.Point(274, 70);
+            this.cboClientes.Location = new System.Drawing.Point(143, 70);
             this.cboClientes.Name = "cboClientes";
-            this.cboClientes.Size = new System.Drawing.Size(190, 29);
+            this.cboClientes.Size = new System.Drawing.Size(321, 29);
             this.cboClientes.TabIndex = 2;
             // 
             // label2
@@ -192,10 +191,10 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 509);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 468);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(1153, 291);
+            this.dataGridView1.Size = new System.Drawing.Size(1153, 332);
             this.dataGridView1.TabIndex = 15;
             // 
             // label8
@@ -245,16 +244,17 @@
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(117, 432);
+            this.btnModificar.Location = new System.Drawing.Point(126, 390);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(108, 46);
             this.btnModificar.TabIndex = 21;
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(231, 432);
+            this.btnEliminar.Location = new System.Drawing.Point(240, 390);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(108, 46);
             this.btnEliminar.TabIndex = 22;
@@ -263,7 +263,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(345, 432);
+            this.btnBuscar.Location = new System.Drawing.Point(354, 390);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(108, 46);
             this.btnBuscar.TabIndex = 23;
@@ -272,35 +272,27 @@
             // 
             // btnMostrar
             // 
-            this.btnMostrar.Location = new System.Drawing.Point(641, 416);
+            this.btnMostrar.Location = new System.Drawing.Point(627, 390);
             this.btnMostrar.Name = "btnMostrar";
             this.btnMostrar.Size = new System.Drawing.Size(108, 46);
             this.btnMostrar.TabIndex = 24;
             this.btnMostrar.Text = "Mostrar";
             this.btnMostrar.UseVisualStyleBackColor = true;
             // 
-            // cboOpcionesMostrar
-            // 
-            this.cboOpcionesMostrar.FormattingEnabled = true;
-            this.cboOpcionesMostrar.Location = new System.Drawing.Point(901, 416);
-            this.cboOpcionesMostrar.Name = "cboOpcionesMostrar";
-            this.cboOpcionesMostrar.Size = new System.Drawing.Size(134, 29);
-            this.cboOpcionesMostrar.TabIndex = 25;
-            this.cboOpcionesMostrar.SelectedIndexChanged += new System.EventHandler(this.cboOpcionesMostrar_SelectedIndexChanged);
-            // 
             // btnReporte
             // 
-            this.btnReporte.Location = new System.Drawing.Point(1063, 390);
+            this.btnReporte.Location = new System.Drawing.Point(964, 386);
             this.btnReporte.Name = "btnReporte";
             this.btnReporte.Size = new System.Drawing.Size(111, 55);
             this.btnReporte.TabIndex = 26;
             this.btnReporte.Text = "Generar Reporte";
             this.btnReporte.UseVisualStyleBackColor = true;
+            this.btnReporte.Click += new System.EventHandler(this.btnReporte_Click);
             // 
             // cboMostrar
             // 
             this.cboMostrar.FormattingEnabled = true;
-            this.cboMostrar.Location = new System.Drawing.Point(498, 416);
+            this.cboMostrar.Location = new System.Drawing.Point(487, 400);
             this.cboMostrar.Name = "cboMostrar";
             this.cboMostrar.Size = new System.Drawing.Size(134, 29);
             this.cboMostrar.TabIndex = 27;
@@ -397,7 +389,6 @@
             this.Controls.Add(this.grpDatos);
             this.Controls.Add(this.cboMostrar);
             this.Controls.Add(this.btnReporte);
-            this.Controls.Add(this.cboOpcionesMostrar);
             this.Controls.Add(this.btnMostrar);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.btnEliminar);
@@ -443,7 +434,6 @@
         private Button btnEliminar;
         private Button btnBuscar;
         private Button btnMostrar;
-        private ComboBox cboOpcionesMostrar;
         private Button btnReporte;
         private ComboBox cboMostrar;
         private Label v;

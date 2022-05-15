@@ -20,7 +20,6 @@ namespace SpeedToner
         {
             InitializeComponent();
             ControlesDesactivadosInicialmente();
-            AgregarOpcionesBusqueda();
             AgregarOpcionesMostrar();
         }
 
@@ -34,24 +33,15 @@ namespace SpeedToner
 
             btnEliminar.Enabled = false;
             btnModificar.Enabled = false;
-            btnReporte.Enabled = false;
             //Denegar escritura en combo boxs
             cboMarca.DropDownStyle = ComboBoxStyle.DropDownList;
             cboMostrar.DropDownStyle = ComboBoxStyle.DropDownList;
             cboClientes.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboOpcionesMostrar.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            LlenarComboBox(cboClientes, "SeleccionarClientes", 0);
+            LlenarComboBox(cboClientes, "SeleccionarClientes", 1);
             LlenarComboBox(cboMarca, "SeleccionarMarca", 1);
         }
 
-        public void AgregarOpcionesBusqueda()
-        {
-            cboOpcionesMostrar.Items.Add("Clientes");
-            cboOpcionesMostrar.Items.Add("Serie");
-            cboOpcionesMostrar.Items.Add("Contador");
-            cboOpcionesMostrar.Items.Add("Fecha");
-        }
 
         public void AgregarOpcionesMostrar()
         {
@@ -64,11 +54,6 @@ namespace SpeedToner
         }
 
 
-        private void cboOpcionesMostrar_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            btnReporte.Enabled = true;
-        }
-
         private void rtxtServicio_TextChanged(object sender, EventArgs e)
         {
 
@@ -80,7 +65,9 @@ namespace SpeedToner
             {
                 string NumeroFolio = txtNumeroFolio.Text;
                 string IdCliente = cboClientes.SelectedItem.ToString();
+                int IdC = BuscarId(IdCliente, "ObtenerIdCliente");
                 string IdMarca = cboMarca.SelectedItem.ToString();
+                int IdM = BuscarId(IdMarca, "ObtenerIdMarca");
                 string Modelo = txtModelo.Text;
                 string Serie = txtSerie.Text;
                 string Contador = txtContador.Text;
@@ -93,8 +80,8 @@ namespace SpeedToner
                 string Falla = rtxtFallas.Text;
 
                 
-                objetoCN.Insertar(NumeroFolio,  IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Hora, Tecnico, Usuario, Fusor, Servicio, Falla);
-                MessageBox.Show("Servicio registrado correctamente");
+                //objetoCN.Insertar(NumeroFolio,  IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Hora, Tecnico, Usuario, Fusor, Servicio, Falla);
+                MessageBox.Show("Servicio registrado correctamente " + IdC + " IdMarca:" + IdM);
                 LimpiarForm();
             }
             catch (Exception ex)
@@ -132,6 +119,38 @@ namespace SpeedToner
             cb.SelectedIndex = 0;
             dr.Close();
             cn.CerrarConexion();
+        }
+
+        public int BuscarId(string campo, string sp)
+        {
+            SqlDataReader dr = objetoCN.BuscarId(campo,sp);
+            int id = 0;
+
+            while (dr.Read())
+            {
+                id = int.Parse(dr[0].ToString());
+            }
+
+            dr.Close();
+            cn.CerrarConexion();
+            return id;
+        }
+
+        private void AbrirForm(object formNuevo)
+        {
+            Form fh = formNuevo as Form;
+           
+            fh.Show();
+        }
+
+        private void btnReporte_Click(object sender, EventArgs e)
+        {
+            AbrirForm(new Reporte());
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 

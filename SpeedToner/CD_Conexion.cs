@@ -11,7 +11,7 @@ namespace SpeedToner
 {
     internal class CD_Conexion
     {
-        private SqlConnection Conexion = new SqlConnection("Server=DESKTOP-QEE7JA6;DataBase= Pruebas;Integrated Security=true");
+        private SqlConnection Conexion = new SqlConnection("Server=DESKTOP-QEE7JA6;DataBase= SpeedToner;Integrated Security=true");
 
         public SqlConnection AbrirConexion()
         {
