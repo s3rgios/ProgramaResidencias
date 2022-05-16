@@ -1,6 +1,6 @@
 ﻿namespace SpeedToner
 {
-    partial class Reporte
+    partial class txtCliente
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Reporte));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(txtCliente));
             this.label1 = new System.Windows.Forms.Label();
             this.cboOpcionReporte = new System.Windows.Forms.ComboBox();
             this.btnGenerarReporte = new System.Windows.Forms.Button();
@@ -45,6 +45,7 @@
             this.btnMaximizar = new System.Windows.Forms.PictureBox();
             this.btnMinimizar = new System.Windows.Forms.PictureBox();
             this.btnCerrar = new System.Windows.Forms.PictureBox();
+            this.txtIdCliente = new System.Windows.Forms.TextBox();
             this.BarraSuperior.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnRestaurar)).BeginInit();
@@ -131,6 +132,9 @@
             // 
             // cboClientes
             // 
+            this.cboClientes.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboClientes.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboClientes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboClientes.FormattingEnabled = true;
             this.cboClientes.Location = new System.Drawing.Point(129, 83);
             this.cboClientes.Name = "cboClientes";
@@ -216,11 +220,21 @@
             this.btnCerrar.TabIndex = 0;
             this.btnCerrar.TabStop = false;
             // 
-            // Reporte
+            // txtIdCliente
+            // 
+            this.txtIdCliente.Location = new System.Drawing.Point(68, 83);
+            this.txtIdCliente.Name = "txtIdCliente";
+            this.txtIdCliente.Size = new System.Drawing.Size(58, 27);
+            this.txtIdCliente.TabIndex = 11;
+            this.txtIdCliente.Visible = false;
+            this.txtIdCliente.TextChanged += new System.EventHandler(this.txtIdCliente_TextChanged);
+            // 
+            // txtCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(576, 321);
+            this.Controls.Add(this.txtIdCliente);
             this.Controls.Add(this.BarraSuperior);
             this.Controls.Add(this.cboClientes);
             this.Controls.Add(this.txtDato);
@@ -235,7 +249,7 @@
             this.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "Reporte";
+            this.Name = "txtCliente";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Reporte";
             this.BarraSuperior.ResumeLayout(false);
@@ -267,5 +281,6 @@
         private PictureBox btnMinimizar;
         private PictureBox btnCerrar;
         private PictureBox pictureBox1;
+        private TextBox txtIdCliente;
     }
 }

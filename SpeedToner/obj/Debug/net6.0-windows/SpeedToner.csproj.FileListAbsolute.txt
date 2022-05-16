@@ -26,7 +26,6 @@ C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\bin\Debug\net6.0-windows\run
 C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\bin\Debug\net6.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.csproj.CopyComplete
 C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.Inventario.resources
-C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.Reporte.resources
 C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\bin\Debug\net6.0-windows\SpeedToner.exe
 C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\bin\Debug\net6.0-windows\SpeedToner.deps.json
 C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\bin\Debug\net6.0-windows\SpeedToner.runtimeconfig.json
@@ -56,3 +55,4 @@ C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6
 C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.pdb
 C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.genruntimeconfig.cache
 C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6.0-windows\ref\SpeedToner.dll
+C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.txtCliente.resources

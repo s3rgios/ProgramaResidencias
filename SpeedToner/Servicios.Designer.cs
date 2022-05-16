@@ -82,13 +82,19 @@
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(52, 27);
             this.txtCliente.TabIndex = 1;
+            this.txtCliente.Click += new System.EventHandler(this.txtCliente_Click);
+            this.txtCliente.TextChanged += new System.EventHandler(this.txtCliente_TextChanged);
             // 
             // cboClientes
             // 
+            this.cboClientes.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboClientes.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboClientes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboClientes.FormattingEnabled = true;
             this.cboClientes.Location = new System.Drawing.Point(143, 70);
             this.cboClientes.Name = "cboClientes";
             this.cboClientes.Size = new System.Drawing.Size(321, 29);
+            this.cboClientes.Sorted = true;
             this.cboClientes.TabIndex = 2;
             // 
             // label2
@@ -280,6 +286,7 @@
             this.btnMostrar.TabIndex = 24;
             this.btnMostrar.Text = "Mostrar";
             this.btnMostrar.UseVisualStyleBackColor = true;
+            this.btnMostrar.Click += new System.EventHandler(this.btnMostrar_Click);
             // 
             // btnReporte
             // 

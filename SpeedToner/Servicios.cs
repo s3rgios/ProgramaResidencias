@@ -68,7 +68,8 @@ namespace SpeedToner
             dtgServicios.AllowUserToDeleteRows = false;
 
             //Ajustar automaticamente el ancho de las columnas
-            //dtgServicios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgServicios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            //dtgServicios.AutoResizeColumns(DataGridViewAutoSizeColumnsMo‌​de.Fill);
         }
 
         public void MostrarDatosServicios()
@@ -115,7 +116,15 @@ namespace SpeedToner
                 
             }
 
-          
+//            CREATE PROCEDURE SeleccionarCliente
+//@IdCliente int
+//AS
+//SELECT Empresa FROM Clientes
+//WHERE IdCliente = @IdCliente
+//GO
+
+
+
         }
         private void LimpiarForm()
         {
@@ -170,7 +179,7 @@ namespace SpeedToner
 
         private void btnReporte_Click(object sender, EventArgs e)
         {
-            AbrirForm(new Reporte());
+            AbrirForm(new txtCliente());
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
@@ -195,6 +204,46 @@ namespace SpeedToner
             btnCancelar.Enabled = false;
             btnEliminar.Enabled = false;
             btnGuardar.Enabled = true;
+        }
+
+        private void btnMostrar_Click(object sender, EventArgs e)
+        {
+            DataTable tabla = new DataTable();
+            
+            switch (cboClientes.SelectedItem.ToString())
+            {
+                case "Ultima Semana": tabla = objetoCN.Mostrar("MostrarUltimaSemana");  break;
+                case "Ultimo Mes": tabla = objetoCN.Mostrar("MostrarUltimoMes");  break;
+                case "Este año": tabla = objetoCN.Mostrar("MostrarAñoActual"); break;
+                case "Todos": tabla = objetoCN.Mostrar("MostrarDatosServicios");break;
+            }
+            dtgServicios.DataSource = tabla;
+        }
+
+        private void txtCliente_Click(object sender, EventArgs e)
+        {
+            
+            
+            
+        }
+
+        private void txtCliente_TextChanged(object sender, EventArgs e)
+        {
+            if (txtCliente.Text != "")
+            {
+                int IdCliente = int.Parse(txtCliente.Text);
+                SqlDataReader dr = objetoCN.BuscarCliente(IdCliente, "SeleccionarCliente");
+                int id = 0;
+
+                while (dr.Read())
+                {
+                    cboClientes.SelectedItem = dr[0].ToString();
+                }
+
+                dr.Close();
+                cn.CerrarConexion();
+
+            }
         }
     }
 

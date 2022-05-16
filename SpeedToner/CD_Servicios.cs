@@ -116,6 +116,19 @@ namespace SpeedToner
         #endregion
 
         #region Clientes
+
+        public SqlDataReader BuscarCliente(int IdCliente, string sp)
+        {
+            SqlDataReader leer;
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = sp;
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@IdCliente", IdCliente);
+            leer = comando.ExecuteReader();
+            comando.Parameters.Clear();
+            return leer;
+        }
+
         public void InsertarCliente(string Empresa)
         {
             comando.Connection = conexion.AbrirConexion();

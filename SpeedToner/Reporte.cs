@@ -8,17 +8,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace SpeedToner
 {
-    public partial class Reporte : Form
+    public partial class txtCliente : Form
     {
-        public Reporte()
+        CD_Servicios objetoCN = new CD_Servicios();
+        CD_Conexion cn = new CD_Conexion();
+        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
+        private extern static void ReleaseCapture();
+        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
+
+        private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lparam);
+        public txtCliente()
         {
             InitializeComponent();
             InicioAplicacion();
         }
-
+        #region Inicio
         public void AgregarOpcionesBusqueda()
         {
             cboOpcionReporte.Items.Add("Clientes");
@@ -26,6 +35,23 @@ namespace SpeedToner
             cboOpcionReporte.Items.Add("Contador");
             cboOpcionReporte.Items.Add("Fecha");
             cboOpcionReporte.Items.Add("Fusor");
+        }
+
+        public void LlenarComboBox(ComboBox cb, string sp, int indice)
+        {
+            cb.Items.Clear();
+
+            SqlDataReader dr = objetoCN.LlenarComboBox(sp);
+
+            while (dr.Read())
+            {
+                cb.Items.Add(dr[indice].ToString());
+            }
+
+            cb.Items.Insert(0, " ");
+            cb.SelectedIndex = 0;
+            dr.Close();
+            cn.CerrarConexion();
         }
 
         public void InicioAplicacion()
@@ -39,34 +65,18 @@ namespace SpeedToner
 
             //Denegamos escritura en el combo box
             cboOpcionReporte.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            //Llenamos nuestro combobox de Clientes
+            LlenarComboBox(cboClientes, "SeleccionarClientes", 1);
         }
+        #endregion
 
         private void btnGenerarReporte_Click(object sender, EventArgs e)
         {
 
         }  
 
-        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
-        private extern static void ReleaseCapture();
-        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
-
-        private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lparam);
-
-        private void cboOpcionReporte_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-            btnGenerarReporte.Enabled = true;
-
-            switch (cboOpcionReporte.SelectedItem.ToString())
-            {
-                case "Serie": MostrarTextBoxDato() ; break;
-                case "Contador": MostrarTextBoxDato(); break;
-                case "Fusor": MostrarTextBoxDato(); break;
-                case "Clientes": MostrarComboBoxClientes(); break;
-                default: txtDato.Visible = false; cboClientes.Visible = false; 
-                    break;
-            }
-        }
+        #region Metodos Locales
 
         private void MostrarTextBoxDato()
         {
@@ -74,6 +84,7 @@ namespace SpeedToner
             cboClientes.Visible = false;
             txtDato.Visible = true;
             txtDato.Enabled = true;
+            txtIdCliente.Visible = false;
             txtDato.Focus();
         }
 
@@ -82,17 +93,58 @@ namespace SpeedToner
             txtDato.Enabled = false;
             txtDato.Visible = false;
             cboClientes.Visible = true;
+            txtIdCliente.Visible = true;
         }
+        #endregion
 
+        #region Eventos
         private void BarraSuperior_MouseDown(object sender, MouseEventArgs e)
         {
             ReleaseCapture();
             SendMessage(this.Handle, 0x112, 0xf012, 0);
         }
 
+        private void cboOpcionReporte_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            btnGenerarReporte.Enabled = true;
+
+            switch (cboOpcionReporte.SelectedItem.ToString())
+            {
+                case "Serie": MostrarTextBoxDato(); break;
+                case "Contador": MostrarTextBoxDato(); break;
+                case "Fusor": MostrarTextBoxDato(); break;
+                case "Clientes": MostrarComboBoxClientes(); break;
+                default:
+                    txtDato.Visible = false; cboClientes.Visible = false;
+                    break;
+            }
+        }
+
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        private void txtIdCliente_TextChanged(object sender, EventArgs e)
+        {
+            if (txtIdCliente.Text != "")
+            {
+                int IdCliente = int.Parse(txtIdCliente.Text);
+                SqlDataReader dr = objetoCN.BuscarCliente(IdCliente, "SeleccionarCliente");
+                int id = 0;
+
+                while (dr.Read())
+                {
+                    cboClientes.SelectedItem = dr[0].ToString();
+                }
+
+                dr.Close();
+                cn.CerrarConexion();
+
+            }
+        }
+
+        #endregion
     }
 }
