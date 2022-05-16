@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DELL PC\\source\\repos\\SpeedToner\\SpeedToner\\SpeedToner.csproj": {}
+    "C:\\Users\\Acer\\Source\\Repos\\s3rgios\\ProgramaResidencias\\SpeedToner\\SpeedToner.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DELL PC\\source\\repos\\SpeedToner\\SpeedToner\\SpeedToner.csproj": {
+    "C:\\Users\\Acer\\Source\\Repos\\s3rgios\\ProgramaResidencias\\SpeedToner\\SpeedToner.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DELL PC\\source\\repos\\SpeedToner\\SpeedToner\\SpeedToner.csproj",
+        "projectUniqueName": "C:\\Users\\Acer\\Source\\Repos\\s3rgios\\ProgramaResidencias\\SpeedToner\\SpeedToner.csproj",
         "projectName": "SpeedToner",
-        "projectPath": "C:\\Users\\DELL PC\\source\\repos\\SpeedToner\\SpeedToner\\SpeedToner.csproj",
-        "packagesPath": "C:\\Users\\DELL PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DELL PC\\source\\repos\\SpeedToner\\SpeedToner\\obj\\",
+        "projectPath": "C:\\Users\\Acer\\Source\\Repos\\s3rgios\\ProgramaResidencias\\SpeedToner\\SpeedToner.csproj",
+        "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Acer\\Source\\Repos\\s3rgios\\ProgramaResidencias\\SpeedToner\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\DELL PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

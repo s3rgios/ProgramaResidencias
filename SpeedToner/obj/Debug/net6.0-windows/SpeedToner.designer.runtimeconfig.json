@@ -13,7 +13,7 @@
     ],
     "additionalProbingPaths": [
       "C:\\Users\\DELL PC\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\DELL PC\\.nuget\\packages"
+      "C:\\Users\\Acer\\.nuget\\packages"
     ],
     "configProperties": {
       "Microsoft.NETCore.DotNetHostPolicy.SetAppPaths": true

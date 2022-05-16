@@ -19,8 +19,11 @@ namespace SpeedToner
         public Servicios()
         {
             InitializeComponent();
+            LlenarDtg();
             ControlesDesactivadosInicialmente();
             AgregarOpcionesMostrar();
+            MostrarDatosServicios();
+            
         }
 
         private void Servicios_Load(object sender, EventArgs e)
@@ -30,9 +33,9 @@ namespace SpeedToner
 
         private void ControlesDesactivadosInicialmente()
         {
-
-            btnEliminar.Enabled = false;
             btnModificar.Enabled = false;
+            btnCancelar.Enabled = false;
+            btnEliminar.Enabled = false;
             //Denegar escritura en combo boxs
             cboMarca.DropDownStyle = ComboBoxStyle.DropDownList;
             cboMostrar.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -53,6 +56,28 @@ namespace SpeedToner
             cboMostrar.Items.Add("Todos");
         }
 
+        public void LlenarDtg()
+        {
+            //Solo lectura
+            dtgServicios.ReadOnly = true;
+
+            //No agregar renglones
+            dtgServicios.AllowUserToAddRows = false;
+
+            //No borrar renglones
+            dtgServicios.AllowUserToDeleteRows = false;
+
+            //Ajustar automaticamente el ancho de las columnas
+            //dtgServicios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        public void MostrarDatosServicios()
+        {
+            DataTable tabla = new DataTable();
+            tabla = objetoCN.Mostrar("MostrarDatosServicios");
+            dtgServicios.DataSource = tabla;
+        }
+
 
         private void rtxtServicio_TextChanged(object sender, EventArgs e)
         {
@@ -71,18 +96,18 @@ namespace SpeedToner
                 string Modelo = txtModelo.Text;
                 string Serie = txtSerie.Text;
                 string Contador = txtContador.Text;
-                string Fecha = dtpFecha.Value.ToString("yyy-MM-dd");
-                string Hora = DateTime.Now.ToString("hh:mm:ss tt");
+                DateTime Fecha = dtpFecha.Value;
                 string Tecnico = txtTecnico.Text;
                 string Usuario = txtUsuario.Text;
                 string Fusor = txtFusor.Text;
                 string Servicio = rtxtServicio.Text;
                 string Falla = rtxtFallas.Text;
-
                 
-                //objetoCN.Insertar(NumeroFolio,  IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Hora, Tecnico, Usuario, Fusor, Servicio, Falla);
-                MessageBox.Show("Servicio registrado correctamente " + IdC + " IdMarca:" + IdM);
-                LimpiarForm();
+
+
+               objetoCN.InsertarServicio(NumeroFolio,  IdC, IdM, Modelo, Serie, Contador, Fecha, Tecnico, Usuario, Fusor, Servicio, Falla);
+                
+               LimpiarForm();
             }
             catch (Exception ex)
             {
@@ -150,7 +175,26 @@ namespace SpeedToner
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            
+            if(dtgServicios.SelectedRows.Count > 1)
+            {
+
+            }
+        }
+
+        private void dtgServicios_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            btnModificar.Enabled = true;
+            btnGuardar.Enabled = false;
+            btnEliminar.Enabled = true;
+            btnCancelar.Enabled = true;
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            btnModificar.Enabled = false;
+            btnCancelar.Enabled = false;
+            btnEliminar.Enabled = false;
+            btnGuardar.Enabled = true;
         }
     }
 

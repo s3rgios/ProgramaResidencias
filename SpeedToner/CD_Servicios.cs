@@ -40,21 +40,6 @@ namespace SpeedToner
             return leer;
         }
 
-        //public int BuscarId(string campo)
-        //{
-        //    int id = 0;
-        //    SqlConnection Conexion = new SqlConnection("Server=DESKTOP-QEE7JA6;DataBase= Pruebas;Integrated Security=true");
-        //    Conexion.Open();
-        //    string query = "SELECT IdCliente FROM Clientes WHERE Empresa =" + campo;
-        //    SqlCommand cm = new SqlCommand(query, Conexion);
-        //    SqlDataReader leer = cm.ExecuteReader();
-        //    if (leer.Read())
-        //    {
-        //        id = int.Parse(leer["IdCliente"].ToString());
-        //    }
-        //    conexion.CerrarConexion();
-        //    return id;
-        //}
 
         public SqlDataReader BuscarId(string campo, string sp)
         {
@@ -67,23 +52,23 @@ namespace SpeedToner
             comando.Parameters.Clear();
             return leer;
         }
-
-        public void Insertar(string NumeroFolio,string IdCliente, string IdMarca, string Modelo, string Serie, string Contador, string Fecha, string Hora, string Tecnico, string Usuario, string Fusor, string ServicioRealizado, string ReporteFalla )
+        #region Servicios
+        public void InsertarServicio(string NumeroFolio,int IdCliente, int IdMarca, string Modelo, string Serie, string Contador, DateTime Fecha, string Tecnico, string Usuario, string Fusor, string ServicioRealizado, string ReporteFalla )
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "AgregarServicio";
             comando.CommandType = CommandType.StoredProcedure;
 
             comando.Parameters.AddWithValue("@NumeroFolio", int.Parse(NumeroFolio));
-            comando.Parameters.AddWithValue("@IdCliente", int.Parse(IdCliente));
-            comando.Parameters.AddWithValue("IdMarca", int.Parse(IdMarca));
+            comando.Parameters.AddWithValue("@IdCliente", IdCliente);
+            comando.Parameters.AddWithValue("IdMarca", IdMarca);
             comando.Parameters.AddWithValue("Modelo",Modelo);
             comando.Parameters.AddWithValue("@Serie", Serie);
             comando.Parameters.AddWithValue("@Contador", int.Parse(Contador));
             comando.Parameters.AddWithValue("@Fecha", Fecha);
-            comando.Parameters.AddWithValue("@Hora",Hora);
             comando.Parameters.AddWithValue("@Tecnico", Tecnico);
             comando.Parameters.AddWithValue("@Usuario", Usuario);
+            comando.Parameters.AddWithValue("@Fusor", Fusor);
             comando.Parameters.AddWithValue("@ServicioRealizado", ServicioRealizado);
             comando.Parameters.AddWithValue("@ReporteFalla",ReporteFalla);
 
@@ -93,7 +78,7 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
-        public void Modificar(string NumeroFolio, string IdCliente, string IdMarca, string Modelo, string Serie, string Contador, string Fecha, string Hora, string Tecnico, string Usuario, string Fusor, string ServicioRealizado, string ReporteFalla)
+        public void ModificarServicio(string NumeroFolio, string IdCliente, string IdMarca, string Modelo, string Serie, string Contador, string Fecha, string Hora, string Tecnico, string Usuario, string Fusor, string ServicioRealizado, string ReporteFalla)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "ModificarServicio";
@@ -118,7 +103,7 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
-        public void Eliminar(string NumeroFolio)
+        public void EliminarServicio(string NumeroFolio)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "EliminarServicio";
@@ -128,6 +113,51 @@ namespace SpeedToner
             comando.Parameters.Clear();
             conexion.CerrarConexion();
         }
+        #endregion
+
+        #region Clientes
+        public void InsertarCliente(string Empresa)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "AgregarCliente";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@Empresa", Empresa);
+
+            comando.ExecuteNonQuery();
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        public void ModificarCliente(int IdCliente,string Empresa)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "ModificarCliente";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@IdCliente", IdCliente);
+            comando.Parameters.AddWithValue("@Empresa", Empresa);
+
+            comando.ExecuteNonQuery();
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        public void EliminarCliente(int IdCliente)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "EliminarCliente";
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@IdCliente", IdCliente);
+            comando.ExecuteNonQuery();
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        #endregion
+
 
 
     }

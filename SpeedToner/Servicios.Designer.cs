@@ -43,7 +43,7 @@
             this.dtpFecha = new System.Windows.Forms.DateTimePicker();
             this.label7 = new System.Windows.Forms.Label();
             this.txtTecnico = new System.Windows.Forms.TextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dtgServicios = new System.Windows.Forms.DataGridView();
             this.label8 = new System.Windows.Forms.Label();
             this.rtxtServicio = new System.Windows.Forms.RichTextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -62,7 +62,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.txtFusor = new System.Windows.Forms.TextBox();
             this.grpDatos = new System.Windows.Forms.GroupBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.btnCancelar = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgServicios)).BeginInit();
             this.grpDatos.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -104,7 +105,7 @@
             this.txtNumeroFolio.Location = new System.Drawing.Point(154, 30);
             this.txtNumeroFolio.Name = "txtNumeroFolio";
             this.txtNumeroFolio.Size = new System.Drawing.Size(310, 27);
-            this.txtNumeroFolio.TabIndex = 4;
+            this.txtNumeroFolio.TabIndex = 1;
             // 
             // label3
             // 
@@ -121,7 +122,7 @@
             this.cboMarca.Location = new System.Drawing.Point(88, 108);
             this.cboMarca.Name = "cboMarca";
             this.cboMarca.Size = new System.Drawing.Size(376, 29);
-            this.cboMarca.TabIndex = 6;
+            this.cboMarca.TabIndex = 3;
             // 
             // label4
             // 
@@ -137,7 +138,7 @@
             this.txtSerie.Location = new System.Drawing.Point(64, 209);
             this.txtSerie.Name = "txtSerie";
             this.txtSerie.Size = new System.Drawing.Size(399, 27);
-            this.txtSerie.TabIndex = 8;
+            this.txtSerie.TabIndex = 5;
             // 
             // label5
             // 
@@ -153,7 +154,7 @@
             this.txtContador.Location = new System.Drawing.Point(100, 254);
             this.txtContador.Name = "txtContador";
             this.txtContador.Size = new System.Drawing.Size(358, 27);
-            this.txtContador.TabIndex = 10;
+            this.txtContador.TabIndex = 6;
             // 
             // label6
             // 
@@ -170,7 +171,7 @@
             this.dtpFecha.Location = new System.Drawing.Point(77, 294);
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(384, 27);
-            this.dtpFecha.TabIndex = 12;
+            this.dtpFecha.TabIndex = 7;
             // 
             // label7
             // 
@@ -186,16 +187,17 @@
             this.txtTecnico.Location = new System.Drawing.Point(89, 332);
             this.txtTecnico.Name = "txtTecnico";
             this.txtTecnico.Size = new System.Drawing.Size(372, 27);
-            this.txtTecnico.TabIndex = 14;
+            this.txtTecnico.TabIndex = 8;
             // 
-            // dataGridView1
+            // dtgServicios
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 468);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(1153, 332);
-            this.dataGridView1.TabIndex = 15;
+            this.dtgServicios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgServicios.Location = new System.Drawing.Point(12, 447);
+            this.dtgServicios.Name = "dtgServicios";
+            this.dtgServicios.RowTemplate.Height = 25;
+            this.dtgServicios.Size = new System.Drawing.Size(1159, 281);
+            this.dtgServicios.TabIndex = 15;
+            this.dtgServicios.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgServicios_CellClick);
             // 
             // label8
             // 
@@ -211,7 +213,7 @@
             this.rtxtServicio.Location = new System.Drawing.Point(486, 142);
             this.rtxtServicio.Name = "rtxtServicio";
             this.rtxtServicio.Size = new System.Drawing.Size(673, 95);
-            this.rtxtServicio.TabIndex = 17;
+            this.rtxtServicio.TabIndex = 11;
             this.rtxtServicio.Text = "";
             this.rtxtServicio.TextChanged += new System.EventHandler(this.rtxtServicio_TextChanged);
             // 
@@ -229,7 +231,7 @@
             this.rtxtFallas.Location = new System.Drawing.Point(486, 264);
             this.rtxtFallas.Name = "rtxtFallas";
             this.rtxtFallas.Size = new System.Drawing.Size(673, 111);
-            this.rtxtFallas.TabIndex = 19;
+            this.rtxtFallas.TabIndex = 12;
             this.rtxtFallas.Text = "";
             // 
             // btnGuardar
@@ -263,7 +265,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(354, 390);
+            this.btnBuscar.Location = new System.Drawing.Point(498, 390);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(108, 46);
             this.btnBuscar.TabIndex = 23;
@@ -272,7 +274,7 @@
             // 
             // btnMostrar
             // 
-            this.btnMostrar.Location = new System.Drawing.Point(627, 390);
+            this.btnMostrar.Location = new System.Drawing.Point(757, 395);
             this.btnMostrar.Name = "btnMostrar";
             this.btnMostrar.Size = new System.Drawing.Size(108, 46);
             this.btnMostrar.TabIndex = 24;
@@ -292,7 +294,7 @@
             // cboMostrar
             // 
             this.cboMostrar.FormattingEnabled = true;
-            this.cboMostrar.Location = new System.Drawing.Point(487, 400);
+            this.cboMostrar.Location = new System.Drawing.Point(617, 405);
             this.cboMostrar.Name = "cboMostrar";
             this.cboMostrar.Size = new System.Drawing.Size(134, 29);
             this.cboMostrar.TabIndex = 27;
@@ -311,7 +313,7 @@
             this.txtUsuario.Location = new System.Drawing.Point(562, 26);
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(461, 27);
-            this.txtUsuario.TabIndex = 29;
+            this.txtUsuario.TabIndex = 9;
             // 
             // label11
             // 
@@ -327,7 +329,7 @@
             this.txtModelo.Location = new System.Drawing.Point(85, 161);
             this.txtModelo.Name = "txtModelo";
             this.txtModelo.Size = new System.Drawing.Size(378, 27);
-            this.txtModelo.TabIndex = 31;
+            this.txtModelo.TabIndex = 4;
             // 
             // label10
             // 
@@ -343,7 +345,7 @@
             this.txtFusor.Location = new System.Drawing.Point(562, 67);
             this.txtFusor.Name = "txtFusor";
             this.txtFusor.Size = new System.Drawing.Size(461, 27);
-            this.txtFusor.TabIndex = 33;
+            this.txtFusor.TabIndex = 10;
             // 
             // grpDatos
             // 
@@ -379,12 +381,23 @@
             this.grpDatos.TabStop = false;
             this.grpDatos.Text = "Datos:";
             // 
+            // btnCancelar
+            // 
+            this.btnCancelar.Location = new System.Drawing.Point(354, 390);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(108, 46);
+            this.btnCancelar.TabIndex = 35;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
             // Servicios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1186, 812);
+            this.ClientSize = new System.Drawing.Size(1186, 749);
+            this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.grpDatos);
             this.Controls.Add(this.cboMostrar);
@@ -393,14 +406,14 @@
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnGuardar);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dtgServicios);
             this.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Servicios";
             this.Text = "Servicios";
             this.Load += new System.EventHandler(this.Servicios_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgServicios)).EndInit();
             this.grpDatos.ResumeLayout(false);
             this.grpDatos.PerformLayout();
             this.ResumeLayout(false);
@@ -424,7 +437,7 @@
         private DateTimePicker dtpFecha;
         private Label label7;
         private TextBox txtTecnico;
-        private DataGridView dataGridView1;
+        private DataGridView dtgServicios;
         private Label label8;
         private RichTextBox rtxtServicio;
         private Label label9;
@@ -443,5 +456,6 @@
         private Label label10;
         private TextBox txtFusor;
         private GroupBox grpDatos;
+        private Button btnCancelar;
     }
 }
