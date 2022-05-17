@@ -14,12 +14,13 @@ namespace SpeedToner
         private CD_Conexion conexion = new CD_Conexion();
 
         
-        DataTable tabla = new DataTable();
+        
         SqlCommand  comando = new SqlCommand();
 
-        //Se podra reutilizar, solo le mandamos un parametro de busqueda para que cambie de stop procedure
+        //Metodo para mostrar los registros de los servicios, dependiendo el stop procedure que se envie, se mostrara informacion como la requiera el usuario
         public DataTable Mostrar(string sp)
         {
+            DataTable tabla = new DataTable();
             SqlDataReader leer;
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = sp;
@@ -30,6 +31,7 @@ namespace SpeedToner
             return tabla;
         }
 
+        //Metodo que ejecuta los stop procedure para llenar los combo box
         public SqlDataReader LlenarComboBox(string sp)
         {
             SqlDataReader leer;
@@ -40,7 +42,7 @@ namespace SpeedToner
             return leer;
         }
 
-
+        //Metodo que ejecuta los stop procedure para poder obtener el id que se requiera
         public SqlDataReader BuscarId(string campo, string sp)
         {
             SqlDataReader leer;
@@ -78,22 +80,22 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
-        public void ModificarServicio(string NumeroFolio, string IdCliente, string IdMarca, string Modelo, string Serie, string Contador, string Fecha, string Hora, string Tecnico, string Usuario, string Fusor, string ServicioRealizado, string ReporteFalla)
+        public void ModificarServicio(string NumeroFolio, int IdCliente, int IdMarca, string Modelo, string Serie, string Contador, DateTime Fecha, string Tecnico, string Usuario, string Fusor, string ServicioRealizado, string ReporteFalla)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "ModificarServicio";
             comando.CommandType = CommandType.StoredProcedure;
 
             comando.Parameters.AddWithValue("@NumeroFolio", int.Parse(NumeroFolio));
-            comando.Parameters.AddWithValue("@IdCliente", int.Parse(IdCliente));
-            comando.Parameters.AddWithValue("IdMarca", int.Parse(IdMarca));
+            comando.Parameters.AddWithValue("@IdCliente", IdCliente);
+            comando.Parameters.AddWithValue("IdMarca", IdMarca);
             comando.Parameters.AddWithValue("Modelo", Modelo);
             comando.Parameters.AddWithValue("@Serie", Serie);
-            comando.Parameters.AddWithValue("@Contador", int.Parse(Contador));
             comando.Parameters.AddWithValue("@Fecha", Fecha);
-            comando.Parameters.AddWithValue("@Hora", Hora);
+            comando.Parameters.AddWithValue("@Contador", int.Parse(Contador));
             comando.Parameters.AddWithValue("@Tecnico", Tecnico);
             comando.Parameters.AddWithValue("@Usuario", Usuario);
+            comando.Parameters.AddWithValue("@Fusor", Fusor);
             comando.Parameters.AddWithValue("@ServicioRealizado", ServicioRealizado);
             comando.Parameters.AddWithValue("@ReporteFalla", ReporteFalla);
 
@@ -108,15 +110,18 @@ namespace SpeedToner
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "EliminarServicio";
             comando.CommandType = CommandType.StoredProcedure;
-            comando.Parameters.AddWithValue("@NumerFolio", int.Parse(NumeroFolio));
+            comando.Parameters.AddWithValue("@NumeroFolio", int.Parse(NumeroFolio));
             comando.ExecuteNonQuery();
             comando.Parameters.Clear();
+            
+            
             conexion.CerrarConexion();
         }
         #endregion
 
         #region Clientes
 
+        //Metodo para devolver el cliente dependiendo el Id que tenga
         public SqlDataReader BuscarCliente(int IdCliente, string sp)
         {
             SqlDataReader leer;
