@@ -167,10 +167,10 @@
             // 
             // txtContador
             // 
-            this.txtContador.Location = new System.Drawing.Point(113, 202);
+            this.txtContador.Location = new System.Drawing.Point(100, 205);
             this.txtContador.Margin = new System.Windows.Forms.Padding(2);
             this.txtContador.Name = "txtContador";
-            this.txtContador.Size = new System.Drawing.Size(322, 27);
+            this.txtContador.Size = new System.Drawing.Size(328, 27);
             this.txtContador.TabIndex = 6;
             // 
             // label6
@@ -214,12 +214,12 @@
             // 
             this.dtgServicios.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
             this.dtgServicios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgServicios.Location = new System.Drawing.Point(16, 373);
+            this.dtgServicios.Location = new System.Drawing.Point(11, 373);
             this.dtgServicios.Margin = new System.Windows.Forms.Padding(2);
             this.dtgServicios.Name = "dtgServicios";
             this.dtgServicios.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dtgServicios.RowTemplate.Height = 25;
-            this.dtgServicios.Size = new System.Drawing.Size(1145, 366);
+            this.dtgServicios.Size = new System.Drawing.Size(1150, 366);
             this.dtgServicios.TabIndex = 15;
             this.dtgServicios.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgServicios_CellClick);
             // 
@@ -265,7 +265,7 @@
             // btnGuardar
             // 
             this.btnGuardar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnGuardar.Location = new System.Drawing.Point(9, 316);
+            this.btnGuardar.Location = new System.Drawing.Point(11, 316);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(2);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(117, 53);
@@ -437,7 +437,7 @@
             // btnCancelar
             // 
             this.btnCancelar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnCancelar.Location = new System.Drawing.Point(371, 316);
+            this.btnCancelar.Location = new System.Drawing.Point(362, 317);
             this.btnCancelar.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(112, 52);

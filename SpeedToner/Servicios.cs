@@ -135,7 +135,7 @@ namespace SpeedToner
             }
             catch (Exception ex)
             {
-               MessageBox.Show("no se pudo editar los datos por: " + ex);
+               MessageBox.Show("No se pudieron guadar los datos por: " + ex);
                 
             }
 
@@ -186,7 +186,6 @@ namespace SpeedToner
             {
                 MessageBox.Show("No se pudieron modificar los datos: " + ex);
             }
-
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
