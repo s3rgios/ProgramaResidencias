@@ -51,6 +51,8 @@ namespace SpeedToner
             MostrarDatosServicios();
         }
 
+
+        
         private void ControlesDesactivadosInicialmente()
         {
             btnModificar.Enabled = false;
@@ -114,10 +116,10 @@ namespace SpeedToner
                 string NumeroFolio = txtNumeroFolio.Text;
                 string IdCliente = cboClientes.SelectedItem.ToString();
                 //Mandamos el nombre del cliente y el stop procedure que contiene la consulta que nos devolvera su IdCliente
-                int IdC = BuscarId(IdCliente, "ObtenerIdCliente");
+                int IdC = objetoCN.BuscarId(IdCliente, "ObtenerIdCliente");
                 //Mandamos el nombre de la marca y el stop procedure que contiene la consulta que nos devolvera su IdMarca
                 string IdMarca = cboMarca.SelectedItem.ToString();
-                int IdM = BuscarId(IdMarca, "ObtenerIdMarca");
+                int IdM = objetoCN.BuscarId(IdMarca, "ObtenerIdMarca");
                 string Modelo = txtModelo.Text;
                 string Serie = txtSerie.Text;
                 string Contador = txtContador.Text;
@@ -163,9 +165,9 @@ namespace SpeedToner
             {
                 string NumeroFolio = txtNumeroFolio.Text;
                 string IdCliente = cboClientes.SelectedItem.ToString();
-                int IdC = BuscarId(IdCliente, "ObtenerIdCliente");
+                int IdC = objetoCN.BuscarId(IdCliente, "ObtenerIdCliente");
                 string IdMarca = cboMarca.SelectedItem.ToString();
-                int IdM = BuscarId(IdMarca, "ObtenerIdMarca");
+                int IdM = objetoCN.BuscarId(IdMarca, "ObtenerIdMarca");
                 string Modelo = txtModelo.Text;
                 string Serie = txtSerie.Text;
                 string Contador = txtContador.Text;
@@ -225,12 +227,10 @@ namespace SpeedToner
             try
             {
                 string NumeroFolio = txtNumeroFolio.Text;
-
                 objetoCN.EliminarServicio(NumeroFolio);
                 MessageBox.Show("Se elimino el registro");
                 MostrarDatosServicios();
                 LimpiarForm();
-
             }
             catch (Exception ex)
             {
@@ -247,10 +247,12 @@ namespace SpeedToner
                 if (c is TextBox)
                 {
                     c.Text = "";
-                }else if(c is RichTextBox)
+                }
+                else if(c is RichTextBox)
                 {
                     c.Text = "";
-                }            }
+                }            
+            }
             txtNumeroFolio.Focus();
 
             cboClientes.SelectedIndex = 0;
@@ -262,7 +264,6 @@ namespace SpeedToner
         public void LlenarComboBox(ComboBox cb, string sp, int indice)
         {
             cb.Items.Clear();
-
             SqlDataReader dr = objetoCN.LlenarComboBox(sp);
 
             while (dr.Read())
@@ -277,23 +278,6 @@ namespace SpeedToner
             dr.Close();
             cn.CerrarConexion();
         }
-
-        //Metodo para obtener el Id de una tabla de la base de datos dependiendo el parametro que enviemos
-        public int BuscarId(string campo, string sp)
-        {
-            SqlDataReader dr = objetoCN.BuscarId(campo,sp);
-            int id = 0;
-
-            while (dr.Read())
-            {
-                id = int.Parse(dr[0].ToString());
-            }
-
-            dr.Close();
-            cn.CerrarConexion();
-            return id;
-        }
-
 
         //Metodo que nos permite abrir una nueva forma
         private void AbrirForm(object formNuevo)

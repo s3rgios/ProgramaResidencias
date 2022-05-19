@@ -43,16 +43,24 @@ namespace SpeedToner
         }
 
         //Metodo que ejecuta los stop procedure para poder obtener el id que se requiera
-        public SqlDataReader BuscarId(string campo, string sp)
+        public int BuscarId(string campo, string sp)
         {
             SqlDataReader leer;
+            int id = 0;
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = sp;
             comando.CommandType = CommandType.StoredProcedure;
             comando.Parameters.AddWithValue("@CampoBusqueda", campo);
             leer = comando.ExecuteReader();
             comando.Parameters.Clear();
-            return leer;
+
+            while (leer.Read())
+            {
+                id = int.Parse(leer[0].ToString());
+            }
+
+            conexion.CerrarConexion();
+            return id;
         }
         #region Servicios
         public void InsertarServicio(string NumeroFolio,int IdCliente, int IdMarca, string Modelo, string Serie, string Contador, DateTime Fecha, string Tecnico, string Usuario, string Fusor, string ServicioRealizado, string ReporteFalla )
@@ -131,6 +139,7 @@ namespace SpeedToner
             comando.Parameters.AddWithValue("@IdCliente", IdCliente);
             leer = comando.ExecuteReader();
             comando.Parameters.Clear();
+
             return leer;
         }
 
