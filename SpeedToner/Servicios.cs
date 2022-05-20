@@ -113,6 +113,7 @@ namespace SpeedToner
         {
             try
             {
+                
                 string NumeroFolio = txtNumeroFolio.Text;
                 string IdCliente = cboClientes.SelectedItem.ToString();
                 //Mandamos el nombre del cliente y el stop procedure que contiene la consulta que nos devolvera su IdCliente

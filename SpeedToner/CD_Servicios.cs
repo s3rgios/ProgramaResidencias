@@ -185,6 +185,27 @@ namespace SpeedToner
 
         #endregion
 
+        #region Inventario
+
+        public void AñadirRegistroInventario(int IdCartucho, string Oficina, string Cliente, string Bodega, DateTime Fecha)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "AñadirRegistroInventario";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@IdCartucho", IdCartucho);
+            comando.Parameters.AddWithValue("@CantidadSalida", int.Parse(Oficina));
+            comando.Parameters.AddWithValue("@CantidadEntrada", Bodega);
+            comando.Parameters.AddWithValue("@Cliente", Cliente);
+            comando.Parameters.AddWithValue("@Fecha", Fecha);
+
+
+            comando.ExecuteNonQuery();
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+        #endregion
 
 
     }
