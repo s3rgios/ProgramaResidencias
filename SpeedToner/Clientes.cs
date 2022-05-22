@@ -81,11 +81,13 @@ namespace SpeedToner
             txtEmpresa.Focus();
         }
 
+        //Llenar campos dependiendo la fila que se eliga
         private void dtgClientes_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             btnModificar.Enabled = true;
             btnEliminar.Enabled = true;
 
+            //Guardamos el Id en dado caso que se quiera modificar o eliminar
             Id = int.Parse(dtgClientes.CurrentRow.Cells[0].Value.ToString());
             txtEmpresa.Text = dtgClientes.CurrentRow.Cells[1].Value.ToString();
         }
@@ -97,6 +99,23 @@ namespace SpeedToner
                 string Empresa = txtEmpresa.Text;
 
                 objetoCN.ModificarCliente(Id,Empresa);
+                LimpiarForm();
+                MostrarDatosClientes();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ha ocurrido un error: " + ex.Message);
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string Empresa = txtEmpresa.Text;
+
+                objetoCN.EliminarCliente(Id);
                 LimpiarForm();
                 MostrarDatosClientes();
 
