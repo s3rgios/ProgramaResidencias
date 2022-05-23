@@ -113,14 +113,13 @@ namespace SpeedToner
         {
             try
             {
-                
                 string NumeroFolio = txtNumeroFolio.Text;
-                string IdCliente = cboClientes.SelectedItem.ToString();
-                //Mandamos el nombre del cliente y el stop procedure que contiene la consulta que nos devolvera su IdCliente
-                int IdC = objetoCN.BuscarId(IdCliente, "ObtenerIdCliente");
-                //Mandamos el nombre de la marca y el stop procedure que contiene la consulta que nos devolvera su IdMarca
+                //string IdCliente = cboClientes.SelectedItem.ToString();
+                //Buscamos el Id del cliente con el stop procedure, mandando el nombre para ayudar en la consulta
+                int IdC = objetoCN.BuscarId(cboClientes.SelectedItem.ToString(), "ObtenerIdCliente");
                 string IdMarca = cboMarca.SelectedItem.ToString();
-                int IdM = objetoCN.BuscarId(IdMarca, "ObtenerIdMarca");
+                //Buscamos el Id de la marca con el stop procedure, mandando el nombre para ayudar en la consulta
+                int IdM = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
                 string Modelo = txtModelo.Text;
                 string Serie = txtSerie.Text;
                 string Contador = txtContador.Text;
@@ -141,16 +140,6 @@ namespace SpeedToner
                MessageBox.Show("No se pudieron guadar los datos por: " + ex);
                 
             }
-
-//            CREATE PROCEDURE SeleccionarCliente
-//@IdCliente int
-//AS
-//SELECT Empresa FROM Clientes
-//WHERE IdCliente = @IdCliente
-//GO
-
-
-
         }
 
         private void btnModificar_Click(object sender, EventArgs e)

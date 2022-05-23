@@ -187,15 +187,82 @@ namespace SpeedToner
 
         #region Inventario
 
-        public void AñadirRegistroInventario(int IdCartucho, string Oficina, string Cliente, string Bodega, DateTime Fecha)
+        public void AñadirRegistroInventario(string cartucho, string Oficina, string Bodega)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "AñadirInventario";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@Nombre", cartucho);
+            comando.Parameters.AddWithValue("@CantidadOficina", int.Parse(Oficina));
+            comando.Parameters.AddWithValue("@CantidadBodega", int.Parse(Bodega));
+
+
+            comando.ExecuteNonQuery();
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        public void ModificarRegistroInventario(int Id,string cartucho, string Oficina, string Bodega)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "ModificarInventario";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@Id", Id);
+            comando.Parameters.AddWithValue("@Nombre", cartucho);
+            comando.Parameters.AddWithValue("@CantidadOficina", int.Parse(Oficina));
+            comando.Parameters.AddWithValue("@CantidadBodega", int.Parse(Bodega));
+
+
+            comando.ExecuteNonQuery();
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        public void EliminarRegistroInventario(int Id)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "EliminarInventario";
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@Id", Id);
+            comando.ExecuteNonQuery();
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        public void AgregarRegistroInventario(int cartucho, string Salida, string Entrada, string Cliente, DateTime Fecha, string destino)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "AñadirRegistroInventario";
             comando.CommandType = CommandType.StoredProcedure;
 
+            comando.Parameters.AddWithValue("@IdCartucho", cartucho);
+            comando.Parameters.AddWithValue("@CantidadSalida", int.Parse(Salida));
+            comando.Parameters.AddWithValue("@CantidadEntrada", int.Parse(Entrada));
+            comando.Parameters.AddWithValue("@Cliente", Cliente);
+            comando.Parameters.AddWithValue("@Fecha", Fecha);
+            comando.Parameters.AddWithValue("@DestinoEntrada", destino);
+
+
+            comando.ExecuteNonQuery();
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        public void ModificarRegistroInventario(int IdRegistro, int IdCartucho, string Salida,string Entrada, string Cliente, DateTime Fecha)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "ModificarRegistroInventario";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@IdRegistro", IdRegistro);
             comando.Parameters.AddWithValue("@IdCartucho", IdCartucho);
-            comando.Parameters.AddWithValue("@CantidadSalida", int.Parse(Oficina));
-            comando.Parameters.AddWithValue("@CantidadEntrada", Bodega);
+            comando.Parameters.AddWithValue("@CantidadSalida", int.Parse(Salida));
+            comando.Parameters.AddWithValue("@CantidadEntrada", int.Parse(Entrada));
             comando.Parameters.AddWithValue("@Cliente", Cliente);
             comando.Parameters.AddWithValue("@Fecha", Fecha);
 
@@ -205,6 +272,7 @@ namespace SpeedToner
             comando.Parameters.Clear();
             conexion.CerrarConexion();
         }
+
         #endregion
 
 
