@@ -42,7 +42,6 @@ C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6
 C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.Form1.resources
 C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.Inventario.resources
 C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.Properties.Resources.resources
-C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.Reporte.resources
 C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.Servicios.resources
 C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.csproj.GenerateResource.cache
 C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.GeneratedMSBuildEditorConfig.editorconfig
@@ -56,3 +55,4 @@ C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6
 C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.genruntimeconfig.cache
 C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6.0-windows\ref\SpeedToner.dll
 C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.txtCliente.resources
+C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.txtCliente.resources

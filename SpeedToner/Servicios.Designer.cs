@@ -264,6 +264,7 @@
             // 
             // btnGuardar
             // 
+            this.btnGuardar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
             this.btnGuardar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnGuardar.Location = new System.Drawing.Point(11, 316);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(2);
@@ -271,11 +272,12 @@
             this.btnGuardar.Size = new System.Drawing.Size(117, 53);
             this.btnGuardar.TabIndex = 20;
             this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.UseVisualStyleBackColor = false;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnModificar
             // 
+            this.btnModificar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
             this.btnModificar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnModificar.Location = new System.Drawing.Point(130, 316);
             this.btnModificar.Margin = new System.Windows.Forms.Padding(2);
@@ -283,11 +285,12 @@
             this.btnModificar.Size = new System.Drawing.Size(112, 52);
             this.btnModificar.TabIndex = 21;
             this.btnModificar.Text = "Modificar";
-            this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.UseVisualStyleBackColor = false;
             this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // btnEliminar
             // 
+            this.btnEliminar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
             this.btnEliminar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnEliminar.Location = new System.Drawing.Point(246, 316);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(2);
@@ -295,11 +298,12 @@
             this.btnEliminar.Size = new System.Drawing.Size(112, 52);
             this.btnEliminar.TabIndex = 22;
             this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.UseVisualStyleBackColor = false;
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnBuscar
             // 
+            this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
             this.btnBuscar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnBuscar.Location = new System.Drawing.Point(526, 316);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(2);
@@ -307,7 +311,7 @@
             this.btnBuscar.Size = new System.Drawing.Size(112, 51);
             this.btnBuscar.TabIndex = 23;
             this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.UseVisualStyleBackColor = false;
             // 
             // btnMostrar
             // 
@@ -399,6 +403,7 @@
             // 
             // grpDatos
             // 
+            this.grpDatos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(69)))), ((int)(((byte)(82)))));
             this.grpDatos.Controls.Add(this.label2);
             this.grpDatos.Controls.Add(this.label1);
             this.grpDatos.Controls.Add(this.txtFusor);
@@ -425,6 +430,7 @@
             this.grpDatos.Controls.Add(this.label9);
             this.grpDatos.Controls.Add(this.rtxtServicio);
             this.grpDatos.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.grpDatos.ForeColor = System.Drawing.Color.White;
             this.grpDatos.Location = new System.Drawing.Point(9, -1);
             this.grpDatos.Margin = new System.Windows.Forms.Padding(2);
             this.grpDatos.Name = "grpDatos";
@@ -436,6 +442,7 @@
             // 
             // btnCancelar
             // 
+            this.btnCancelar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
             this.btnCancelar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnCancelar.Location = new System.Drawing.Point(362, 317);
             this.btnCancelar.Margin = new System.Windows.Forms.Padding(2);
@@ -443,15 +450,15 @@
             this.btnCancelar.Size = new System.Drawing.Size(112, 52);
             this.btnCancelar.TabIndex = 35;
             this.btnCancelar.Text = "Cancelar";
-            this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.UseVisualStyleBackColor = false;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // Servicios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1172, 750);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(69)))), ((int)(((byte)(82)))));
+            this.ClientSize = new System.Drawing.Size(1172, 749);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.grpDatos);

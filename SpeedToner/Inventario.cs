@@ -17,7 +17,7 @@ namespace SpeedToner
         CD_Servicios objetoCN = new CD_Servicios();
         CD_Conexion cn = new CD_Conexion();
         //Variable para saber si realizaremos acciones en resgistros o en inventario
-        private bool Inven = false;
+        private bool inventario = false;
 
         //Variable para guadar el id ya sea de un cartucho en el inventario o de algun regristro que se seleccione
         int Id = 0;
@@ -50,7 +50,7 @@ namespace SpeedToner
             cboModelos.DropDownStyle = ComboBoxStyle.DropDownList;
             cboClientes.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            Mostrar("VerRegistroInventario");
+            Mostrar("MostrarInventario");
 
         }
 
@@ -121,13 +121,8 @@ namespace SpeedToner
             dtgCartuchos.DataSource = null;
             dtgCartuchos.Refresh();
 
-            lblBodega.Visible = false;
-            lblOficina.Visible = false;
-            lblEntrada.Visible = true;
-            lblSalida.Visible = true;
 
             Mostrar("VerRegistroInventario");
-            Inven = false;
         }
 
         #endregion
@@ -136,6 +131,10 @@ namespace SpeedToner
         {
             try
             {
+                if (inventario)
+                {
+
+                }
                 string Cliente = cboClientes.SelectedItem.ToString();
                 string IdCartucho = cboModelos.SelectedItem.ToString();
                 int Idcar = objetoCN.BuscarId(IdCartucho, "ObtenerIdCartucho");
@@ -180,10 +179,10 @@ namespace SpeedToner
             ControlesDesactivados(true, false);
 
             //Asignacion a los controles
-            if (Inven)//En caso de ser verdadero se asignaran a los datos para el inventario
+            if (inventario)//En caso de ser verdadero se asignaran a los datos para el inventario
             {
                 Id = int.Parse(dtgCartuchos.CurrentRow.Cells[0].Value.ToString());
-                cboModelos.SelectedItem = dtgCartuchos.CurrentRow.Cells[1].Value.ToString();
+                txtModelo.Text = dtgCartuchos.CurrentRow.Cells[1].Value.ToString();
                 txtOficina.Text = dtgCartuchos.CurrentRow.Cells[2].Value.ToString();
                 txtBodega.Text = dtgCartuchos.CurrentRow.Cells[3].Value.ToString();
                 dtpFecha.Value = Convert.ToDateTime(dtgCartuchos.CurrentRow.Cells[4].Value.ToString());
@@ -191,25 +190,28 @@ namespace SpeedToner
             else //Si no para los datos de registro
             {
                 cboModelos.SelectedItem = dtgCartuchos.CurrentRow.Cells[0].Value.ToString();
-                txtOficina.Text = dtgCartuchos.CurrentRow.Cells[1].Value.ToString();
-                txtBodega.Text = dtgCartuchos.CurrentRow.Cells[2].Value.ToString();
+                txtCantidadSalida.Text = dtgCartuchos.CurrentRow.Cells[1].Value.ToString();
+                txtCantidadEntrada.Text = dtgCartuchos.CurrentRow.Cells[2].Value.ToString();
                 cboClientes.SelectedItem = dtgCartuchos.CurrentRow.Cells[3].Value.ToString();
-                dtpFecha.Value = Convert.ToDateTime(dtgCartuchos.CurrentRow.Cells[4].Value.ToString());
+                dtpFechaRegistro.Value = Convert.ToDateTime(dtgCartuchos.CurrentRow.Cells[4].Value.ToString());
             }
             
         }
 
         //Muestra el inventario 
-        private void btnInventario_Click_1(object sender, EventArgs e)
+        
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Mostrar("MostrarInventario");
-            btnCancelar.Enabled = true;
-            //Mostramos los labels para mostrar la cantidad en oficina y bodega, desactivamos  las salidas y las entradas
-            lblBodega.Visible = true;
-            lblOficina.Visible = true;
-            lblEntrada.Visible = false;
-            lblSalida.Visible = false;
-            Inven = true;
+            if(tabControl1.SelectedTab == tab_Inventario)
+            {
+                Mostrar("MostrarInventario");
+                inventario = true;
+            }
+            else
+            {
+                Mostrar("VerRegistroInventario");
+                inventario=false;
+            }
         }
     }
 }

@@ -73,12 +73,13 @@
             // 
             // btnGenerarReporte
             // 
+            this.btnGenerarReporte.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
             this.btnGenerarReporte.Location = new System.Drawing.Point(331, 203);
             this.btnGenerarReporte.Name = "btnGenerarReporte";
             this.btnGenerarReporte.Size = new System.Drawing.Size(114, 51);
             this.btnGenerarReporte.TabIndex = 2;
             this.btnGenerarReporte.Text = "Generar";
-            this.btnGenerarReporte.UseVisualStyleBackColor = true;
+            this.btnGenerarReporte.UseVisualStyleBackColor = false;
             this.btnGenerarReporte.Click += new System.EventHandler(this.btnGenerarReporte_Click);
             // 
             // dtpFechaInicial
