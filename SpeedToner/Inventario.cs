@@ -20,10 +20,11 @@ namespace SpeedToner
         private bool inventario = true;
 
         //Sabremos si estamos modificando o agregando
-        private bool Modificar = false;
+        private bool Modificando = false;
 
         //Variable para guadar el id ya sea de un cartucho en el inventario o de algun regristro que se seleccione
         int Id = 0;
+
         public Inventario()
         {
             InitializeComponent();
@@ -63,6 +64,10 @@ namespace SpeedToner
             btnEliminar.Enabled = Desactivado;
             btnCancelar.Enabled = Desactivado;
             btnGuardar.Enabled = Activar;
+
+            lblRestarBodega.Visible = Desactivado;
+            txtRestanteBodega.Visible = Desactivado;
+            btnRestar.Visible = Desactivado;
         }
 
         public void PropiedadesDtg()
@@ -80,6 +85,8 @@ namespace SpeedToner
             dtgCartuchos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             //dtgServicios.AutoResizeColumns(DataGridViewAutoSizeColumnsMo‌​de.Fill);
             dtgCartuchos.AutoResizeColumns();
+
+            dtgCartuchos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
         public void Mostrar(string sp)
@@ -114,23 +121,13 @@ namespace SpeedToner
 
         #endregion
 
-
         #region Botones
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             ControlesDesactivados(false, true);
             LimpiarForm();
-            dtgCartuchos.DataSource = null;
-            dtgCartuchos.Refresh();
+            Modificando = false;
 
-            if (inventario)
-            {
-                Mostrar("MostrarInventario");
-            }
-            else
-            {
-                Mostrar("VerRegistroInventario");
-            }
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -142,8 +139,9 @@ namespace SpeedToner
                     string Modelo = txtModelo.Text;
                     string CantidadOficina = txtOficina.Text;
                     string CantidadBodega = txtBodega.Text;
-                    if (Modificar)
+                    if (Modificando)
                     {
+                        //Modificar stop procedure de modificar, para que se pueda cambiar la fecha
                         if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                         {
                             MessageBox.Show("!!Modificación cancelada!!");
@@ -178,7 +176,7 @@ namespace SpeedToner
                         destino = "Oficina";
                     }
 
-                    if (Modificar)
+                    if (Modificando)
                     {
                         if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                         {
@@ -220,6 +218,7 @@ namespace SpeedToner
                 }
                 else
                 {
+                    objetoCN.DeleteRegistroInventario(Id);
                     Mostrar("VerRegistroInventario");
                 }
                 LimpiarForm();
@@ -230,9 +229,47 @@ namespace SpeedToner
             }
         }
 
+        private void btnRestar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("¿Esta seguro de agregar la cantidad?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    MessageBox.Show("!!Modificación cancelada!!");
+                    LimpiarForm();
+                    return;
+                }
+                string Mensaje = objetoCN.EnviarOficina(txtRestanteBodega.Text, Id);
+                MessageBox.Show(Mensaje);
+                Mostrar("MostrarInventario");
+                LimpiarForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrio un error " + ex.Message);
+            }
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            int IdCartucho = objetoCN.BuscarId(txtBusqueda.Text, "ObtenerIdCartucho");
+
+            SqlDataReader dr = objetoCN.Buscar(IdCartucho);
+
+            while (dr.Read())
+            {
+                //Agregamos las opciones dependiendo los registros que nos devolvieron
+                txtModelo.Text = (dr[0].ToString());
+                txtOficina.Text = (dr[1].ToString());
+                txtBodega.Text = (dr[2].ToString());
+                dtpFecha.Value = Convert.ToDateTime(dr[3].ToString());
+            }
+
+            dr.Close();
+            cn.CerrarConexion();
+        }
+
         #endregion
-
-
 
         private void Cantidad_Click(object sender, EventArgs e)
         {
@@ -242,7 +279,8 @@ namespace SpeedToner
         //Metodo para reiniciar todos los controles para una posible nueva insercion, modificacion o eliminacion
         private void LimpiarForm()
         {
-            foreach (Control c in grpDatosInventario.Controls)
+            foreach (Control c in 
+                grpDatosInventario.Controls)
             {
                 if (c is TextBox)
                 {
@@ -272,8 +310,8 @@ namespace SpeedToner
             ControlesDesactivados(true, true);
 
             //Para poder decir al sistema que vamos a modificar y no agregar algo al inventario al dar clic a agregar
-            Modificar = true;
-
+            Modificando = true;
+            
             //Asignacion a los controles
             if (inventario)//En caso de ser verdadero se asignaran a los datos para el inventario
             {
@@ -292,7 +330,6 @@ namespace SpeedToner
                 cboClientes.SelectedItem = dtgCartuchos.CurrentRow.Cells[4].Value.ToString();
                 dtpFechaRegistro.Value = Convert.ToDateTime(dtgCartuchos.CurrentRow.Cells[5].Value.ToString());
             }
-            
         }
 
         //Muestra el inventario 
@@ -309,9 +346,12 @@ namespace SpeedToner
             {
                 Mostrar("VerRegistroInventario");
                 inventario=false;
+                Modificando = false;
             }
         }
         #endregion
+
+        
 
     }
 }

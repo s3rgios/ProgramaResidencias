@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace SpeedToner
 {
@@ -57,7 +57,7 @@ namespace SpeedToner
         public void InicioAplicacion()
         {
             //Controles desactivados inicialmente
-            btnGenerarReporte.Enabled = false;
+            btnGenerarReporte.Enabled = true;
             txtDato.Enabled = false;
 
             //Agregamos opciones al combo box
@@ -73,7 +73,13 @@ namespace SpeedToner
 
         private void btnGenerarReporte_Click(object sender, EventArgs e)
         {
-
+            //Ayudara a poder ver el contenido del pdf
+            var p = new Process();
+            p.StartInfo = new ProcessStartInfo(@"C:\Escaner\2022-05-17\Escaneo2.pdf")
+            {
+                UseShellExecute = true
+            };
+            p.Start();
         }  
 
         #region Metodos Locales

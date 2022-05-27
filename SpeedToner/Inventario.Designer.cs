@@ -36,6 +36,9 @@
             this.btnEliminar = new System.Windows.Forms.Button();
             this.dtgCartuchos = new System.Windows.Forms.DataGridView();
             this.grpDatosInventario = new System.Windows.Forms.GroupBox();
+            this.lblRestarBodega = new System.Windows.Forms.Label();
+            this.btnRestar = new System.Windows.Forms.Button();
+            this.txtRestanteBodega = new System.Windows.Forms.TextBox();
             this.txtModelo = new System.Windows.Forms.TextBox();
             this.txtBodega = new System.Windows.Forms.TextBox();
             this.lblBodega = new System.Windows.Forms.Label();
@@ -58,6 +61,8 @@
             this.cboClientes = new System.Windows.Forms.ComboBox();
             this.txtCantidadSalida = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
+            this.txtBusqueda = new System.Windows.Forms.TextBox();
+            this.btnBuscar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtgCartuchos)).BeginInit();
             this.grpDatosInventario.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -80,7 +85,7 @@
             this.dtpFecha.Location = new System.Drawing.Point(561, 27);
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(385, 27);
-            this.dtpFecha.TabIndex = 1;
+            this.dtpFecha.TabIndex = 4;
             // 
             // label2
             // 
@@ -96,7 +101,7 @@
             this.txtOficina.Location = new System.Drawing.Point(169, 66);
             this.txtOficina.Name = "txtOficina";
             this.txtOficina.Size = new System.Drawing.Size(294, 27);
-            this.txtOficina.TabIndex = 10;
+            this.txtOficina.TabIndex = 2;
             // 
             // btnGuardar
             // 
@@ -130,6 +135,9 @@
             // 
             // grpDatosInventario
             // 
+            this.grpDatosInventario.Controls.Add(this.lblRestarBodega);
+            this.grpDatosInventario.Controls.Add(this.btnRestar);
+            this.grpDatosInventario.Controls.Add(this.txtRestanteBodega);
             this.grpDatosInventario.Controls.Add(this.txtModelo);
             this.grpDatosInventario.Controls.Add(this.txtBodega);
             this.grpDatosInventario.Controls.Add(this.lblBodega);
@@ -145,19 +153,47 @@
             this.grpDatosInventario.TabStop = false;
             this.grpDatosInventario.Text = "Datos";
             // 
+            // lblRestarBodega
+            // 
+            this.lblRestarBodega.AutoSize = true;
+            this.lblRestarBodega.Location = new System.Drawing.Point(492, 72);
+            this.lblRestarBodega.Name = "lblRestarBodega";
+            this.lblRestarBodega.Size = new System.Drawing.Size(224, 21);
+            this.lblRestarBodega.TabIndex = 31;
+            this.lblRestarBodega.Text = "Mover de bodega a oficina";
+            // 
+            // btnRestar
+            // 
+            this.btnRestar.Location = new System.Drawing.Point(722, 97);
+            this.btnRestar.Name = "btnRestar";
+            this.btnRestar.Size = new System.Drawing.Size(120, 28);
+            this.btnRestar.TabIndex = 30;
+            this.btnRestar.Text = "Calcular";
+            this.btnRestar.UseVisualStyleBackColor = true;
+            this.btnRestar.Visible = false;
+            this.btnRestar.Click += new System.EventHandler(this.btnRestar_Click);
+            // 
+            // txtRestanteBodega
+            // 
+            this.txtRestanteBodega.Location = new System.Drawing.Point(496, 98);
+            this.txtRestanteBodega.Name = "txtRestanteBodega";
+            this.txtRestanteBodega.Size = new System.Drawing.Size(220, 27);
+            this.txtRestanteBodega.TabIndex = 29;
+            this.txtRestanteBodega.Visible = false;
+            // 
             // txtModelo
             // 
             this.txtModelo.Location = new System.Drawing.Point(169, 29);
             this.txtModelo.Name = "txtModelo";
             this.txtModelo.Size = new System.Drawing.Size(294, 27);
-            this.txtModelo.TabIndex = 27;
+            this.txtModelo.TabIndex = 1;
             // 
             // txtBodega
             // 
             this.txtBodega.Location = new System.Drawing.Point(170, 99);
             this.txtBodega.Name = "txtBodega";
             this.txtBodega.Size = new System.Drawing.Size(293, 27);
-            this.txtBodega.TabIndex = 26;
+            this.txtBodega.TabIndex = 3;
             // 
             // lblBodega
             // 
@@ -212,10 +248,10 @@
             // Registro
             // 
             this.Registro.Controls.Add(this.grpDatosRegistro);
-            this.Registro.Location = new System.Drawing.Point(4, 30);
+            this.Registro.Location = new System.Drawing.Point(4, 24);
             this.Registro.Name = "Registro";
             this.Registro.Padding = new System.Windows.Forms.Padding(3);
-            this.Registro.Size = new System.Drawing.Size(1062, 185);
+            this.Registro.Size = new System.Drawing.Size(1062, 191);
             this.Registro.TabIndex = 1;
             this.Registro.Text = "Registros";
             this.Registro.UseVisualStyleBackColor = true;
@@ -363,11 +399,30 @@
             this.label12.TabIndex = 9;
             this.label12.Text = "Cantidad Salida:";
             // 
+            // txtBusqueda
+            // 
+            this.txtBusqueda.Location = new System.Drawing.Point(411, 247);
+            this.txtBusqueda.Name = "txtBusqueda";
+            this.txtBusqueda.Size = new System.Drawing.Size(205, 27);
+            this.txtBusqueda.TabIndex = 26;
+            // 
+            // btnBuscar
+            // 
+            this.btnBuscar.Location = new System.Drawing.Point(622, 240);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(100, 37);
+            this.btnBuscar.TabIndex = 27;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
             // Inventario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1172, 749);
+            this.Controls.Add(this.btnBuscar);
+            this.Controls.Add(this.txtBusqueda);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.dtgCartuchos);
@@ -388,6 +443,7 @@
             this.grpDatosRegistro.ResumeLayout(false);
             this.grpDatosRegistro.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -423,5 +479,10 @@
         private Label label12;
         private TextBox txtModelo;
         private Label label11;
+        private TextBox txtBusqueda;
+        private Button btnBuscar;
+        private Button btnRestar;
+        private TextBox txtRestanteBodega;
+        private Label lblRestarBodega;
     }
 }
