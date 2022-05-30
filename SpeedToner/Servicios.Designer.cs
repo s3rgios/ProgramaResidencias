@@ -49,7 +49,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.rtxtFallas = new System.Windows.Forms.RichTextBox();
             this.btnGuardar = new System.Windows.Forms.Button();
-            this.btnModificar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnMostrar = new System.Windows.Forms.Button();
@@ -63,6 +62,7 @@
             this.txtFusor = new System.Windows.Forms.TextBox();
             this.grpDatos = new System.Windows.Forms.GroupBox();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.txtBusqueda = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dtgServicios)).BeginInit();
             this.grpDatos.SuspendLayout();
             this.SuspendLayout();
@@ -275,24 +275,11 @@
             this.btnGuardar.UseVisualStyleBackColor = false;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
-            // btnModificar
-            // 
-            this.btnModificar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
-            this.btnModificar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnModificar.Location = new System.Drawing.Point(130, 316);
-            this.btnModificar.Margin = new System.Windows.Forms.Padding(2);
-            this.btnModificar.Name = "btnModificar";
-            this.btnModificar.Size = new System.Drawing.Size(112, 52);
-            this.btnModificar.TabIndex = 21;
-            this.btnModificar.Text = "Modificar";
-            this.btnModificar.UseVisualStyleBackColor = false;
-            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
-            // 
             // btnEliminar
             // 
             this.btnEliminar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
             this.btnEliminar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnEliminar.Location = new System.Drawing.Point(246, 316);
+            this.btnEliminar.Location = new System.Drawing.Point(132, 318);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(2);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(112, 52);
@@ -305,18 +292,19 @@
             // 
             this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
             this.btnBuscar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnBuscar.Location = new System.Drawing.Point(526, 316);
+            this.btnBuscar.Location = new System.Drawing.Point(586, 315);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(2);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(112, 51);
             this.btnBuscar.TabIndex = 23;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = false;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // btnMostrar
             // 
             this.btnMostrar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnMostrar.Location = new System.Drawing.Point(764, 316);
+            this.btnMostrar.Location = new System.Drawing.Point(855, 315);
             this.btnMostrar.Margin = new System.Windows.Forms.Padding(2);
             this.btnMostrar.Name = "btnMostrar";
             this.btnMostrar.Size = new System.Drawing.Size(112, 52);
@@ -328,7 +316,7 @@
             // btnReporte
             // 
             this.btnReporte.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnReporte.Location = new System.Drawing.Point(921, 318);
+            this.btnReporte.Location = new System.Drawing.Point(971, 316);
             this.btnReporte.Margin = new System.Windows.Forms.Padding(2);
             this.btnReporte.Name = "btnReporte";
             this.btnReporte.Size = new System.Drawing.Size(112, 51);
@@ -341,7 +329,7 @@
             // 
             this.cboMostrar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cboMostrar.FormattingEnabled = true;
-            this.cboMostrar.Location = new System.Drawing.Point(652, 328);
+            this.cboMostrar.Location = new System.Drawing.Point(728, 331);
             this.cboMostrar.Margin = new System.Windows.Forms.Padding(2);
             this.cboMostrar.Name = "cboMostrar";
             this.cboMostrar.Size = new System.Drawing.Size(108, 29);
@@ -444,7 +432,7 @@
             // 
             this.btnCancelar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
             this.btnCancelar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnCancelar.Location = new System.Drawing.Point(362, 317);
+            this.btnCancelar.Location = new System.Drawing.Point(248, 317);
             this.btnCancelar.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(112, 52);
@@ -453,14 +441,23 @@
             this.btnCancelar.UseVisualStyleBackColor = false;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
+            // txtBusqueda
+            // 
+            this.txtBusqueda.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtBusqueda.Location = new System.Drawing.Point(386, 331);
+            this.txtBusqueda.Margin = new System.Windows.Forms.Padding(2);
+            this.txtBusqueda.Name = "txtBusqueda";
+            this.txtBusqueda.Size = new System.Drawing.Size(196, 27);
+            this.txtBusqueda.TabIndex = 33;
+            // 
             // Servicios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(69)))), ((int)(((byte)(82)))));
             this.ClientSize = new System.Drawing.Size(1172, 749);
+            this.Controls.Add(this.txtBusqueda);
             this.Controls.Add(this.btnCancelar);
-            this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.grpDatos);
             this.Controls.Add(this.cboMostrar);
             this.Controls.Add(this.btnReporte);
@@ -478,6 +475,7 @@
             this.grpDatos.ResumeLayout(false);
             this.grpDatos.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -504,7 +502,6 @@
         private Label label9;
         private RichTextBox rtxtFallas;
         private Button btnGuardar;
-        private Button btnModificar;
         private Button btnEliminar;
         private Button btnBuscar;
         private Button btnMostrar;
@@ -518,5 +515,6 @@
         private TextBox txtFusor;
         private GroupBox grpDatos;
         private Button btnCancelar;
+        private TextBox txtBusqueda;
     }
 }

@@ -5,17 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
-
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.Xml.Linq;
+using System.Diagnostics;
 
 namespace SpeedToner
 {
     public class CD_Servicios
     {
         private CD_Conexion conexion = new CD_Conexion();
-
-        
-        
         SqlCommand  comando = new SqlCommand();
+        SqlDataReader reporte;
+        PdfPTable _pdfTable = new PdfPTable(3);
+        PdfPCell _pdfCell;
 
         //Metodo para mostrar los registros de los servicios, dependiendo el stop procedure que se envie, se mostrara informacion como la requiera el usuario
         public DataTable Mostrar(string sp)
@@ -62,6 +65,7 @@ namespace SpeedToner
             conexion.CerrarConexion();
             return id;
         }
+
         #region Servicios
         public void InsertarServicio(string NumeroFolio,int IdCliente, int IdMarca, string Modelo, string Serie, string Contador, DateTime Fecha, string Tecnico, string Usuario, string Fusor, string ServicioRealizado, string ReporteFalla )
         {
@@ -125,6 +129,76 @@ namespace SpeedToner
             
             conexion.CerrarConexion();
         }
+
+        public SqlDataReader BuscarServicio(string NumeroFolio)
+        {
+            SqlDataReader leer;
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "BuscarServicio";
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@NumeroFolio", int.Parse(NumeroFolio));
+            leer = comando.ExecuteReader();
+            comando.Parameters.Clear();
+
+            return leer;
+        }
+
+        public void GenerarReporte(DateTime FechaInicio, DateTime FechaFinal, string ParametroBusqueda)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "BusquedaReporte";
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@FechaInicio", FechaInicio);
+            comando.Parameters.AddWithValue("@FechaFinal", FechaFinal);
+            comando.Parameters.AddWithValue("@ParametroBusqueda", ParametroBusqueda);
+            reporte = comando.ExecuteReader();
+            comando.Parameters.Clear();
+        }
+
+        public void GenerarPdf()
+        {
+            string NombreArchivo = @"C:\Users\Acer\Documents\Diseño web\" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            FileStream fs = new FileStream(NombreArchivo, FileMode.Create);
+            Document document = new Document(PageSize.LETTER);
+            document.SetMargins(25f, 25f, 25f, 25f);
+
+            PdfWriter pw = PdfWriter.GetInstance(document, fs);
+            //Leemos el archivo que generamos
+            //string paginahtml_texto = Properties.Resources.plantilla.toString();
+
+            document.Open();
+
+            //Definir el titulo
+            document.AddAuthor("Sergio Manuel García");
+            document.AddTitle("Reporte de ");
+
+            //Definir tipo de fuente
+            iTextSharp.text.Font standarFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+
+            //iTextSharp.text.Font _fonts = FontFactory.GetFont("Tahoma", 11f, 1);
+            //_pdfCell = new PdfPCell(new Phrase("Título del documento", _fonts));
+            //_pdfCell.Colspan = 3;
+            //_pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
+            //_pdfCell.Border = 0;
+            //_pdfCell.BackgroundColor = BaseColor.WHITE;
+            //_pdfCell.ExtraParagraphSpace = 0;
+
+            document.Add(new Paragraph("Título del documento"));
+            document.Add(Chunk.NEWLINE);//Salto de linea
+
+            var parrafo = new Paragraph("Hola mundo");
+            document.Add(parrafo);
+            document.Close();
+
+            //Ayudara a poder ver el contenido del pdf
+            var p = new Process();
+            p.StartInfo = new ProcessStartInfo(NombreArchivo)
+            {
+                UseShellExecute = true
+            };
+            p.Start();
+        }
+
         #endregion
 
         #region Clientes
@@ -187,15 +261,82 @@ namespace SpeedToner
 
         #region Inventario
 
-        public void AñadirRegistroInventario(int IdCartucho, string Oficina, string Cliente, string Bodega, DateTime Fecha)
+        public void AñadirRegistroInventario(string cartucho, string Oficina, string Bodega)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "AñadirInventario";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@Nombre", cartucho);
+            comando.Parameters.AddWithValue("@CantidadOficina", int.Parse(Oficina));
+            comando.Parameters.AddWithValue("@CantidadBodega", int.Parse(Bodega));
+
+
+            comando.ExecuteNonQuery();
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        public void ModificarRegistroInventario(int Id,string cartucho, string Oficina, string Bodega)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "ModificarInventario";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@Id", Id);
+            comando.Parameters.AddWithValue("@Nombre", cartucho);
+            comando.Parameters.AddWithValue("@CantidadOficina", int.Parse(Oficina));
+            comando.Parameters.AddWithValue("@CantidadBodega", int.Parse(Bodega));
+
+
+            comando.ExecuteNonQuery();
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        public void EliminarRegistroInventario(int Id)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "EliminarInventario";
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@Id", Id);
+            comando.ExecuteNonQuery();
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        public void AgregarRegistroInventario(int cartucho, string Salida, string Entrada, string Cliente, DateTime Fecha, string destino)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "AñadirRegistroInventario";
             comando.CommandType = CommandType.StoredProcedure;
 
+            comando.Parameters.AddWithValue("@IdCartucho", cartucho);
+            comando.Parameters.AddWithValue("@CantidadSalida", int.Parse(Salida));
+            comando.Parameters.AddWithValue("@CantidadEntrada", int.Parse(Entrada));
+            comando.Parameters.AddWithValue("@Cliente", Cliente);
+            comando.Parameters.AddWithValue("@Fecha", Fecha);
+            comando.Parameters.AddWithValue("@DestinoEntrada", destino);
+
+
+            comando.ExecuteNonQuery();
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        public void ModificarRegistroInventario(int IdRegistro, int IdCartucho, string Salida,string Entrada, string Cliente, DateTime Fecha)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "ModificarRegistroInventario";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@IdRegistro", IdRegistro);
             comando.Parameters.AddWithValue("@IdCartucho", IdCartucho);
-            comando.Parameters.AddWithValue("@CantidadSalida", int.Parse(Oficina));
-            comando.Parameters.AddWithValue("@CantidadEntrada", Bodega);
+            comando.Parameters.AddWithValue("@CantidadSalida", int.Parse(Salida));
+            comando.Parameters.AddWithValue("@CantidadEntrada", int.Parse(Entrada));
             comando.Parameters.AddWithValue("@Cliente", Cliente);
             comando.Parameters.AddWithValue("@Fecha", Fecha);
 
@@ -205,8 +346,114 @@ namespace SpeedToner
             comando.Parameters.Clear();
             conexion.CerrarConexion();
         }
+
+        public void DeleteRegistroInventario(int IdRegistro) 
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "EliminarRegistroInventario";
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@IdRegistro", IdRegistro);
+            comando.ExecuteNonQuery();
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        public SqlDataReader Buscar(int IdCartucho)
+        {
+            SqlDataReader leer;
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "BuscarCartucho";
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@IdCartucho", IdCartucho);
+            leer = comando.ExecuteReader();
+            comando.Parameters.Clear();
+
+            return leer;
+        }
+
+        public string EnviarOficina(string Cantidad, int Id)
+        {
+            SqlDataReader leer;
+            int valor = 0;
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "EnviarOficina";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@Cantidad", int.Parse(Cantidad));
+            comando.Parameters.AddWithValue("@Id", Id);
+
+            //leer = comando.ExecuteReader();
+            valor = comando.ExecuteNonQuery();
+            comando.Parameters.Clear();
+
+            if (valor > 0)
+            {
+                conexion.CerrarConexion();
+                return "Se ha añadido a oficina correctamente";
+            }
+            else
+            {
+                conexion.CerrarConexion();
+                return "La cantidad excede la cantidad en la bodega";
+            }
+        
+            
+        }
+
         #endregion
 
+        #region Equipos
 
+        public void AgregarEquipo(string IdCliente, string Modelo,string Serie, string IdRenta, string Precio, string Fecha_Pago)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "AgregarEquipo";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@IdCliente", BuscarId(IdCliente,"ObtenerIdCliente"));
+            comando.Parameters.AddWithValue("@Modelo", Modelo);
+            comando.Parameters.AddWithValue("@Serie", Serie);
+            comando.Parameters.AddWithValue("@IdRenta", BuscarId(IdRenta, "ObtenerIdTipoRenta"));
+            comando.Parameters.AddWithValue("@Precio", int.Parse(Precio));
+            comando.Parameters.AddWithValue("@Fecha_Pago", Fecha_Pago);
+
+            comando.ExecuteNonQuery(); 
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        public void ModificarEquipo(int Id,int IdCliente, string Modelo, string Serie, int IdRenta, string Precio, string Fecha_Pago)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "ModificarEquipo";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@Id", Id);
+            comando.Parameters.AddWithValue("@IdCliente", IdCliente);
+            comando.Parameters.AddWithValue("@Modelo", Modelo);
+            comando.Parameters.AddWithValue("@Serie", Serie);
+            comando.Parameters.AddWithValue("@IdRenta", IdRenta);
+            comando.Parameters.AddWithValue("@Precio", int.Parse(Precio));
+            comando.Parameters.AddWithValue("@Fecha_Pago", Fecha_Pago);
+
+            comando.ExecuteNonQuery();
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        public void EliminarEquipo(int Id)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "EliminarEquipo";
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@Id", Id);
+            comando.ExecuteNonQuery();
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        #endregion
     }
 }

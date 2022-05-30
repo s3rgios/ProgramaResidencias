@@ -35,6 +35,8 @@
             this.btnMinimizar = new System.Windows.Forms.PictureBox();
             this.btnCerrar = new System.Windows.Forms.PictureBox();
             this.PanelMenu = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.btnEquipos = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnClientes = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -124,6 +126,8 @@
             // 
             this.PanelMenu.AllowDrop = true;
             this.PanelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(32)))), ((int)(((byte)(40)))));
+            this.PanelMenu.Controls.Add(this.panel4);
+            this.PanelMenu.Controls.Add(this.btnEquipos);
             this.PanelMenu.Controls.Add(this.panel3);
             this.PanelMenu.Controls.Add(this.btnClientes);
             this.PanelMenu.Controls.Add(this.pictureBox1);
@@ -137,10 +141,35 @@
             this.PanelMenu.Size = new System.Drawing.Size(214, 750);
             this.PanelMenu.TabIndex = 1;
             // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            this.panel4.Location = new System.Drawing.Point(3, 326);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(10, 57);
+            this.panel4.TabIndex = 7;
+            // 
+            // btnEquipos
+            // 
+            this.btnEquipos.FlatAppearance.BorderSize = 0;
+            this.btnEquipos.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            this.btnEquipos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEquipos.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnEquipos.ForeColor = System.Drawing.Color.White;
+            this.btnEquipos.Image = ((System.Drawing.Image)(resources.GetObject("btnEquipos.Image")));
+            this.btnEquipos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEquipos.Location = new System.Drawing.Point(12, 415);
+            this.btnEquipos.Name = "btnEquipos";
+            this.btnEquipos.Size = new System.Drawing.Size(199, 57);
+            this.btnEquipos.TabIndex = 8;
+            this.btnEquipos.Text = "Equipos";
+            this.btnEquipos.UseVisualStyleBackColor = true;
+            this.btnEquipos.Click += new System.EventHandler(this.btnEquipos_Click);
+            // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
-            this.panel3.Location = new System.Drawing.Point(3, 326);
+            this.panel3.Location = new System.Drawing.Point(3, 415);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(10, 57);
             this.panel3.TabIndex = 6;
@@ -270,5 +299,7 @@
         private PictureBox pictureBox1;
         private Panel panel3;
         private Button btnClientes;
+        private Panel panel4;
+        private Button btnEquipos;
     }
 }

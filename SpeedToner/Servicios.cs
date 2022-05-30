@@ -16,6 +16,9 @@ namespace SpeedToner
         CD_Servicios objetoCN = new CD_Servicios();
         CD_Conexion cn = new CD_Conexion();
         //private string NumeroFolio = null;
+
+        //Sabremos cuando estamos añadiendo un nuevo registro o modificando
+        bool Modificar = false;
         public Servicios()
         {
             InitializeComponent();
@@ -55,7 +58,6 @@ namespace SpeedToner
         
         private void ControlesDesactivadosInicialmente()
         {
-            btnModificar.Enabled = false;
             btnCancelar.Enabled = false;
             btnEliminar.Enabled = false;
         }
@@ -68,7 +70,6 @@ namespace SpeedToner
             cboMostrar.Items.Add("Ultimo Mes");
             cboMostrar.Items.Add("Mes pasado");
             cboMostrar.Items.Add("Este año");
-            cboMostrar.Items.Add("Año pasado");
             cboMostrar.Items.Add("Todos");
         }
 
@@ -113,14 +114,11 @@ namespace SpeedToner
         {
             try
             {
-                
                 string NumeroFolio = txtNumeroFolio.Text;
-                string IdCliente = cboClientes.SelectedItem.ToString();
-                //Mandamos el nombre del cliente y el stop procedure que contiene la consulta que nos devolvera su IdCliente
-                int IdC = objetoCN.BuscarId(IdCliente, "ObtenerIdCliente");
-                //Mandamos el nombre de la marca y el stop procedure que contiene la consulta que nos devolvera su IdMarca
-                string IdMarca = cboMarca.SelectedItem.ToString();
-                int IdM = objetoCN.BuscarId(IdMarca, "ObtenerIdMarca");
+                //Buscamos el Id del cliente con el stop procedure, mandando el nombre para ayudar en la consulta
+                int IdCliente = objetoCN.BuscarId(cboClientes.SelectedItem.ToString(), "ObtenerIdCliente");
+                //Buscamos el Id de la marca con el stop procedure, mandando el nombre para ayudar en la consulta
+                int IdMarca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
                 string Modelo = txtModelo.Text;
                 string Serie = txtSerie.Text;
                 string Contador = txtContador.Text;
@@ -130,64 +128,31 @@ namespace SpeedToner
                 string Fusor = txtFusor.Text;
                 string Servicio = rtxtServicio.Text;
                 string Falla = rtxtFallas.Text;
+
+                if (Modificar)
+                {
+                    if (MessageBox.Show("Desea modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    {
+                        MessageBox.Show("Modificacion cancelada!!");
+                        LimpiarForm();
+                        return;
+                    }
+                    objetoCN.ModificarServicio(NumeroFolio, IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Tecnico, Usuario, Fusor, Servicio, Falla);
+                    MessageBox.Show("Registro modificado correctamente");
+                }
+                else
+                {
+                    objetoCN.InsertarServicio(NumeroFolio, IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Tecnico, Usuario, Fusor, Servicio, Falla);
+                    MessageBox.Show("Registro agregado correctamente");
+                }
                 
-               objetoCN.InsertarServicio(NumeroFolio,  IdC, IdM, Modelo, Serie, Contador, Fecha, Tecnico, Usuario, Fusor, Servicio, Falla);
-                
-               LimpiarForm();
-               MostrarDatosServicios();
+                LimpiarForm();
+                MostrarDatosServicios();
             }
             catch (Exception ex)
             {
                MessageBox.Show("No se pudieron guadar los datos por: " + ex);
                 
-            }
-
-//            CREATE PROCEDURE SeleccionarCliente
-//@IdCliente int
-//AS
-//SELECT Empresa FROM Clientes
-//WHERE IdCliente = @IdCliente
-//GO
-
-
-
-        }
-
-        private void btnModificar_Click(object sender, EventArgs e)
-        {
-            //Preguntamos si se esta seguro de la modificacion 
-            if (MessageBox.Show("Desea modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-            {
-                MessageBox.Show("Modificacion cancelada!!");
-                LimpiarForm();
-                return;
-            }
-            try
-            {
-                string NumeroFolio = txtNumeroFolio.Text;
-                string IdCliente = cboClientes.SelectedItem.ToString();
-                int IdC = objetoCN.BuscarId(IdCliente, "ObtenerIdCliente");
-                string IdMarca = cboMarca.SelectedItem.ToString();
-                int IdM = objetoCN.BuscarId(IdMarca, "ObtenerIdMarca");
-                string Modelo = txtModelo.Text;
-                string Serie = txtSerie.Text;
-                string Contador = txtContador.Text;
-                DateTime Fecha = dtpFecha.Value;
-                string Tecnico = txtTecnico.Text;
-                string Usuario = txtUsuario.Text;
-                string Fusor = txtFusor.Text;
-                string Servicio = rtxtServicio.Text;
-                string Falla = rtxtFallas.Text;
-
-                objetoCN.ModificarServicio(NumeroFolio, IdC, IdM, Modelo, Serie, Contador, Fecha, Tecnico, Usuario, Fusor, Servicio, Falla);
-                MessageBox.Show("Registro modificado correctamente");
-                MostrarDatosServicios();
-                LimpiarForm();
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("No se pudieron modificar los datos: " + ex);
             }
         }
 
@@ -197,6 +162,7 @@ namespace SpeedToner
             ControlesDesactivadosInicialmente();
             btnGuardar.Enabled = true;
             LimpiarForm();
+            Modificar = false;
         }
 
         private void btnMostrar_Click(object sender, EventArgs e)
@@ -204,12 +170,13 @@ namespace SpeedToner
             DataTable tabla = new DataTable();
 
             //Dependiendo la opcion se enviaran diferentes stop procedures al metodo mostrar
-            switch (cboClientes.SelectedItem.ToString())
+            switch (cboMostrar.SelectedItem.ToString())
             {
                 case "Ultima Semana": tabla = objetoCN.Mostrar("MostrarUltimaSemana"); break;
+                case "Mes pasado": tabla = objetoCN.Mostrar("MostrarMesPasado"); break;
                 case "Ultimo Mes": tabla = objetoCN.Mostrar("MostrarUltimoMes"); break;
                 case "Este año": tabla = objetoCN.Mostrar("MostrarAñoActual"); break;
-                case "Todos": tabla = objetoCN.Mostrar("MostrarDatosServicios"); break;
+                case "Todos": tabla = objetoCN.Mostrar("SeleccionarTodosLosServicios"); break;
             }
             //Asignamos los registros a nuestro datagridview
             dtgServicios.DataSource = tabla;
@@ -330,10 +297,11 @@ namespace SpeedToner
         private void dtgServicios_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //Una vez que se escoga alguna fila podremos activar los botones para poder modificar y eliminar
-            btnModificar.Enabled = true;
-            btnGuardar.Enabled = false;
+            btnGuardar.Enabled = true;
             btnEliminar.Enabled = true;
             btnCancelar.Enabled = true;
+
+            Modificar = true;
 
             //Asignacion a los controles
             txtNumeroFolio.Text = dtgServicios.CurrentRow.Cells[0].Value.ToString();
@@ -352,6 +320,39 @@ namespace SpeedToner
         }
         #endregion
 
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+
+            SqlDataReader dr = objetoCN.BuscarServicio(txtBusqueda.Text);
+
+            if (dr.Read())
+            {
+                txtNumeroFolio.Text = (dr[0].ToString());
+                cboClientes.SelectedItem = (dr[1].ToString());
+                cboMarca.SelectedItem = (dr[2].ToString());
+                txtModelo.Text = (dr[3].ToString());
+                txtSerie.Text = (dr[4].ToString());
+                txtContador.Text = (dr[5].ToString());
+                DateTime FechaRegistro = Convert.ToDateTime((dr[6].ToString()));
+                dtpFecha.Value = FechaRegistro;
+                txtTecnico.Text = (dr[7].ToString()); ;
+                txtUsuario.Text = (dr[8].ToString()); ;
+                txtFusor.Text = (dr[9].ToString()); ;
+                rtxtServicio.Text = (dr[10].ToString()); ;
+                rtxtFallas.Text = (dr[11].ToString()); ;
+                //Agregamos las opciones dependiendo los registros que nos devolvieron
+            }
+            else
+            {
+                MessageBox.Show("El número de folio no esta registrado en la base de datos");
+            }    
+
+            dr.Close();
+            cn.CerrarConexion();
+            txtBusqueda.Text = "";
+
+
+        }
     }
 
     
