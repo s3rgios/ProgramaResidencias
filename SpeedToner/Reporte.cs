@@ -73,13 +73,14 @@ namespace SpeedToner
 
         private void btnGenerarReporte_Click(object sender, EventArgs e)
         {
+            objetoCN.GenerarPdf();
             //Ayudara a poder ver el contenido del pdf
-            var p = new Process();
-            p.StartInfo = new ProcessStartInfo(@"C:\Escaner\2022-05-17\Escaneo2.pdf")
-            {
-                UseShellExecute = true
-            };
-            p.Start();
+            //var p = new Process();
+            //p.StartInfo = new ProcessStartInfo(@"C:\Escaner\2022-05-17\Escaneo2.pdf")
+            //{
+            //    UseShellExecute = true
+            //};
+            //p.Start();
         }  
 
         #region Metodos Locales

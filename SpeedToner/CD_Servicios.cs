@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
-
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.Xml.Linq;
+using System.Diagnostics;
 
 namespace SpeedToner
 {
@@ -13,6 +16,9 @@ namespace SpeedToner
     {
         private CD_Conexion conexion = new CD_Conexion();
         SqlCommand  comando = new SqlCommand();
+        SqlDataReader reporte;
+        PdfPTable _pdfTable = new PdfPTable(3);
+        PdfPCell _pdfCell;
 
         //Metodo para mostrar los registros de los servicios, dependiendo el stop procedure que se envie, se mostrara informacion como la requiera el usuario
         public DataTable Mostrar(string sp)
@@ -135,6 +141,62 @@ namespace SpeedToner
             comando.Parameters.Clear();
 
             return leer;
+        }
+
+        public void GenerarReporte(DateTime FechaInicio, DateTime FechaFinal, string ParametroBusqueda)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "BusquedaReporte";
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@FechaInicio", FechaInicio);
+            comando.Parameters.AddWithValue("@FechaFinal", FechaFinal);
+            comando.Parameters.AddWithValue("@ParametroBusqueda", ParametroBusqueda);
+            reporte = comando.ExecuteReader();
+            comando.Parameters.Clear();
+        }
+
+        public void GenerarPdf()
+        {
+            string NombreArchivo = @"C:\Users\Acer\Documents\Diseño web\" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            FileStream fs = new FileStream(NombreArchivo, FileMode.Create);
+            Document document = new Document(PageSize.LETTER);
+            document.SetMargins(25f, 25f, 25f, 25f);
+
+            PdfWriter pw = PdfWriter.GetInstance(document, fs);
+            //Leemos el archivo que generamos
+            //string paginahtml_texto = Properties.Resources.plantilla.toString();
+
+            document.Open();
+
+            //Definir el titulo
+            document.AddAuthor("Sergio Manuel García");
+            document.AddTitle("Reporte de ");
+
+            //Definir tipo de fuente
+            iTextSharp.text.Font standarFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+
+            //iTextSharp.text.Font _fonts = FontFactory.GetFont("Tahoma", 11f, 1);
+            //_pdfCell = new PdfPCell(new Phrase("Título del documento", _fonts));
+            //_pdfCell.Colspan = 3;
+            //_pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
+            //_pdfCell.Border = 0;
+            //_pdfCell.BackgroundColor = BaseColor.WHITE;
+            //_pdfCell.ExtraParagraphSpace = 0;
+
+            document.Add(new Paragraph("Título del documento"));
+            document.Add(Chunk.NEWLINE);//Salto de linea
+
+            var parrafo = new Paragraph("Hola mundo");
+            document.Add(parrafo);
+            document.Close();
+
+            //Ayudara a poder ver el contenido del pdf
+            var p = new Process();
+            p.StartInfo = new ProcessStartInfo(NombreArchivo)
+            {
+                UseShellExecute = true
+            };
+            p.Start();
         }
 
         #endregion
