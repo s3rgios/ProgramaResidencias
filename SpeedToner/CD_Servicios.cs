@@ -20,6 +20,7 @@ namespace SpeedToner
         PdfPTable _pdfTable = new PdfPTable(3);
         PdfPCell _pdfCell;
 
+
         //Metodo para mostrar los registros de los servicios, dependiendo el stop procedure que se envie, se mostrara informacion como la requiera el usuario
         public DataTable Mostrar(string sp)
         {
@@ -143,21 +144,24 @@ namespace SpeedToner
             return leer;
         }
 
-        public void GenerarReporte(DateTime FechaInicio, DateTime FechaFinal, string ParametroBusqueda)
+        public void GenerarReporte(DateTime FechaInicio, DateTime FechaFinal, string ParametroBusqueda,string TipoBusqueda)
         {
             comando.Connection = conexion.AbrirConexion();
-            comando.CommandText = "BusquedaReporte";
+            comando.CommandText = "GenerarReporte";
             comando.CommandType = CommandType.StoredProcedure;
             comando.Parameters.AddWithValue("@FechaInicio", FechaInicio);
             comando.Parameters.AddWithValue("@FechaFinal", FechaFinal);
-            comando.Parameters.AddWithValue("@ParametroBusqueda", ParametroBusqueda);
+            comando.Parameters.AddWithValue("@CampoBusqueda", ParametroBusqueda);
             reporte = comando.ExecuteReader();
             comando.Parameters.Clear();
+            GenerarPdf(TipoBusqueda,ParametroBusqueda);
         }
 
-        public void GenerarPdf()
+
+        public void GenerarPdf(string TipoBusqueda, string ParametroBusqueda)
         {
-            string NombreArchivo = @"C:\Users\Acer\Documents\Diseño web\" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            //string NombreArchivo = @"C:\Users\Acer\Documents\Diseño web\" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            string NombreArchivo = @"C:\Users\DELL PC\Documents\Base de datos\" +"Reporte"+ DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
             FileStream fs = new FileStream(NombreArchivo, FileMode.Create);
             Document document = new Document(PageSize.LETTER);
             document.SetMargins(25f, 25f, 25f, 25f);
@@ -183,14 +187,37 @@ namespace SpeedToner
             //_pdfCell.BackgroundColor = BaseColor.WHITE;
             //_pdfCell.ExtraParagraphSpace = 0;
 
-            document.Add(new Paragraph("Título del documento"));
+            document.Add(new Paragraph("Reporte generado por " + TipoBusqueda + ": " + ParametroBusqueda));
             document.Add(Chunk.NEWLINE);//Salto de linea
 
-            var parrafo = new Paragraph("Hola mundo");
-            document.Add(parrafo);
+            //Recorremos el arreglo que nos genero la consulta
+            while (reporte.Read())
+            {
+                document.Add(new Paragraph("Numero de Folio:" + reporte[0].ToString()));
+                document.Add(Chunk.NEWLINE);//Salto de linea
+                document.Add(new Paragraph("Cliente:" + reporte[1].ToString()));
+                document.Add(Chunk.NEWLINE);//Salto de linea
+                document.Add(new Paragraph("Modelo:" + reporte[2].ToString()));
+                document.Add(Chunk.NEWLINE);//Salto de linea
+                document.Add(new Paragraph("Serie:" + reporte[3].ToString()));
+                document.Add(Chunk.NEWLINE);//Salto de linea
+                document.Add(new Paragraph("Contador:" + reporte[4].ToString()));
+                document.Add(Chunk.NEWLINE);//Salto de linea
+                document.Add(new Paragraph("Fecha:" + reporte[5].ToString()));
+                document.Add(Chunk.NEWLINE);//Salto de linea
+                document.Add(new Paragraph("Hora:" + reporte[6].ToString()));
+                document.Add(Chunk.NEWLINE);//Salto de linea
+                document.Add(new Paragraph("Tecnico:" + reporte[7].ToString()));
+                document.Add(Chunk.NEWLINE);//Salto de linea
+                document.Add(new Paragraph("Servicio realizado:" + reporte[8].ToString()));
+                document.Add(Chunk.NEWLINE);//Salto de linea
+                document.Add(new Paragraph("Reporte de falla:" + reporte[9].ToString()));
+                document.Add(Chunk.NEWLINE);//Salto de linea
+            }
+
             document.Close();
 
-            //Ayudara a poder ver el contenido del pdf
+            //Abrimos el pdf 
             var p = new Process();
             p.StartInfo = new ProcessStartInfo(NombreArchivo)
             {
@@ -404,16 +431,16 @@ namespace SpeedToner
 
         #region Equipos
 
-        public void AgregarEquipo(string IdCliente, string Modelo,string Serie, string IdRenta, string Precio, string Fecha_Pago)
+        public void AgregarEquipo(int IdCliente, string Modelo,string Serie, int IdRenta, string Precio, string Fecha_Pago)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "AgregarEquipo";
             comando.CommandType = CommandType.StoredProcedure;
 
-            comando.Parameters.AddWithValue("@IdCliente", BuscarId(IdCliente,"ObtenerIdCliente"));
+            comando.Parameters.AddWithValue("@IdCliente",IdCliente);
             comando.Parameters.AddWithValue("@Modelo", Modelo);
             comando.Parameters.AddWithValue("@Serie", Serie);
-            comando.Parameters.AddWithValue("@IdRenta", BuscarId(IdRenta, "ObtenerIdTipoRenta"));
+            comando.Parameters.AddWithValue("@IdRenta", IdRenta);
             comando.Parameters.AddWithValue("@Precio", int.Parse(Precio));
             comando.Parameters.AddWithValue("@Fecha_Pago", Fecha_Pago);
 

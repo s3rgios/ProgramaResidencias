@@ -15,6 +15,7 @@ namespace SpeedToner
 {
     public partial class txtCliente : Form
     {
+        string TipoBusqueda = "";
         CD_Servicios objetoCN = new CD_Servicios();
         CD_Conexion cn = new CD_Conexion();
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
@@ -73,7 +74,24 @@ namespace SpeedToner
 
         private void btnGenerarReporte_Click(object sender, EventArgs e)
         {
-            objetoCN.GenerarPdf();
+            string Parametro;
+            try
+            {
+                if(txtDato.Text != "")
+                {
+                    Parametro = txtDato.Text;
+                }else
+                {
+                    Parametro = cboClientes.SelectedItem.ToString();
+                }
+                
+                DateTime FechaInicial = dtpFechaInicial.Value;
+                DateTime FechaFinal = dtpFechaFinal.Value;
+                objetoCN.GenerarReporte(FechaInicial, FechaFinal, Parametro,TipoBusqueda);
+            }catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             //Ayudara a poder ver el contenido del pdf
             //var p = new Process();
             //p.StartInfo = new ProcessStartInfo(@"C:\Escaner\2022-05-17\Escaneo2.pdf")
@@ -115,6 +133,7 @@ namespace SpeedToner
         {
 
             btnGenerarReporte.Enabled = true;
+            TipoBusqueda = cboOpcionReporte.SelectedItem.ToString();
 
             switch (cboOpcionReporte.SelectedItem.ToString())
             {

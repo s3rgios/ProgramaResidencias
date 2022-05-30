@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.grpDatos = new System.Windows.Forms.GroupBox();
+            this.cboTipoRenta = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.txtModelo = new System.Windows.Forms.TextBox();
             this.txtFechaPago = new System.Windows.Forms.TextBox();
             this.txtPrecio = new System.Windows.Forms.TextBox();
@@ -40,8 +42,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dtgEquipos = new System.Windows.Forms.DataGridView();
-            this.label6 = new System.Windows.Forms.Label();
-            this.cboTipoRenta = new System.Windows.Forms.ComboBox();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
@@ -71,6 +71,23 @@
             this.grpDatos.TabIndex = 0;
             this.grpDatos.TabStop = false;
             this.grpDatos.Text = "Datos:";
+            // 
+            // cboTipoRenta
+            // 
+            this.cboTipoRenta.FormattingEnabled = true;
+            this.cboTipoRenta.Location = new System.Drawing.Point(99, 156);
+            this.cboTipoRenta.Name = "cboTipoRenta";
+            this.cboTipoRenta.Size = new System.Drawing.Size(469, 29);
+            this.cboTipoRenta.TabIndex = 12;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(0, 159);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(93, 21);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Tipo renta:";
             // 
             // txtModelo
             // 
@@ -102,6 +119,9 @@
             // 
             // cboClientes
             // 
+            this.cboClientes.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboClientes.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboClientes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboClientes.FormattingEnabled = true;
             this.cboClientes.Location = new System.Drawing.Point(83, 32);
             this.cboClientes.Name = "cboClientes";
@@ -161,23 +181,7 @@
             this.dtgEquipos.RowTemplate.Height = 25;
             this.dtgEquipos.Size = new System.Drawing.Size(1146, 371);
             this.dtgEquipos.TabIndex = 1;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(0, 159);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(93, 21);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "Tipo renta:";
-            // 
-            // cboTipoRenta
-            // 
-            this.cboTipoRenta.FormattingEnabled = true;
-            this.cboTipoRenta.Location = new System.Drawing.Point(99, 156);
-            this.cboTipoRenta.Name = "cboTipoRenta";
-            this.cboTipoRenta.Size = new System.Drawing.Size(469, 29);
-            this.cboTipoRenta.TabIndex = 12;
+            this.dtgEquipos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgEquipos_CellClick);
             // 
             // btnGuardar
             // 

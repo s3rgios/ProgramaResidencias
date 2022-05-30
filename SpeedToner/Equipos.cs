@@ -38,6 +38,8 @@ namespace SpeedToner
             LlenarComboBox(cboTipoRenta, "SeleccionarTipoRenta", 1);
 
             Mostrar("MostrarEquipos");
+
+            cboClientes.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         public void ControlesDesactivados(bool Desactivado, bool Activar)
@@ -120,10 +122,11 @@ namespace SpeedToner
             {
                 if (inventario)
                 {
-                    string Cliente = cboClientes.SelectedItem.ToString();
+                    int Cliente = objetoCN.BuscarId(cboClientes.SelectedItem.ToString(), "ObtenerIdCliente");
                     string Modelo = txtModelo.Text;
                     string Serie = txtSerie.Text;
-                    string TipoRenta = cboTipoRenta.SelectedItem.ToString();
+                    int TipoRenta = objetoCN.BuscarId(cboTipoRenta.SelectedItem.ToString(),"ObtenerIdTipoRenta");
+                    //int TipoRenta = objetoCN.BuscarId(cboTipoRenta.SelectedItem.ToString(), "ObtenerIdTipoRenta");
                     string Precio = txtPrecio.Text;
                     string FechaPago = txtFechaPago.Text;
 
@@ -171,6 +174,16 @@ namespace SpeedToner
             {
                 MessageBox.Show("Ocurrio un error" + ex);
             }
+        }
+
+        private void dtgEquipos_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            cboClientes.SelectedItem = dtgEquipos.CurrentRow.Cells[1].Value.ToString();
+            txtModelo.Text = dtgEquipos.CurrentRow.Cells[2].Value.ToString();
+            txtSerie.Text = dtgEquipos.CurrentRow.Cells[3].Value.ToString();
+            cboTipoRenta.SelectedItem = dtgEquipos.CurrentRow.Cells[4].Value.ToString();
+            txtPrecio.Text = dtgEquipos.CurrentRow.Cells[5].Value.ToString();
+            txtFechaPago.Text = dtgEquipos.CurrentRow.Cells[6].Value.ToString();
         }
     }
 }
