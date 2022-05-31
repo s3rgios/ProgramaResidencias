@@ -33,7 +33,7 @@ namespace SpeedToner
         {
             cboOpcionReporte.Items.Add("Clientes");
             cboOpcionReporte.Items.Add("Serie");
-            cboOpcionReporte.Items.Add("Contador");
+            cboOpcionReporte.Items.Add("Tecnico");
             cboOpcionReporte.Items.Add("Fecha");
             cboOpcionReporte.Items.Add("Fusor");
         }
@@ -138,7 +138,7 @@ namespace SpeedToner
             switch (cboOpcionReporte.SelectedItem.ToString())
             {
                 case "Serie": MostrarTextBoxDato(); break;
-                case "Contador": MostrarTextBoxDato(); break;
+                case "Tecnico": MostrarTextBoxDato(); break;
                 case "Fusor": MostrarTextBoxDato(); break;
                 case "Clientes": MostrarComboBoxClientes(); break;
                 default:

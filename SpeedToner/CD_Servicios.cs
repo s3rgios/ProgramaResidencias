@@ -154,17 +154,18 @@ namespace SpeedToner
             comando.Parameters.AddWithValue("@CampoBusqueda", ParametroBusqueda);
             reporte = comando.ExecuteReader();
             comando.Parameters.Clear();
-            GenerarPdf(TipoBusqueda,ParametroBusqueda);
+            GenerarPdf(TipoBusqueda,ParametroBusqueda,FechaInicio, FechaFinal);
         }
 
 
-        public void GenerarPdf(string TipoBusqueda, string ParametroBusqueda)
+        public void GenerarPdf(string TipoBusqueda, string ParametroBusqueda, DateTime FechaInicio, DateTime FechaFinal)
         {
             //string NombreArchivo = @"C:\Users\Acer\Documents\Diseño web\" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
             string NombreArchivo = @"C:\Users\DELL PC\Documents\Base de datos\" +"Reporte"+ DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
             FileStream fs = new FileStream(NombreArchivo, FileMode.Create);
             Document document = new Document(PageSize.LETTER);
             document.SetMargins(25f, 25f, 25f, 25f);
+            document.SetPageSize(iTextSharp.text.PageSize.LETTER.Rotate());
 
             PdfWriter pw = PdfWriter.GetInstance(document, fs);
             //Leemos el archivo que generamos
@@ -186,32 +187,53 @@ namespace SpeedToner
             //_pdfCell.Border = 0;
             //_pdfCell.BackgroundColor = BaseColor.WHITE;
             //_pdfCell.ExtraParagraphSpace = 0;
+            //Variable para definir tipo de fuente
+            iTextSharp.text.Font fontTitle = FontFactory.GetFont("arial", 20);
+            iTextSharp.text.Font fontParapragh = FontFactory.GetFont("arial", 12);
+            iTextSharp.text.Font fontFecha = FontFactory.GetFont("arial", 9);
 
-            document.Add(new Paragraph("Reporte generado por " + TipoBusqueda + ": " + ParametroBusqueda));
+            Paragraph titulo =  new Paragraph("REPORTE SERVICIO TECNICO " + TipoBusqueda.ToUpper(), fontTitle);
+            titulo.Alignment = Element.ALIGN_CENTER;
+
+            Paragraph Fechas = new Paragraph("Fecha Inicio: "+ FechaInicio.ToString("dd-MM-yyyy")+ "       Fecha Final: " + FechaFinal.ToString("dd-MM-yyyy"), fontFecha);
+            Fechas.Alignment = Element.ALIGN_CENTER;
+
+
+            document.Add(titulo);
+            document.Add(Fechas);
+
+
             document.Add(Chunk.NEWLINE);//Salto de linea
 
             //Recorremos el arreglo que nos genero la consulta
             while (reporte.Read())
             {
-                document.Add(new Paragraph("Numero de Folio:" + reporte[0].ToString()));
-                document.Add(Chunk.NEWLINE);//Salto de linea
-                document.Add(new Paragraph("Cliente:" + reporte[1].ToString()));
-                document.Add(Chunk.NEWLINE);//Salto de linea
-                document.Add(new Paragraph("Modelo:" + reporte[2].ToString()));
-                document.Add(Chunk.NEWLINE);//Salto de linea
-                document.Add(new Paragraph("Serie:" + reporte[3].ToString()));
-                document.Add(Chunk.NEWLINE);//Salto de linea
-                document.Add(new Paragraph("Contador:" + reporte[4].ToString()));
-                document.Add(Chunk.NEWLINE);//Salto de linea
-                document.Add(new Paragraph("Fecha:" + reporte[5].ToString()));
-                document.Add(Chunk.NEWLINE);//Salto de linea
-                document.Add(new Paragraph("Hora:" + reporte[6].ToString()));
-                document.Add(Chunk.NEWLINE);//Salto de linea
-                document.Add(new Paragraph("Tecnico:" + reporte[7].ToString()));
-                document.Add(Chunk.NEWLINE);//Salto de linea
-                document.Add(new Paragraph("Servicio realizado:" + reporte[8].ToString()));
-                document.Add(Chunk.NEWLINE);//Salto de linea
-                document.Add(new Paragraph("Reporte de falla:" + reporte[9].ToString()));
+                DateTime Fecha = Convert.ToDateTime(reporte[5].ToString());
+                document.Add(new Paragraph("Fecha Servicio: " + Fecha.ToString("dd-MM-yyyy") + "                      "+ reporte[7].ToString() + "                     " + reporte[0].ToString(), fontParapragh));
+                //document.Add(new Paragraph("Numero de Folio:" + reporte[0].ToString(), fontParapragh));
+                //document.Add(Chunk.NEWLINE);//Salto de linea
+                //document.Add(new Paragraph("Cliente:" + reporte[1].ToString(),fontParapragh));
+                //document.Add(Chunk.NEWLINE);//Salto de linea
+                //document.Add(new Paragraph("Modelo:" + reporte[2].ToString(), fontParapragh));
+                //document.Add(Chunk.NEWLINE);//Salto de linea
+                //document.Add(new Paragraph("Serie:" + reporte[3].ToString(), fontParapragh));
+                //document.Add(Chunk.NEWLINE);//Salto de linea
+                document.Add(new Paragraph("Reporte de falla:" + reporte[10].ToString(), fontParapragh));
+                document.Add(new Paragraph("Servicio realizado:" + reporte[9].ToString(), fontParapragh));
+                document.Add(new Paragraph("Fusor:" + reporte[8].ToString(), fontParapragh));
+                document.Add(new Paragraph("Contador:" + String.Format("{0:n0}", reporte[4].ToString()),fontParapragh));
+                //document.Add(Chunk.NEWLINE);//Salto de linea
+
+                //document.Add(Chunk.NEWLINE);//Salto de linea
+                //document.Add(new Paragraph("Hora:" + reporte[6].ToString(), fontParapragh));
+                //document.Add(Chunk.NEWLINE);//Salto de linea
+                //document.Add(new Paragraph("Tecnico:" + reporte[7].ToString(), fontParapragh));
+                //document.Add(Chunk.NEWLINE);//Salto de linea
+
+                //document.Add(Chunk.NEWLINE);//Salto de linea
+
+                //document.Add(Chunk.NEWLINE);//Salto de linea
+                document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
                 document.Add(Chunk.NEWLINE);//Salto de linea
             }
 
@@ -431,17 +453,18 @@ namespace SpeedToner
 
         #region Equipos
 
-        public void AgregarEquipo(int IdCliente, string Modelo,string Serie, int IdRenta, string Precio, string Fecha_Pago)
+        public void AgregarEquipo(int IdCliente, string Referencia,string Modelo,string Serie, int IdRenta, int Precio, string Fecha_Pago)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "AgregarEquipo";
             comando.CommandType = CommandType.StoredProcedure;
 
             comando.Parameters.AddWithValue("@IdCliente",IdCliente);
+            comando.Parameters.AddWithValue("@Referencia", Referencia);
             comando.Parameters.AddWithValue("@Modelo", Modelo);
             comando.Parameters.AddWithValue("@Serie", Serie);
             comando.Parameters.AddWithValue("@IdRenta", IdRenta);
-            comando.Parameters.AddWithValue("@Precio", int.Parse(Precio));
+            comando.Parameters.AddWithValue("@Precio", Precio);
             comando.Parameters.AddWithValue("@Fecha_Pago", Fecha_Pago);
 
             comando.ExecuteNonQuery(); 
@@ -450,7 +473,7 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
-        public void ModificarEquipo(int Id,int IdCliente, string Modelo, string Serie, int IdRenta, string Precio, string Fecha_Pago)
+        public void ModificarEquipo(int Id,int IdCliente,string Referencia, string Modelo, string Serie, int IdRenta, int Precio, string Fecha_Pago)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "ModificarEquipo";
@@ -458,10 +481,11 @@ namespace SpeedToner
 
             comando.Parameters.AddWithValue("@Id", Id);
             comando.Parameters.AddWithValue("@IdCliente", IdCliente);
+            comando.Parameters.AddWithValue("@Referencia", Referencia);
             comando.Parameters.AddWithValue("@Modelo", Modelo);
             comando.Parameters.AddWithValue("@Serie", Serie);
             comando.Parameters.AddWithValue("@IdRenta", IdRenta);
-            comando.Parameters.AddWithValue("@Precio", int.Parse(Precio));
+            comando.Parameters.AddWithValue("@Precio", Precio);
             comando.Parameters.AddWithValue("@Fecha_Pago", Fecha_Pago);
 
             comando.ExecuteNonQuery();

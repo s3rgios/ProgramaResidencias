@@ -20,6 +20,8 @@ namespace SpeedToner
 
         //Sabremos si estamos modificando o agregando
         private bool Modificando = false;
+        int Id;
+
         public Equipos()
         {
             InitializeComponent();
@@ -32,21 +34,23 @@ namespace SpeedToner
         {
             PropiedadesDtg();
 
-            ControlesDesactivados(false, true);
+            ControlesDesactivados(false);
 
             LlenarComboBox(cboClientes, "SeleccionarClientes", 1);
             LlenarComboBox(cboTipoRenta, "SeleccionarTipoRenta", 1);
 
+            //Llenamos el datagridview
             Mostrar("MostrarEquipos");
 
+            //Deshabilitamos escritura en combobox
             cboClientes.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboTipoRenta.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
-        public void ControlesDesactivados(bool Desactivado, bool Activar)
+        public void ControlesDesactivados(bool Desactivado)
         {
             btnEliminar.Enabled = Desactivado;
             btnCancelar.Enabled = Desactivado;
-            btnGuardar.Enabled = Activar;
         }
 
         public void PropiedadesDtg()
@@ -123,11 +127,12 @@ namespace SpeedToner
                 if (inventario)
                 {
                     int Cliente = objetoCN.BuscarId(cboClientes.SelectedItem.ToString(), "ObtenerIdCliente");
+                    string Referencia = txtReferencia.Text;
                     string Modelo = txtModelo.Text;
                     string Serie = txtSerie.Text;
                     int TipoRenta = objetoCN.BuscarId(cboTipoRenta.SelectedItem.ToString(),"ObtenerIdTipoRenta");
                     //int TipoRenta = objetoCN.BuscarId(cboTipoRenta.SelectedItem.ToString(), "ObtenerIdTipoRenta");
-                    string Precio = txtPrecio.Text;
+                    int Precio = int.Parse(txtPrecio.Text);
                     string FechaPago = txtFechaPago.Text;
 
                     if (Modificando)
@@ -139,11 +144,11 @@ namespace SpeedToner
                             LimpiarForm();
                             return;
                         }
-                        //objetoCN.ModificarRegistroInventario(Id, Modelo, CantidadOficina, CantidadBodega);
+                        objetoCN.ModificarEquipo(Id,Cliente,Referencia, Modelo,Serie, TipoRenta,Precio, FechaPago);
                     }
                     else
                     {
-                        objetoCN.AgregarEquipo(Cliente, Modelo, Serie, TipoRenta,Precio,FechaPago);
+                        objetoCN.AgregarEquipo(Cliente, Referencia,Modelo, Serie, TipoRenta,Precio,FechaPago);
                     }
                     Mostrar("MostrarEquipos");
                     LimpiarForm();
@@ -178,12 +183,45 @@ namespace SpeedToner
 
         private void dtgEquipos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            ControlesDesactivados(true);
+            Modificando = true;
+
+            Id = int.Parse(dtgEquipos.CurrentRow.Cells[0].Value.ToString());
             cboClientes.SelectedItem = dtgEquipos.CurrentRow.Cells[1].Value.ToString();
-            txtModelo.Text = dtgEquipos.CurrentRow.Cells[2].Value.ToString();
-            txtSerie.Text = dtgEquipos.CurrentRow.Cells[3].Value.ToString();
-            cboTipoRenta.SelectedItem = dtgEquipos.CurrentRow.Cells[4].Value.ToString();
-            txtPrecio.Text = dtgEquipos.CurrentRow.Cells[5].Value.ToString();
-            txtFechaPago.Text = dtgEquipos.CurrentRow.Cells[6].Value.ToString();
+            txtReferencia.Text = dtgEquipos.CurrentRow.Cells[2].Value.ToString();
+            txtModelo.Text = dtgEquipos.CurrentRow.Cells[3].Value.ToString();
+            txtSerie.Text = dtgEquipos.CurrentRow.Cells[4].Value.ToString();
+            cboTipoRenta.SelectedItem = dtgEquipos.CurrentRow.Cells[5].Value.ToString();
+            txtPrecio.Text = dtgEquipos.CurrentRow.Cells[6].Value.ToString();
+            txtFechaPago.Text = dtgEquipos.CurrentRow.Cells[7].Value.ToString();
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            ControlesDesactivados(false);
+            LimpiarForm();
+            Modificando = false;
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("¿Esta seguro de eliminar el registro?", "CONFIRME LA ELIMINACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    MessageBox.Show("!!Eliminacion cancelada!!");
+                    LimpiarForm();
+                    return;
+                }
+                objetoCN.EliminarEquipo(Id);
+                MessageBox.Show("Se ha eliminado el registro correctamente");
+                Mostrar("MostrarEquipos");
+                LimpiarForm();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);    
+            }
         }
     }
 }
