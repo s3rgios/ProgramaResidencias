@@ -134,6 +134,7 @@ namespace SpeedToner
         {
             try
             {
+                //Entrara en dado caso que nos encontremos en el inventario
                 if (inventario)
                 {
                     string Modelo = txtModelo.Text;
@@ -157,7 +158,7 @@ namespace SpeedToner
                     Mostrar("MostrarInventario");
                     LimpiarForm();
                 }
-                else
+                else//Estamos en los registros
                 {
                     //string Cliente = cboClientes.SelectedItem.ToString();
                     string destino = "";

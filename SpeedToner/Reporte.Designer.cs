@@ -35,7 +35,7 @@
             this.dtpFechaInicial = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.dtgFechaFinal = new System.Windows.Forms.DateTimePicker();
+            this.dtpFechaFinal = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
             this.txtDato = new System.Windows.Forms.TextBox();
             this.cboClientes = new System.Windows.Forms.ComboBox();
@@ -107,12 +107,12 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Fecha Final:";
             // 
-            // dtgFechaFinal
+            // dtpFechaFinal
             // 
-            this.dtgFechaFinal.Location = new System.Drawing.Point(129, 166);
-            this.dtgFechaFinal.Name = "dtgFechaFinal";
-            this.dtgFechaFinal.Size = new System.Drawing.Size(316, 27);
-            this.dtgFechaFinal.TabIndex = 6;
+            this.dtpFechaFinal.Location = new System.Drawing.Point(129, 166);
+            this.dtpFechaFinal.Name = "dtpFechaFinal";
+            this.dtpFechaFinal.Size = new System.Drawing.Size(316, 27);
+            this.dtpFechaFinal.TabIndex = 6;
             // 
             // label4
             // 
@@ -137,7 +137,7 @@
             this.cboClientes.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboClientes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboClientes.FormattingEnabled = true;
-            this.cboClientes.Location = new System.Drawing.Point(129, 83);
+            this.cboClientes.Location = new System.Drawing.Point(129, 81);
             this.cboClientes.Name = "cboClientes";
             this.cboClientes.Size = new System.Drawing.Size(316, 29);
             this.cboClientes.TabIndex = 9;
@@ -240,7 +240,7 @@
             this.Controls.Add(this.cboClientes);
             this.Controls.Add(this.txtDato);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.dtgFechaFinal);
+            this.Controls.Add(this.dtpFechaFinal);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dtpFechaInicial);
@@ -272,7 +272,7 @@
         private DateTimePicker dtpFechaInicial;
         private Label label2;
         private Label label3;
-        private DateTimePicker dtgFechaFinal;
+        private DateTimePicker dtpFechaFinal;
         private Label label4;
         private TextBox txtDato;
         private ComboBox cboClientes;

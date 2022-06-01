@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.grpDatos = new System.Windows.Forms.GroupBox();
+            this.txtReferencia = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cboTipoRenta = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.txtModelo = new System.Windows.Forms.TextBox();
             this.txtFechaPago = new System.Windows.Forms.TextBox();
             this.txtPrecio = new System.Windows.Forms.TextBox();
@@ -40,8 +44,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dtgEquipos = new System.Windows.Forms.DataGridView();
-            this.label6 = new System.Windows.Forms.Label();
-            this.cboTipoRenta = new System.Windows.Forms.ComboBox();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
@@ -51,6 +53,8 @@
             // 
             // grpDatos
             // 
+            this.grpDatos.Controls.Add(this.txtReferencia);
+            this.grpDatos.Controls.Add(this.label7);
             this.grpDatos.Controls.Add(this.cboTipoRenta);
             this.grpDatos.Controls.Add(this.label6);
             this.grpDatos.Controls.Add(this.txtModelo);
@@ -72,46 +76,82 @@
             this.grpDatos.TabStop = false;
             this.grpDatos.Text = "Datos:";
             // 
+            // txtReferencia
+            // 
+            this.txtReferencia.Location = new System.Drawing.Point(111, 85);
+            this.txtReferencia.Name = "txtReferencia";
+            this.txtReferencia.Size = new System.Drawing.Size(457, 27);
+            this.txtReferencia.TabIndex = 2;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(7, 91);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(98, 21);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "Referencia:";
+            // 
+            // cboTipoRenta
+            // 
+            this.cboTipoRenta.FormattingEnabled = true;
+            this.cboTipoRenta.Location = new System.Drawing.Point(690, 77);
+            this.cboTipoRenta.Name = "cboTipoRenta";
+            this.cboTipoRenta.Size = new System.Drawing.Size(273, 29);
+            this.cboTipoRenta.TabIndex = 6;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(591, 85);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(93, 21);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Tipo renta:";
+            // 
             // txtModelo
             // 
-            this.txtModelo.Location = new System.Drawing.Point(83, 72);
+            this.txtModelo.Location = new System.Drawing.Point(83, 127);
             this.txtModelo.Name = "txtModelo";
             this.txtModelo.Size = new System.Drawing.Size(485, 27);
-            this.txtModelo.TabIndex = 10;
+            this.txtModelo.TabIndex = 3;
             // 
             // txtFechaPago
             // 
-            this.txtFechaPago.Location = new System.Drawing.Point(148, 246);
+            this.txtFechaPago.Location = new System.Drawing.Point(148, 205);
             this.txtFechaPago.Name = "txtFechaPago";
             this.txtFechaPago.Size = new System.Drawing.Size(420, 27);
-            this.txtFechaPago.TabIndex = 9;
+            this.txtFechaPago.TabIndex = 5;
             // 
             // txtPrecio
             // 
-            this.txtPrecio.Location = new System.Drawing.Point(83, 198);
+            this.txtPrecio.Location = new System.Drawing.Point(690, 127);
             this.txtPrecio.Name = "txtPrecio";
-            this.txtPrecio.Size = new System.Drawing.Size(485, 27);
-            this.txtPrecio.TabIndex = 8;
+            this.txtPrecio.Size = new System.Drawing.Size(273, 27);
+            this.txtPrecio.TabIndex = 7;
             // 
             // txtSerie
             // 
-            this.txtSerie.Location = new System.Drawing.Point(83, 113);
+            this.txtSerie.Location = new System.Drawing.Point(63, 169);
             this.txtSerie.Name = "txtSerie";
-            this.txtSerie.Size = new System.Drawing.Size(485, 27);
-            this.txtSerie.TabIndex = 7;
+            this.txtSerie.Size = new System.Drawing.Size(505, 27);
+            this.txtSerie.TabIndex = 4;
             // 
             // cboClientes
             // 
+            this.cboClientes.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboClientes.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboClientes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboClientes.FormattingEnabled = true;
             this.cboClientes.Location = new System.Drawing.Point(83, 32);
             this.cboClientes.Name = "cboClientes";
             this.cboClientes.Size = new System.Drawing.Size(753, 29);
-            this.cboClientes.TabIndex = 5;
+            this.cboClientes.TabIndex = 1;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 246);
+            this.label5.Location = new System.Drawing.Point(7, 211);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(135, 21);
             this.label5.TabIndex = 4;
@@ -120,7 +160,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 204);
+            this.label4.Location = new System.Drawing.Point(623, 133);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(61, 21);
             this.label4.TabIndex = 3;
@@ -129,7 +169,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 116);
+            this.label3.Location = new System.Drawing.Point(7, 175);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(50, 21);
             this.label3.TabIndex = 2;
@@ -138,7 +178,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 78);
+            this.label2.Location = new System.Drawing.Point(7, 133);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 21);
             this.label2.TabIndex = 1;
@@ -161,23 +201,7 @@
             this.dtgEquipos.RowTemplate.Height = 25;
             this.dtgEquipos.Size = new System.Drawing.Size(1146, 371);
             this.dtgEquipos.TabIndex = 1;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(0, 159);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(93, 21);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "Tipo renta:";
-            // 
-            // cboTipoRenta
-            // 
-            this.cboTipoRenta.FormattingEnabled = true;
-            this.cboTipoRenta.Location = new System.Drawing.Point(99, 156);
-            this.cboTipoRenta.Name = "cboTipoRenta";
-            this.cboTipoRenta.Size = new System.Drawing.Size(469, 29);
-            this.cboTipoRenta.TabIndex = 12;
+            this.dtgEquipos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgEquipos_CellClick);
             // 
             // btnGuardar
             // 
@@ -197,6 +221,7 @@
             this.btnEliminar.TabIndex = 3;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnCancelar
             // 
@@ -206,6 +231,7 @@
             this.btnCancelar.TabIndex = 4;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // Equipos
             // 
@@ -248,5 +274,7 @@
         private Button btnGuardar;
         private Button btnEliminar;
         private Button btnCancelar;
+        private TextBox txtReferencia;
+        private Label label7;
     }
 }
