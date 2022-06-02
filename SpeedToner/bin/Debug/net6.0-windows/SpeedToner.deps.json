@@ -9,6 +9,7 @@
       "SpeedToner/1.0.0": {
         "dependencies": {
           "System.Data.SqlClient": "4.8.3",
+          "iTextSharp": "5.5.13.3",
           "itext7": "7.2.2",
           "itextsharp.xmlworker": "5.5.13.3"
         },

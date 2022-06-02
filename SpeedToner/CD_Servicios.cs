@@ -17,8 +17,6 @@ namespace SpeedToner
         private CD_Conexion conexion = new CD_Conexion();
         SqlCommand  comando = new SqlCommand();
         SqlDataReader reporte;
-        PdfPTable _pdfTable = new PdfPTable(3);
-        PdfPCell _pdfCell;
 
 
         //Metodo para mostrar los registros de los servicios, dependiendo el stop procedure que se envie, se mostrara informacion como la requiera el usuario
@@ -187,8 +185,24 @@ namespace SpeedToner
             //_pdfCell.Border = 0;
             //_pdfCell.BackgroundColor = BaseColor.WHITE;
             //_pdfCell.ExtraParagraphSpace = 0;
+            
+
+            //Codigo para la imagen
+            iTextSharp.text.Image Logotipo = iTextSharp.text.Image.GetInstance(Properties.Resources.Speed_toner,System.Drawing.Imaging.ImageFormat.Png);
+            Logotipo.ScaleToFit(150, 80);
+            Logotipo.Alignment = iTextSharp.text.Image.UNDERLYING;
+            Logotipo.SetAbsolutePosition(document.LeftMargin, document.Top - 40);
+            document.Add(Logotipo);
+
+            iTextSharp.text.Image Logo = iTextSharp.text.Image.GetInstance(Properties.Resources.Speed_toner, System.Drawing.Imaging.ImageFormat.Png);
+            Logo.ScaleToFit(150, 80);
+            Logo.Alignment = iTextSharp.text.Image.UNDERLYING;
+            Logo.SetAbsolutePosition(document.Right - 150, document.Top - 40);
+            document.Add(Logo);
+
             //Variable para definir tipo de fuente
-            iTextSharp.text.Font fontTitle = FontFactory.GetFont("arial", 20);
+            iTextSharp.text.Font fontTitle = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 20, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+            //iTextSharp.text.Font fontTitle = FontFactory.GetFont("arial", 20);
             iTextSharp.text.Font fontParapragh = FontFactory.GetFont("arial", 12);
             iTextSharp.text.Font fontFecha = FontFactory.GetFont("arial", 9);
 
@@ -201,7 +215,6 @@ namespace SpeedToner
 
             document.Add(titulo);
             document.Add(Fechas);
-
 
             document.Add(Chunk.NEWLINE);//Salto de linea
 
@@ -221,9 +234,8 @@ namespace SpeedToner
                 document.Add(new Paragraph("Reporte de falla:" + reporte[10].ToString(), fontParapragh));
                 document.Add(new Paragraph("Servicio realizado:" + reporte[9].ToString(), fontParapragh));
                 document.Add(new Paragraph("Fusor:" + reporte[8].ToString(), fontParapragh));
-                document.Add(new Paragraph("Contador:" + String.Format("{0:n0}", reporte[4].ToString()),fontParapragh));
                 //document.Add(Chunk.NEWLINE);//Salto de linea
-
+                document.Add(new Paragraph("Contador: " + string.Format("{0:n0}", int.Parse(reporte[4].ToString())), fontParapragh));
                 //document.Add(Chunk.NEWLINE);//Salto de linea
                 //document.Add(new Paragraph("Hora:" + reporte[6].ToString(), fontParapragh));
                 //document.Add(Chunk.NEWLINE);//Salto de linea

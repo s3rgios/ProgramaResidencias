@@ -55,7 +55,7 @@ namespace SpeedToner
             cboClientes.DropDownStyle = ComboBoxStyle.DropDownList;
 
             Mostrar("MostrarInventario");
-
+            radOficina.Checked = true;
         }
 
         //Metodo que dependiendo el valor que se envie activara o desactivara los botones
@@ -190,6 +190,7 @@ namespace SpeedToner
                     else
                     {
                         objetoCN.AgregarRegistroInventario(IdCartucho, Salida, Entrada, Cliente, Fecha, destino);
+                        MessageBox.Show("Se ha agregado el resgitro correctamente. Se ha actualizado el inventario");
                     }
                     Mostrar("VerRegistroInventario");
                     LimpiarForm();

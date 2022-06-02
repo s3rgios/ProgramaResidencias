@@ -76,5 +76,25 @@ namespace SpeedToner.Properties {
                 return ResourceManager.GetString("plantilla", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Speed_toner {
+            get {
+                object obj = ResourceManager.GetObject("Speed toner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Stoner {
+            get {
+                object obj = ResourceManager.GetObject("Stoner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
