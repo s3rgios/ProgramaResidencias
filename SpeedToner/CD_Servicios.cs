@@ -196,6 +196,7 @@ namespace SpeedToner
             Logotipo.SetAbsolutePosition(document.LeftMargin, document.Top - 60);
             document.Add(Logotipo);
 
+            
             iTextSharp.text.Font fontTitle = FontFactory.GetFont("arial", 20);
             iTextSharp.text.Font fontParapragh = FontFactory.GetFont("arial", 12);
             iTextSharp.text.Font fontFecha = FontFactory.GetFont("arial", 9);
