@@ -168,7 +168,7 @@ namespace SpeedToner
             PdfWriter pw = PdfWriter.GetInstance(document, fs);
             //Leemos el archivo que generamos
             //string paginahtml_texto = Properties.Resources.plantilla.toString();
-
+            
             document.Open();
 
             //Definir el titulo
@@ -185,16 +185,16 @@ namespace SpeedToner
             //_pdfCell.Border = 0;
             //_pdfCell.BackgroundColor = BaseColor.WHITE;
             //_pdfCell.ExtraParagraphSpace = 0;
-            
+            iTextSharp.text.Font arial = FontFactory.GetFont("Arial", 28);
 
             //Codigo para la imagen
-            iTextSharp.text.Image Logotipo = iTextSharp.text.Image.GetInstance(Properties.Resources.Speed_toner,System.Drawing.Imaging.ImageFormat.Png);
+            iTextSharp.text.Image Logotipo = iTextSharp.text.Image.GetInstance(Properties.Resources.LogoSpeedToner,System.Drawing.Imaging.ImageFormat.Png);
             Logotipo.ScaleToFit(150, 80);
             Logotipo.Alignment = iTextSharp.text.Image.UNDERLYING;
             Logotipo.SetAbsolutePosition(document.LeftMargin, document.Top - 40);
             document.Add(Logotipo);
 
-            iTextSharp.text.Image Logo = iTextSharp.text.Image.GetInstance(Properties.Resources.Speed_toner, System.Drawing.Imaging.ImageFormat.Png);
+            iTextSharp.text.Image Logo = iTextSharp.text.Image.GetInstance(Properties.Resources.LogoSpeedToner, System.Drawing.Imaging.ImageFormat.Png);
             Logo.ScaleToFit(150, 80);
             Logo.Alignment = iTextSharp.text.Image.UNDERLYING;
             Logo.SetAbsolutePosition(document.Right - 150, document.Top - 40);
@@ -202,19 +202,43 @@ namespace SpeedToner
 
             //Variable para definir tipo de fuente
             iTextSharp.text.Font fontTitle = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 20, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
-            //iTextSharp.text.Font fontTitle = FontFactory.GetFont("arial", 20);
-            iTextSharp.text.Font fontParapragh = FontFactory.GetFont("arial", 12);
+
+            iTextSharp.text.Font fontParapragh = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+            
+            //iTextSharp.text.Font fontParapragh = FontFactory.GetFont("arial", 10);
             iTextSharp.text.Font fontFecha = FontFactory.GetFont("arial", 9);
 
+            string ppath = "c:\\aworking\\Hawkins.pdf";
+            PdfReader pdfReader = new PdfReader(NombreArchivo);
+            int numberOfPages = pdfReader.NumberOfPages;
+
+
+            Paragraph nombreEmpresa = new Paragraph("SPEED TONER NUEVO LAREDO.", fontTitle);
+            Paragraph Direccion = new Paragraph("BOLIVAR #1507 NUEVO LAREDO, TAMPS. C.P 88060", fontParapragh);
+            Paragraph Telefono = new Paragraph("TEL.: (867) 712-0964 FAX:(867)712-2741", fontParapragh);
+            Paragraph FechaActual = new Paragraph("" + DateTime.Now.ToString("dd/MM/yyyy"), fontParapragh);
             Paragraph titulo =  new Paragraph("REPORTE SERVICIO TECNICO " + TipoBusqueda.ToUpper(), fontTitle);
             titulo.Alignment = Element.ALIGN_CENTER;
 
-            Paragraph Fechas = new Paragraph("Fecha Inicio: "+ FechaInicio.ToString("dd-MM-yyyy")+ "       Fecha Final: " + FechaFinal.ToString("dd-MM-yyyy"), fontFecha);
+            Paragraph Pagina = new Paragraph("Página " + numberOfPages , fontParapragh);
+
+
+            Paragraph Fechas = new Paragraph("FECHA DE INICIO: "+ FechaInicio.ToString("dd/MM/yyyy")+ "       FECHA FINAL: " + FechaFinal.ToString("dd/MM/yyyy"), fontFecha);
             Fechas.Alignment = Element.ALIGN_CENTER;
+            nombreEmpresa.Alignment = Element.ALIGN_CENTER;
+            Direccion.Alignment = Element.ALIGN_CENTER;
+            FechaActual.Alignment = Element.ALIGN_RIGHT;
+            Telefono.Alignment = Element.ALIGN_CENTER;
+            Pagina.Alignment = Element.ALIGN_LEFT;
 
 
+
+            document.Add(nombreEmpresa);
+            document.Add(Direccion);
+            document.Add(Telefono);
+            document.Add(FechaActual);
             document.Add(titulo);
-            document.Add(Fechas);
+            document.Add(Fechas);   
 
             document.Add(Chunk.NEWLINE);//Salto de linea
 
@@ -222,7 +246,7 @@ namespace SpeedToner
             while (reporte.Read())
             {
                 DateTime Fecha = Convert.ToDateTime(reporte[5].ToString());
-                document.Add(new Paragraph("Fecha Servicio: " + Fecha.ToString("dd-MM-yyyy") + "                      "+ reporte[7].ToString() + "                     " + reporte[0].ToString(), fontParapragh));
+                document.Add(new Paragraph("                                 Fecha Servicio:" + Fecha.ToString("dd/MM/yyyy") + "                      "+ reporte[7].ToString().ToUpper() + "                     " + reporte[0].ToString(), fontParapragh));
                 //document.Add(new Paragraph("Numero de Folio:" + reporte[0].ToString(), fontParapragh));
                 //document.Add(Chunk.NEWLINE);//Salto de linea
                 //document.Add(new Paragraph("Cliente:" + reporte[1].ToString(),fontParapragh));
@@ -231,11 +255,11 @@ namespace SpeedToner
                 //document.Add(Chunk.NEWLINE);//Salto de linea
                 //document.Add(new Paragraph("Serie:" + reporte[3].ToString(), fontParapragh));
                 //document.Add(Chunk.NEWLINE);//Salto de linea
-                document.Add(new Paragraph("Reporte de falla:" + reporte[10].ToString(), fontParapragh));
-                document.Add(new Paragraph("Servicio realizado:" + reporte[9].ToString(), fontParapragh));
-                document.Add(new Paragraph("Fusor:" + reporte[8].ToString(), fontParapragh));
+                document.Add(new Paragraph("DIAGNOSTICO: " + reporte[10].ToString().ToUpper(), fontParapragh));
+                document.Add(new Paragraph("SERVICIO: " + reporte[9].ToString().ToUpper(), fontParapragh));
+                document.Add(new Paragraph("FUSOR: " + reporte[8].ToString().ToUpper(), fontParapragh));
                 //document.Add(Chunk.NEWLINE);//Salto de linea
-                document.Add(new Paragraph("Contador: " + string.Format("{0:n0}", int.Parse(reporte[4].ToString())), fontParapragh));
+                document.Add(new Paragraph("CONTADOR: " + string.Format("{0:n0}", int.Parse(reporte[4].ToString())), fontParapragh));
                 //document.Add(Chunk.NEWLINE);//Salto de linea
                 //document.Add(new Paragraph("Hora:" + reporte[6].ToString(), fontParapragh));
                 //document.Add(Chunk.NEWLINE);//Salto de linea
@@ -246,9 +270,9 @@ namespace SpeedToner
 
                 //document.Add(Chunk.NEWLINE);//Salto de linea
                 document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
-                document.Add(Chunk.NEWLINE);//Salto de linea
+                //document.Add(Chunk.NEWLINE);//Salto de linea
             }
-
+            document.Add(Pagina);
             document.Close();
 
             //Abrimos el pdf 
