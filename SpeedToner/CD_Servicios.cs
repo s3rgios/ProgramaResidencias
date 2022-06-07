@@ -168,6 +168,7 @@ namespace SpeedToner
             PdfWriter pw = PdfWriter.GetInstance(document, fs);
             //Leemos el archivo que generamos
             //string paginahtml_texto = Properties.Resources.plantilla.toString();
+            int numeroPagina = pw.PageNumber;
             
             document.Open();
 
@@ -208,11 +209,6 @@ namespace SpeedToner
             //iTextSharp.text.Font fontParapragh = FontFactory.GetFont("arial", 10);
             iTextSharp.text.Font fontFecha = FontFactory.GetFont("arial", 9);
 
-            string ppath = "c:\\aworking\\Hawkins.pdf";
-            PdfReader pdfReader = new PdfReader(NombreArchivo);
-            int numberOfPages = pdfReader.NumberOfPages;
-
-
             Paragraph nombreEmpresa = new Paragraph("SPEED TONER NUEVO LAREDO.", fontTitle);
             Paragraph Direccion = new Paragraph("BOLIVAR #1507 NUEVO LAREDO, TAMPS. C.P 88060", fontParapragh);
             Paragraph Telefono = new Paragraph("TEL.: (867) 712-0964 FAX:(867)712-2741", fontParapragh);
@@ -220,8 +216,7 @@ namespace SpeedToner
             Paragraph titulo =  new Paragraph("REPORTE SERVICIO TECNICO " + TipoBusqueda.ToUpper(), fontTitle);
             titulo.Alignment = Element.ALIGN_CENTER;
 
-            Paragraph Pagina = new Paragraph("Página " + numberOfPages , fontParapragh);
-
+            Paragraph Pagina = new Paragraph("Página " + numeroPagina , fontParapragh);
 
             Paragraph Fechas = new Paragraph("FECHA DE INICIO: "+ FechaInicio.ToString("dd/MM/yyyy")+ "       FECHA FINAL: " + FechaFinal.ToString("dd/MM/yyyy"), fontFecha);
             Fechas.Alignment = Element.ALIGN_CENTER;
@@ -231,7 +226,7 @@ namespace SpeedToner
             Telefono.Alignment = Element.ALIGN_CENTER;
             Pagina.Alignment = Element.ALIGN_LEFT;
 
-
+            
 
             document.Add(nombreEmpresa);
             document.Add(Direccion);
