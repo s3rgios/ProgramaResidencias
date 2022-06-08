@@ -38,7 +38,7 @@ namespace SpeedToner
             PropiedadesDtgServicios();
 
             //Desactivamos controles que no ocuparemos al inicio
-            ControlesDesactivadosInicialmente();
+            ControlesDesactivadosInicialmente(false);
 
             //Agregamos opciones a los combobox
             AgregarOpcionesMostrar();
@@ -56,10 +56,11 @@ namespace SpeedToner
 
 
         
-        private void ControlesDesactivadosInicialmente()
+        private void ControlesDesactivadosInicialmente(bool activado)
         {
-            btnCancelar.Enabled = false;
-            btnEliminar.Enabled = false;
+            btnCancelar.Enabled = activado;
+            btnEliminar.Enabled = activado;
+            btnMostrar.Enabled = activado;
         }
 
 
@@ -159,7 +160,7 @@ namespace SpeedToner
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             //Regresaremos a como era al iniciar el programa
-            ControlesDesactivadosInicialmente();
+            ControlesDesactivadosInicialmente(false);
             btnGuardar.Enabled = true;
             LimpiarForm();
             Modificar = false;
@@ -168,6 +169,7 @@ namespace SpeedToner
         private void btnMostrar_Click(object sender, EventArgs e)
         {
             DataTable tabla = new DataTable();
+            
 
             //Dependiendo la opcion se enviaran diferentes stop procedures al metodo mostrar
             switch (cboMostrar.SelectedItem.ToString())
@@ -263,11 +265,8 @@ namespace SpeedToner
             AbrirForm(new txtCliente());
         }
 
-
-
         //Boton que mostrara los registros dependiendo de lo que solicite el usuario
         
-
         private void txtCliente_Click(object sender, EventArgs e)
         {
                     }
@@ -298,8 +297,7 @@ namespace SpeedToner
         {
             //Una vez que se escoga alguna fila podremos activar los botones para poder modificar y eliminar
             btnGuardar.Enabled = true;
-            btnEliminar.Enabled = true;
-            btnCancelar.Enabled = true;
+            ControlesDesactivadosInicialmente(true);
 
             Modificar = true;
 
@@ -322,7 +320,6 @@ namespace SpeedToner
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-
             SqlDataReader dr = objetoCN.BuscarServicio(txtBusqueda.Text);
 
             if (dr.Read())
@@ -351,7 +348,12 @@ namespace SpeedToner
             cn.CerrarConexion();
             txtBusqueda.Text = "";
 
+        }
 
+        private void cboMostrar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Habilitamos el boton para poder mostrarlo
+            btnMostrar.Enabled = true;
         }
     }
 

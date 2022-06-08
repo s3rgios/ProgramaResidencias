@@ -334,6 +334,7 @@
             this.cboMostrar.Name = "cboMostrar";
             this.cboMostrar.Size = new System.Drawing.Size(108, 29);
             this.cboMostrar.TabIndex = 27;
+            this.cboMostrar.SelectedIndexChanged += new System.EventHandler(this.cboMostrar_SelectedIndexChanged);
             // 
             // v
             // 
