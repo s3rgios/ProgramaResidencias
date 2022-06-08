@@ -14,11 +14,18 @@ namespace SpeedToner
 {
     internal class PageEventHelper : PdfPageEventHelper
     {
+        //Permite escribir sobre un documento ya existente
         PdfContentByte cb;
         PdfTemplate template;
 
+        //Por si queremos agregar alguna fuente
         BaseFont bf = null;
+        BaseFont title = null;
+        //Para añadir la fecha de impresion
         DateTime PrintTime = DateTime.Now;
+        iTextSharp.text.Font font = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 11, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+
+        iTextSharp.text.Font fontTitle = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
 
         #region Propiedades
 
@@ -43,6 +50,7 @@ namespace SpeedToner
             set { _HeaderRight = value; }
         }
 
+        //Para definir la fuente del encabezado
         private iTextSharp.text.Font _HeaderFont;
         public iTextSharp.text.Font HeaderFont
         {
@@ -50,6 +58,7 @@ namespace SpeedToner
             set { _HeaderFont = value; }
         }
 
+        //Para definir la fuente del pie de pagina
         private iTextSharp.text.Font _FooterFont;
         public iTextSharp.text.Font FooterFont
         {
@@ -64,8 +73,13 @@ namespace SpeedToner
             try
             {
                 PrintTime = DateTime.Now;
+                //Fuente que se utilizara en la clase
+
                 bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+                title = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
+                //Para poder agregar contenido
                 cb = writer.DirectContent;
+                //Sirve como canvas 
                 template = cb.CreateTemplate(document.PageSize.Width, 50);
 
             }catch (DocumentException de){
@@ -79,48 +93,45 @@ namespace SpeedToner
         public override void OnStartPage(PdfWriter writer, Document document)
         {
             base.OnStartPage(writer, document);
-            iTextSharp.text.Rectangle pageSize = document.PageSize;
+            iTextSharp.text.Rectangle pagesize = document.PageSize;
 
-            if(Title != String.Empty)
-            {
-                cb.BeginText();
-                cb.SetFontAndSize(bf, 15);
-                cb.SetRGBColorFill(50, 50, 200);
-                cb.SetTextMatrix(pageSize.GetLeft(40), pageSize.GetTop(40));
-                cb.ShowText(Title);
-                cb.EndText();
-            }
-            if(HeaderLeft + HeaderRight != String.Empty)
-            {
-                PdfPTable HeaderTable =  new PdfPTable(2);
-                HeaderTable.DefaultCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-                HeaderTable.TotalWidth = pageSize.Width - 80;
-                HeaderTable.SetWidthPercentage(new float[] { 45, 45 }, pageSize);
+            //Agregamos el logo izquierdo
+            iTextSharp.text.Image Logo = iTextSharp.text.Image.GetInstance(Properties.Resources.LogoSpeedToner, System.Drawing.Imaging.ImageFormat.Png);
+            Logo.ScaleToFit(150, 80);
+            Logo.Alignment = iTextSharp.text.Image.UNDERLYING;
+            Logo.SetAbsolutePosition(document.LeftMargin, document.Top - 40);
+            cb.AddImage(Logo);
 
-                PdfPCell HeaderLeftCell = new PdfPCell(new Phrase(8, HeaderLeft,HeaderFont));
-                HeaderLeftCell.Padding = 5;
-                HeaderLeftCell.PaddingBottom = 8;
-                HeaderLeftCell.BorderWidthRight = 0;
-                HeaderTable.AddCell(HeaderLeftCell);
+            //Agregamos el logo de la derecha
+            iTextSharp.text.Image Logotipo = iTextSharp.text.Image.GetInstance(Properties.Resources.LogoSpeedToner, System.Drawing.Imaging.ImageFormat.Png);
+            Logotipo.ScaleToFit(150, 80);
+            Logotipo.Alignment = iTextSharp.text.Image.UNDERLYING;
+            Logotipo.SetAbsolutePosition(document.Right - 150, document.Top - 40);
+            cb.AddImage(Logotipo);
 
-                PdfPCell HeaderRightCell = new PdfPCell(new Phrase(8, HeaderRight, HeaderFont));
-                HeaderRightCell.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
-                HeaderRightCell.Padding = 5;
-                HeaderRightCell.PaddingBottom = 8;
-                HeaderRightCell.BorderWidthRight = 0;
-                HeaderTable.AddCell(HeaderRightCell);
+            Paragraph NombreEmpresa = new Paragraph("SPEDD TONER NUEVO LAREDO.", fontTitle);
+            NombreEmpresa.Alignment = Element.ALIGN_CENTER;
+            document.Add(NombreEmpresa);
 
-                cb.SetRGBColorFill(0, 0, 0);
-                HeaderTable.WriteSelectedRows(0, -1, pageSize.GetLeft(40), pageSize.GetTop(50), cb);
-            }
+            Paragraph Direccion = new Paragraph("BOLIVAR #1507 NUEVO LAREDO, TAMPS. C.P 88060", font);
+            Direccion.Alignment = Element.ALIGN_CENTER;
+            document.Add(Direccion);
+
+            Paragraph Telefono = new Paragraph("TEL.: (867) 712-0964 FAX:(867)712-2741", font);
+            Telefono.Alignment = Element.ALIGN_CENTER;
+            document.Add(Telefono);
+
         }
 
         public override void OnEndPage(PdfWriter writer, Document document)
         {
             base.OnEndPage(writer, document);
+            //Obtenemos la pagina actual
             int pageN = writer.PageNumber;
-            String text = "Page " + pageN + " of ";
+            String text = "Page " + pageN;
+            //Tamaño del texto
             float len = bf.GetWidthPoint(text, 8);
+            //Creamos rectangulo del tamaño de la pagina
             iTextSharp.text.Rectangle pagesize = document.PageSize;
             cb.SetRGBColorFill(100, 100, 100);
             cb.BeginText();
@@ -128,8 +139,11 @@ namespace SpeedToner
             cb.SetTextMatrix(pagesize.GetLeft(40), pagesize.GetBottom(30));
             cb.ShowText(text);
             cb.EndText();
+            //Definimos otra platilla 
             cb.AddTemplate(template, pagesize.GetLeft(40) + len, pagesize.GetBottom(30));
 
+            //Imprime la hora en la que fue impreso
+            //Opcional
             cb.BeginText();
             cb.SetFontAndSize(bf, 8);
             cb.ShowTextAligned(PdfContentByte.ALIGN_RIGHT,
@@ -143,9 +157,9 @@ namespace SpeedToner
         {
             base.OnCloseDocument(writer, document);
             template.BeginText();
-            template.SetFontAndSize(bf, 40);
+            template.SetFontAndSize(bf, 8);
             template.SetTextMatrix(0, 0);
-            template.ShowText("" + (writer.PageNumber - 1));
+            //template.ShowText("" + (writer.PageNumber - 1));
             template.EndText();
         }
     }
