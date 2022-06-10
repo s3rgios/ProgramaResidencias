@@ -42,13 +42,15 @@ namespace SpeedToner
 
             //Agregamos opciones a los combobox
             AgregarOpcionesMostrar();
-            LlenarComboBox(cboClientes, "SeleccionarClientes", 1);
-            LlenarComboBox(cboMarca, "SeleccionarMarca", 1);
+            LlenarComboBox(cboClientes, "SeleccionarClientes", 1,0);
+            LlenarComboBox(cboMarca, "SeleccionarMarca", 1,0);
+            LlenarComboBox(cboModelos, "SeleccionarModelos", 2,2);
 
             //Denegar escritura en combobox
             cboMarca.DropDownStyle = ComboBoxStyle.DropDownList;
             cboMostrar.DropDownStyle = ComboBoxStyle.DropDownList;
             cboClientes.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboModelos.DropDownStyle = ComboBoxStyle.DropDownList;
 
             //Mostramos los registros que tengamos en nuestra base de datos de los reportes de los servicos
             MostrarDatosServicios();
@@ -120,7 +122,8 @@ namespace SpeedToner
                 int IdCliente = objetoCN.BuscarId(cboClientes.SelectedItem.ToString(), "ObtenerIdCliente");
                 //Buscamos el Id de la marca con el stop procedure, mandando el nombre para ayudar en la consulta
                 int IdMarca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
-                string Modelo = txtModelo.Text;
+                
+                int Modelo = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdModelo");
                 string Serie = txtSerie.Text;
                 string Contador = txtContador.Text;
                 DateTime Fecha = dtpFecha.Value;
@@ -231,10 +234,19 @@ namespace SpeedToner
         }
 
         //Metodo que ayuda a llenar los combobox dependiendo el stop procedure que se ejecute
-        public void LlenarComboBox(ComboBox cb, string sp, int indice)
+        public void LlenarComboBox(ComboBox cb, string sp, int indice,int Marca)
         {
+            SqlDataReader dr;
             cb.Items.Clear();
-            SqlDataReader dr = objetoCN.LlenarComboBox(sp);
+            if(sp == "SeleccionarModelos")
+            {
+                dr = objetoCN.LlenarComboBoxModelos(sp,Marca);
+            }
+            else
+            {
+                 dr = objetoCN.LlenarComboBox(sp);
+            }
+            
 
             while (dr.Read())
             {
@@ -305,7 +317,7 @@ namespace SpeedToner
             txtNumeroFolio.Text = dtgServicios.CurrentRow.Cells[0].Value.ToString();
             cboClientes.SelectedItem = dtgServicios.CurrentRow.Cells[1].Value.ToString();
             cboMarca.SelectedItem = dtgServicios.CurrentRow.Cells[2].Value.ToString();
-            txtModelo.Text = dtgServicios.CurrentRow.Cells[3].Value.ToString();
+            cboModelos.SelectedItem = dtgServicios.CurrentRow.Cells[3].Value.ToString();
             txtSerie.Text = dtgServicios.CurrentRow.Cells[4].Value.ToString();
             txtContador.Text = dtgServicios.CurrentRow.Cells[5].Value.ToString();
             DateTime FechaRegistro = Convert.ToDateTime(dtgServicios.CurrentRow.Cells[6].Value.ToString());
@@ -327,7 +339,7 @@ namespace SpeedToner
                 txtNumeroFolio.Text = (dr[0].ToString());
                 cboClientes.SelectedItem = (dr[1].ToString());
                 cboMarca.SelectedItem = (dr[2].ToString());
-                txtModelo.Text = (dr[3].ToString());
+                cboModelos.SelectedItem = (dr[3].ToString());
                 txtSerie.Text = (dr[4].ToString());
                 txtContador.Text = (dr[5].ToString());
                 DateTime FechaRegistro = Convert.ToDateTime((dr[6].ToString()));
@@ -354,6 +366,22 @@ namespace SpeedToner
         {
             //Habilitamos el boton para poder mostrarlo
             btnMostrar.Enabled = true;
+        }
+
+        private void cboModelos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cboMarca_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //En dado caso que se haya seleccionado algo de las marcas
+            if (cboMarca.SelectedItem.ToString() != " ")
+            {
+                int IdMarca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
+                LlenarComboBox(cboModelos, "SeleccionarModelos", 2, IdMarca);
+            }
+
         }
     }
 

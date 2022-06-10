@@ -44,6 +44,18 @@ namespace SpeedToner
             return leer;
         }
 
+        public SqlDataReader LlenarComboBoxModelos(string sp,int Marca)
+        {
+            SqlDataReader leer;
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = sp;
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@IdMarca", Marca);
+            leer = comando.ExecuteReader();
+            comando.Parameters.Clear();
+            return leer;
+        }
+
         //Metodo que ejecuta los stop procedure para poder obtener el id que se requiera
         public int BuscarId(string campo, string sp)
         {
@@ -62,11 +74,12 @@ namespace SpeedToner
             }
 
             conexion.CerrarConexion();
+            leer.Close();
             return id;
         }
 
         #region Servicios
-        public void InsertarServicio(string NumeroFolio,int IdCliente, int IdMarca, string Modelo, string Serie, string Contador, DateTime Fecha, string Tecnico, string Usuario, string Fusor, string ServicioRealizado, string ReporteFalla )
+        public void InsertarServicio(string NumeroFolio,int IdCliente, int IdMarca, int Modelo, string Serie, string Contador, DateTime Fecha, string Tecnico, string Usuario, string Fusor, string ServicioRealizado, string ReporteFalla )
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "AgregarServicio";
@@ -91,7 +104,7 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
-        public void ModificarServicio(string NumeroFolio, int IdCliente, int IdMarca, string Modelo, string Serie, string Contador, DateTime Fecha, string Tecnico, string Usuario, string Fusor, string ServicioRealizado, string ReporteFalla)
+        public void ModificarServicio(string NumeroFolio, int IdCliente, int IdMarca, int Modelo, string Serie, string Contador, DateTime Fecha, string Tecnico, string Usuario, string Fusor, string ServicioRealizado, string ReporteFalla)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "ModificarServicio";
@@ -160,9 +173,9 @@ namespace SpeedToner
         {
             //string NombreArchivo = @"C:\Users\Acer\Documents\Diseño web\" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
             //Se tendra que cambiar cuando se cambie a otra computadora
-            string NombreArchivo = @"C:\Users\DELL PC\Documents\Base de datos\" +"Reporte"+ DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            string NombreArchivo = @"C:\Users\DELL PC\Documents\Base de datos\" + "Reporte" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
             //Lista de las series para evitar que se repitan las series en algunas consultas
-            List<string> Series;
+            List<string> Series = new List<string>();
             FileStream fs = new FileStream(NombreArchivo, FileMode.Create);
             Document document = new Document(PageSize.LETTER);
             document.SetMargins(25f, 25f, 25f, 25f);
@@ -175,7 +188,7 @@ namespace SpeedToner
             var pe = new PageEventHelper();
             pw.PageEvent = pe;
             document.Open();
-            
+
             //Definir el titulo
             document.AddAuthor("Sergio Manuel García");
             document.AddTitle("Reporte de ");
@@ -196,21 +209,93 @@ namespace SpeedToner
 
             iTextSharp.text.Font fontFecha = FontFactory.GetFont("arial", 9);
 
-            Paragraph titulo =  new Paragraph("REPORTE SERVICIO TECNICO " + TipoBusqueda.ToUpper(), fontTitle);
+            Paragraph titulo = new Paragraph("REPORTE SERVICIO TECNICO " + TipoBusqueda.ToUpper(), fontTitle);
             titulo.Alignment = Element.ALIGN_CENTER;
 
 
-            Paragraph Fechas = new Paragraph("FECHA DE INICIO: "+ FechaInicio.ToString("dd/MM/yyyy")+ "       FECHA FINAL: " + FechaFinal.ToString("dd/MM/yyyy"), fontFecha);
+            Paragraph Fechas = new Paragraph("FECHA DE INICIO: " + FechaInicio.ToString("dd/MM/yyyy") + "       FECHA FINAL: " + FechaFinal.ToString("dd/MM/yyyy"), fontFecha);
             Fechas.Alignment = Element.ALIGN_CENTER;
 
             document.Add(titulo);
-            document.Add(Fechas);   
+            document.Add(Fechas);
+            //Tabla para colocar la serie, modelo y la marca
+            
+
+            //Tabla para cuando se requiera hacer reporte por cliente
+            PdfPTable tblCliente = new PdfPTable(4);
+            tblCliente.WidthPercentage = 100;
 
             document.Add(Chunk.NEWLINE);//Salto de linea
             if (reporte.Read())
             {
-                document.Add(new Paragraph("SERIE: " + reporte[4].ToString().ToUpper() + "               " + reporte[2].ToString().ToUpper()  + "           " + reporte[3].ToString().ToUpper(), fontParapraghBold));
-                document.Add(new Paragraph("CLIENTE: " + reporte[1].ToString().ToUpper(), fontParapraghBold));
+                if (TipoBusqueda == "Serie")
+                {
+                    //document.Add(new Paragraph("SERIE: " + reporte[4].ToString().ToUpper() + "               " + reporte[2].ToString().ToUpper() + "           " + reporte[3].ToString().ToUpper(), fontParapraghBold));
+                    //PdfPCell clSerie = new PdfPCell(new Phrase("SERIE:" + reporte[4].ToString().ToUpper(), fontParapraghBold));
+                    //clSerie.BorderWidth = 0;
+                    //clSerie.BorderWidthLeft = .5f;
+                    //clSerie.BorderWidthTop = .5f;
+                    //clSerie.BorderWidthBottom = .5f;
+
+                    //PdfPCell clMarca = new PdfPCell(new Phrase(reporte[2].ToString().ToUpper(), fontParapraghBold));
+                    //clMarca.BorderWidth = 0;
+                    //clMarca.BorderWidthTop = .5f;
+                    //clMarca.BorderWidthBottom = .5f;
+
+                    //PdfPCell clModelo = new PdfPCell(new Phrase(reporte[3].ToString().ToUpper(), fontParapraghBold));
+                    //clModelo.BorderWidth = 0;
+                    //clModelo.BorderWidthRight = .5f;
+                    //clModelo.BorderWidthTop = .5f;
+                    //clModelo.BorderWidthBottom = .5f;
+
+                    //tblSerie.AddCell(clSerie);
+                    //tblSerie.AddCell(clMarca);
+                    //tblSerie.AddCell(clModelo);
+                    //tblSerie.HorizontalAlignment = Element.ALIGN_LEFT;
+                    PdfPTable tblSerie = new PdfPTable(3);
+                    tblSerie.WidthPercentage = 80;
+                    string Serie = reporte[4].ToString();
+                    string Marca = reporte[2].ToString();
+                    string Modelo = reporte[3].ToString();
+                    //Mandamos los nombres de los titulos que tendran las columnas de la tabla
+                    tblSerie = AgregarTablaSerie(Serie, Marca,Modelo);
+                    document.Add(tblSerie);
+                    document.Add(new Paragraph("CLIENTE: " + reporte[1].ToString().ToUpper(), fontParapraghBold));
+                }
+                else if(TipoBusqueda == "Clientes")
+                {
+                    PdfPCell clCliente = new PdfPCell(new Phrase("Cliente", fontParapraghBold));
+                    clCliente.BorderWidth = 0;
+                    clCliente.BorderWidthLeft = .5f;
+                    clCliente.BorderWidthTop = .5f;
+                    clCliente.BorderWidthBottom = .5f;
+
+                    PdfPCell clSerie = new PdfPCell(new Phrase("Serie", fontParapraghBold));
+                    clSerie.BorderWidth = 0;
+                    clSerie.BorderWidthLeft = .5f;
+                    clSerie.BorderWidthTop = .5f;
+                    clSerie.BorderWidthBottom = .5f;
+
+                    PdfPCell clFecha = new PdfPCell(new Phrase("Fecha Servicio", fontParapraghBold));
+                    clFecha.BorderWidth = 0;
+                    clFecha.BorderWidthTop = .5f;
+                    clFecha.BorderWidthBottom = .5f;
+
+                    PdfPCell clFolio = new PdfPCell(new Phrase("Numero Folio",fontParapraghBold));
+                    clFolio.BorderWidth = 0;
+                    clFolio.BorderWidthRight = .5f;
+                    clFolio.BorderWidthTop = .5f;
+                    clFolio.BorderWidthBottom = .5f;
+
+                    tblCliente.AddCell(clCliente);
+                    tblCliente.AddCell(clSerie);
+                    tblCliente.AddCell(clFecha);
+                    tblCliente.AddCell(clFolio);
+
+                    tblCliente.HorizontalAlignment = Element.ALIGN_LEFT;
+                    document.Add(tblCliente);
+                    document.Add(new Paragraph(reporte[1].ToString().ToUpper(), fontParapraghBold));
+                }
             }
             
             //Recorremos el arreglo que nos genero la consulta
@@ -225,16 +310,46 @@ namespace SpeedToner
                     document.Add(Chunk.NEWLINE);//Salto de linea
                     contadorRegistros = 0;
                 }
-                DateTime Fecha = Convert.ToDateTime(reporte[6].ToString());
-                document.Add(new Paragraph("                                 Fecha Servicio:" + Fecha.ToString("dd/MM/yyyy") + "                      "+ reporte[8].ToString().ToUpper() + "                     " + reporte[0].ToString(), fontParapragh));
-                document.Add(new Paragraph("DIAGNOSTICO: " + reporte[11].ToString().ToUpper(), fontParapragh));
-                document.Add(new Paragraph("SERVICIO: " + reporte[10].ToString().ToUpper(), fontParapragh));
-                document.Add(new Paragraph("FUSOR: " + reporte[9].ToString().ToUpper(), fontParapragh));
-                document.Add(new Paragraph("CONTADOR: " + string.Format("{0:n0}", int.Parse(reporte[5].ToString())), fontParapragh));
+                if(TipoBusqueda == "Serie")
+                {
+                    DateTime Fecha = Convert.ToDateTime(reporte[6].ToString());
+                    document.Add(new Paragraph("                                 Fecha Servicio:" + Fecha.ToString("dd/MM/yyyy") + "                      " + reporte[8].ToString().ToUpper() + "                     " + reporte[0].ToString(), fontParapragh));
+                    document.Add(new Paragraph("DIAGNOSTICO: " + reporte[11].ToString().ToUpper(), fontParapragh));
+                    document.Add(new Paragraph("SERVICIO: " + reporte[10].ToString().ToUpper(), fontParapragh));
+                    document.Add(new Paragraph("FUSOR: " + reporte[9].ToString().ToUpper(), fontParapragh));
+                    document.Add(new Paragraph("CONTADOR: " + string.Format("{0:n0}", int.Parse(reporte[5].ToString())), fontParapragh));
 
-                document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
-                
-                //document.Add(Chunk.NEWLINE);//Salto de linea
+                    document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
+                }
+                else if(TipoBusqueda == "Clientes")
+                {
+                    foreach(string serie in Series)
+                    {
+                        if(serie != reporte[4].ToString())
+                        {
+                            PdfPTable tblSerie = new PdfPTable(3);
+                            tblSerie.WidthPercentage = 80;
+                            string Serie = reporte[4].ToString();
+                            string Marca = reporte[2].ToString();
+                            string Modelo = reporte[3].ToString();
+                            //Mandamos los nombres de los titulos que tendran las columnas de la tabla
+                            tblSerie = AgregarTablaSerie(Serie, Marca, Modelo);
+                            document.Add(tblSerie);
+                        }
+                    }
+                    DateTime Fecha = Convert.ToDateTime(reporte[6].ToString());
+                    document.Add(new Paragraph("                                 Fecha Servicio:" + Fecha.ToString("dd/MM/yyyy") + "                      " + reporte[8].ToString().ToUpper() + "                     " + reporte[0].ToString(), fontParapragh));
+                    document.Add(new Paragraph("DIAGNOSTICO: " + reporte[11].ToString().ToUpper(), fontParapragh));
+                    document.Add(new Paragraph("SERVICIO: " + reporte[10].ToString().ToUpper(), fontParapragh));
+                    document.Add(new Paragraph("FUSOR: " + reporte[9].ToString().ToUpper(), fontParapragh));
+                    document.Add(new Paragraph("CONTADOR: " + string.Format("{0:n0}", int.Parse(reporte[5].ToString())), fontParapragh));
+
+                    document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
+                    Series.Add(reporte[4].ToString());
+
+                }
+
+
             }
             document.Close();
 
@@ -245,6 +360,37 @@ namespace SpeedToner
                 UseShellExecute = true
             };
             p.Start();
+        }
+
+        public PdfPTable AgregarTablaSerie(string Serie, string Marca, string Modelo)
+        {
+            iTextSharp.text.Font fontParapraghBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 11, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+
+            PdfPTable tblSerie = new PdfPTable(3);
+            tblSerie.WidthPercentage = 80;
+
+            PdfPCell clSerie = new PdfPCell(new Phrase("SERIE:" + Serie, fontParapraghBold));
+            clSerie.BorderWidth = 0;
+            clSerie.BorderWidthLeft = .5f;
+            clSerie.BorderWidthTop = .5f;
+            clSerie.BorderWidthBottom = .5f;
+
+            PdfPCell clMarca = new PdfPCell(new Phrase(Marca, fontParapraghBold));
+            clMarca.BorderWidth = 0;
+            clMarca.BorderWidthTop = .5f;
+            clMarca.BorderWidthBottom = .5f;
+
+            PdfPCell clModelo = new PdfPCell(new Phrase(Modelo, fontParapraghBold));
+            clModelo.BorderWidth = 0;
+            clModelo.BorderWidthRight = .5f;
+            clModelo.BorderWidthTop = .5f;
+            clModelo.BorderWidthBottom = .5f;
+
+            tblSerie.AddCell(clSerie);
+            tblSerie.AddCell(clMarca);
+            tblSerie.AddCell(clModelo);
+            tblSerie.HorizontalAlignment = Element.ALIGN_LEFT;
+            return tblSerie;
         }
 
         #endregion
@@ -264,7 +410,6 @@ namespace SpeedToner
 
             return leer;
         }
-
         public void InsertarCliente(string Empresa)
         {
             comando.Connection = conexion.AbrirConexion();

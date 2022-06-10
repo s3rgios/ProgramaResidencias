@@ -57,10 +57,10 @@
             this.v = new System.Windows.Forms.Label();
             this.txtUsuario = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.txtModelo = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.txtFusor = new System.Windows.Forms.TextBox();
             this.grpDatos = new System.Windows.Forms.GroupBox();
+            this.cboModelos = new System.Windows.Forms.ComboBox();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.txtBusqueda = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dtgServicios)).BeginInit();
@@ -136,6 +136,7 @@
             this.cboMarca.Name = "cboMarca";
             this.cboMarca.Size = new System.Drawing.Size(341, 29);
             this.cboMarca.TabIndex = 3;
+            this.cboMarca.SelectedIndexChanged += new System.EventHandler(this.cboMarca_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -364,14 +365,6 @@
             this.label11.TabIndex = 30;
             this.label11.Text = "Modelo:";
             // 
-            // txtModelo
-            // 
-            this.txtModelo.Location = new System.Drawing.Point(88, 130);
-            this.txtModelo.Margin = new System.Windows.Forms.Padding(2);
-            this.txtModelo.Name = "txtModelo";
-            this.txtModelo.Size = new System.Drawing.Size(340, 27);
-            this.txtModelo.TabIndex = 4;
-            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -393,13 +386,13 @@
             // grpDatos
             // 
             this.grpDatos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(69)))), ((int)(((byte)(82)))));
+            this.grpDatos.Controls.Add(this.cboModelos);
             this.grpDatos.Controls.Add(this.label2);
             this.grpDatos.Controls.Add(this.label1);
             this.grpDatos.Controls.Add(this.txtFusor);
             this.grpDatos.Controls.Add(this.txtCliente);
             this.grpDatos.Controls.Add(this.label10);
             this.grpDatos.Controls.Add(this.cboClientes);
-            this.grpDatos.Controls.Add(this.txtModelo);
             this.grpDatos.Controls.Add(this.txtNumeroFolio);
             this.grpDatos.Controls.Add(this.label11);
             this.grpDatos.Controls.Add(this.label3);
@@ -428,6 +421,15 @@
             this.grpDatos.TabIndex = 34;
             this.grpDatos.TabStop = false;
             this.grpDatos.Text = "Datos:";
+            // 
+            // cboModelos
+            // 
+            this.cboModelos.FormattingEnabled = true;
+            this.cboModelos.Location = new System.Drawing.Point(87, 125);
+            this.cboModelos.Name = "cboModelos";
+            this.cboModelos.Size = new System.Drawing.Size(341, 29);
+            this.cboModelos.TabIndex = 33;
+            this.cboModelos.SelectedIndexChanged += new System.EventHandler(this.cboModelos_SelectedIndexChanged);
             // 
             // btnCancelar
             // 
@@ -511,11 +513,11 @@
         private Label v;
         private TextBox txtUsuario;
         private Label label11;
-        private TextBox txtModelo;
         private Label label10;
         private TextBox txtFusor;
         private GroupBox grpDatos;
         private Button btnCancelar;
         private TextBox txtBusqueda;
+        private ComboBox cboModelos;
     }
 }
