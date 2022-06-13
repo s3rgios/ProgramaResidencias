@@ -228,8 +228,10 @@ namespace SpeedToner
             }
             txtNumeroFolio.Focus();
 
+            //Limpiamos los combobox
             cboClientes.SelectedIndex = 0;
             cboMarca.SelectedIndex = 0;
+            cboModelos.SelectedIndex = 0;
             dtpFecha.Value = DateTime.Now;
         }
 
