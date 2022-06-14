@@ -59,22 +59,22 @@ namespace SpeedToner
         //Metodo que ejecuta los stop procedure para poder obtener el id que se requiera
         public int BuscarId(string campo, string sp)
         {
-            SqlDataReader leer;
+            SqlDataReader ver;
             int id = 0;
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = sp;
             comando.CommandType = CommandType.StoredProcedure;
             comando.Parameters.AddWithValue("@CampoBusqueda", campo);
-            leer = comando.ExecuteReader();
+            ver = comando.ExecuteReader();
             comando.Parameters.Clear();
 
-            while (leer.Read())
+            while (ver.Read())
             {
-                id = int.Parse(leer[0].ToString());
+                id = int.Parse(ver[0].ToString());
             }
 
             conexion.CerrarConexion();
-            leer.Close();
+            ver.Close();
             return id;
         }
 
@@ -155,6 +155,18 @@ namespace SpeedToner
             return leer;
         }
 
+        public SqlDataReader Buscar(string Serie, string sp)
+        {
+            SqlDataReader leer;
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = sp;
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@NumeroSerie", Serie);
+            leer = comando.ExecuteReader();
+            comando.Parameters.Clear();
+            return leer;
+        }
+
         public void GenerarReporte(DateTime FechaInicio, DateTime FechaFinal, string ParametroBusqueda, string TipoBusqueda)
         {
             comando.Connection = conexion.AbrirConexion();
@@ -219,148 +231,15 @@ namespace SpeedToner
 
             document.Add(titulo);
             document.Add(Fechas);
-            //Tabla para colocar la serie, modelo y la marca
 
 
             //Tabla para cuando se requiera hacer reporte por cliente
             PdfPTable tblCliente = new PdfPTable(4);
             tblCliente.WidthPercentage = 100;
 
-            document.Add(Chunk.NEWLINE);//Salto de linea
-                                        //Este proceso nos quita un registro
+            document.Add(new Paragraph("\n"));
 
-            if (TipoBusqueda == "Serie")
-            {
-                //PdfPTable tblSerie = new PdfPTable(3);
-                //tblSerie.WidthPercentage = 80;
-                //string Serie = reporte[4].ToString();
-                //string Marca = reporte[2].ToString();
-                //string Modelo = reporte[3].ToString();
-                ////Mandamos los nombres de los titulos que tendran las columnas de la tabla
-                //tblSerie = AgregarTablaSerie(Serie, Marca, Modelo);
-                //document.Add(tblSerie);
-                //document.Add(new Paragraph("CLIENTE: " + reporte[1].ToString().ToUpper(), fontParapraghBold));
-
-                while (reporte.Read())
-                {
-                    //Codigo para despues de mostrar 4 registros haga saltos de pagina
-                    contadorRegistros++;
-                    if (contadorRegistros > 4)
-                    {
-                        document.Add(Chunk.NEWLINE);//Salto de linea
-                        document.Add(Chunk.NEWLINE);//Salto de linea
-                        document.Add(Chunk.NEWLINE);//Salto de linea
-                        contadorRegistros = 0;
-                    }
-
-                    if (!Series.Any())
-                    {
-                        PdfPTable tblSerie = new PdfPTable(3);
-                        tblSerie.WidthPercentage = 80;
-                        string Serie = reporte[4].ToString();
-                        string Marca = reporte[2].ToString();
-                        string Modelo = reporte[3].ToString();
-                        //Mandamos los nombres de los titulos que tendran las columnas de la tabla
-                        tblSerie = AgregarTablaSerie(Serie, Marca, Modelo);
-                        document.Add(tblSerie);
-                        document.Add(new Paragraph("CLIENTE: " + reporte[1].ToString().ToUpper(), fontParapraghBold));
-                        Series.Add(reporte[4].ToString());
-                    }
-                    foreach (string serie in Series)
-                    {
-                        if (serie != reporte[4].ToString())
-                        {
-                            nuevaSerie = true;
-                        }
-                        else
-                        {
-                            nuevaSerie = false;
-                        }
-                    }
-                    if (nuevaSerie)
-                    {
-                        PdfPTable tblSerie = new PdfPTable(3);
-                        tblSerie.WidthPercentage = 80;
-                        string Serie = reporte[4].ToString();
-                        string Marca = reporte[2].ToString();
-                        string Modelo = reporte[3].ToString();
-                        //Mandamos los nombres de los titulos que tendran las columnas de la tabla
-                        tblSerie = AgregarTablaSerie(Serie, Marca, Modelo);
-                        document.Add(tblSerie);
-                    }
-                    DateTime Fecha = Convert.ToDateTime(reporte[6].ToString());
-                    document.Add(new Paragraph("                                 Fecha Servicio:" + Fecha.ToString("dd/MM/yyyy") + "                      " + reporte[8].ToString().ToUpper() + "                     " + reporte[0].ToString(), fontParapragh));
-                    document.Add(new Paragraph("DIAGNOSTICO: " + reporte[11].ToString().ToUpper(), fontParapragh));
-                    document.Add(new Paragraph("SERVICIO: " + reporte[10].ToString().ToUpper(), fontParapragh));
-                    document.Add(new Paragraph("FUSOR: " + reporte[9].ToString().ToUpper(), fontParapragh));
-                    document.Add(new Paragraph("CONTADOR: " + string.Format("{0:n0}", int.Parse(reporte[5].ToString())), fontParapragh));
-
-                    document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
-                    Series.Add(reporte[4].ToString());
-
-                    //if (TipoBusqueda == "Serie")
-                    //{
-                    //    DateTime Fecha = Convert.ToDateTime(reporte[6].ToString());
-                    //    document.Add(new Paragraph("                                 Fecha Servicio:" + Fecha.ToString("dd/MM/yyyy") + "                      " + reporte[8].ToString().ToUpper() + "                     " + reporte[0].ToString(), fontParapragh));
-                    //    document.Add(new Paragraph("DIAGNOSTICO: " + reporte[11].ToString().ToUpper(), fontParapragh));
-                    //    document.Add(new Paragraph("SERVICIO: " + reporte[10].ToString().ToUpper(), fontParapragh));
-                    //    document.Add(new Paragraph("FUSOR: " + reporte[9].ToString().ToUpper(), fontParapragh));
-                    //    document.Add(new Paragraph("CONTADOR: " + string.Format("{0:n0}", int.Parse(reporte[5].ToString())), fontParapragh));
-
-                    //    document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
-                    //}
-                    //else if (TipoBusqueda == "Clientes")
-                    //{
-                    //    //Si esta vacia que agregue la primer tabla con la serie, marca y modelo
-                    //    if (!Series.Any())
-                    //    {
-                    //        PdfPTable tblSerie = new PdfPTable(3);
-                    //        tblSerie.WidthPercentage = 80;
-                    //        string Serie = reporte[4].ToString();
-                    //        string Marca = reporte[2].ToString();
-                    //        string Modelo = reporte[3].ToString();
-                    //        //Mandamos los nombres de los titulos que tendran las columnas de la tabla
-                    //        tblSerie = AgregarTablaSerie(Serie, Marca, Modelo);
-                    //        document.Add(tblSerie);
-                    //        Series.Add(reporte[4].ToString());
-                    //    }
-                    //    foreach (string serie in Series)
-                    //    {
-                    //        if (serie != reporte[4].ToString())
-                    //        {
-                    //            nuevaSerie = true;
-                    //        }
-                    //        else
-                    //        {
-                    //            nuevaSerie = false;
-                    //        }
-                    //    }
-                    //    if (nuevaSerie)
-                    //    {
-                    //        PdfPTable tblSerie = new PdfPTable(3);
-                    //        tblSerie.WidthPercentage = 80;
-                    //        string Serie = reporte[4].ToString();
-                    //        string Marca = reporte[2].ToString();
-                    //        string Modelo = reporte[3].ToString();
-                    //        //Mandamos los nombres de los titulos que tendran las columnas de la tabla
-                    //        tblSerie = AgregarTablaSerie(Serie, Marca, Modelo);
-                    //        document.Add(tblSerie);
-                    //    }
-                    //    DateTime Fecha = Convert.ToDateTime(reporte[6].ToString());
-                    //    document.Add(new Paragraph("                                 Fecha Servicio:" + Fecha.ToString("dd/MM/yyyy") + "                      " + reporte[8].ToString().ToUpper() + "                     " + reporte[0].ToString(), fontParapragh));
-                    //    document.Add(new Paragraph("DIAGNOSTICO: " + reporte[11].ToString().ToUpper(), fontParapragh));
-                    //    document.Add(new Paragraph("SERVICIO: " + reporte[10].ToString().ToUpper(), fontParapragh));
-                    //    document.Add(new Paragraph("FUSOR: " + reporte[9].ToString().ToUpper(), fontParapragh));
-                    //    document.Add(new Paragraph("CONTADOR: " + string.Format("{0:n0}", int.Parse(reporte[5].ToString())), fontParapragh));
-
-                    //    document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
-                    //    Series.Add(reporte[4].ToString());
-
-                    //}
-
-                }
-            }
-            else if (TipoBusqueda == "Clientes")
+            if (TipoBusqueda == "Clientes")
             {
                 PdfPCell clCliente = new PdfPCell(new Phrase("Cliente", fontParapraghBold));
                 clCliente.BorderWidth = 0;
@@ -370,7 +249,6 @@ namespace SpeedToner
 
                 PdfPCell clSerie = new PdfPCell(new Phrase("Serie", fontParapraghBold));
                 clSerie.BorderWidth = 0;
-                clSerie.BorderWidthLeft = .5f;
                 clSerie.BorderWidthTop = .5f;
                 clSerie.BorderWidthBottom = .5f;
 
@@ -394,7 +272,7 @@ namespace SpeedToner
                 document.Add(tblCliente);
                 document.Add(new Paragraph(ParametroBusqueda, fontParapraghBold));
             }
-
+            
             //Recorremos el arreglo que nos genero la consulta
             while (reporte.Read())
             {
@@ -402,71 +280,56 @@ namespace SpeedToner
                 contadorRegistros++;
                 if (contadorRegistros > 4)
                 {
-                    document.Add(Chunk.NEWLINE);//Salto de linea
-                    document.Add(Chunk.NEWLINE);//Salto de linea
-                    document.Add(Chunk.NEWLINE);//Salto de linea
+                    document.NewPage();
                     contadorRegistros = 0;
                 }
-                if (TipoBusqueda == "Serie")
+                //Si esta vacia que agregue la primer tabla con la serie, marca y modelo
+                if (!Series.Any())
                 {
-                    DateTime Fecha = Convert.ToDateTime(reporte[6].ToString());
-                    document.Add(new Paragraph("                                 Fecha Servicio:" + Fecha.ToString("dd/MM/yyyy") + "                      " + reporte[8].ToString().ToUpper() + "                     " + reporte[0].ToString(), fontParapragh));
-                    document.Add(new Paragraph("DIAGNOSTICO: " + reporte[11].ToString().ToUpper(), fontParapragh));
-                    document.Add(new Paragraph("SERVICIO: " + reporte[10].ToString().ToUpper(), fontParapragh));
-                    document.Add(new Paragraph("FUSOR: " + reporte[9].ToString().ToUpper(), fontParapragh));
-                    document.Add(new Paragraph("CONTADOR: " + string.Format("{0:n0}", int.Parse(reporte[5].ToString())), fontParapragh));
-
-                    document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
-                }
-                else if (TipoBusqueda == "Clientes")
-                {
-                    //Si esta vacia que agregue la primer tabla con la serie, marca y modelo
-                    if (!Series.Any())
-                    {
-                        PdfPTable tblSerie = new PdfPTable(3);
-                        tblSerie.WidthPercentage = 80;
-                        string Serie = reporte[4].ToString();
-                        string Marca = reporte[2].ToString();
-                        string Modelo = reporte[3].ToString();
-                        //Mandamos los nombres de los titulos que tendran las columnas de la tabla
-                        tblSerie = AgregarTablaSerie(Serie, Marca, Modelo);
-                        document.Add(tblSerie);
-                        Series.Add(reporte[4].ToString());
-                    }
-                    foreach (string serie in Series)
-                    {
-                        if (serie != reporte[4].ToString())
-                        {
-                            nuevaSerie = true;
-                        }
-                        else
-                        {
-                            nuevaSerie = false;
-                        }
-                    }
-                    if (nuevaSerie)
-                    {
-                        PdfPTable tblSerie = new PdfPTable(3);
-                        tblSerie.WidthPercentage = 80;
-                        string Serie = reporte[4].ToString();
-                        string Marca = reporte[2].ToString();
-                        string Modelo = reporte[3].ToString();
-                        //Mandamos los nombres de los titulos que tendran las columnas de la tabla
-                        tblSerie = AgregarTablaSerie(Serie, Marca, Modelo);
-                        document.Add(tblSerie);
-                    }
-                    DateTime Fecha = Convert.ToDateTime(reporte[6].ToString());
-                    document.Add(new Paragraph("                                 Fecha Servicio:" + Fecha.ToString("dd/MM/yyyy") + "                      " + reporte[8].ToString().ToUpper() + "                     " + reporte[0].ToString(), fontParapragh));
-                    document.Add(new Paragraph("DIAGNOSTICO: " + reporte[11].ToString().ToUpper(), fontParapragh));
-                    document.Add(new Paragraph("SERVICIO: " + reporte[10].ToString().ToUpper(), fontParapragh));
-                    document.Add(new Paragraph("FUSOR: " + reporte[9].ToString().ToUpper(), fontParapragh));
-                    document.Add(new Paragraph("CONTADOR: " + string.Format("{0:n0}", int.Parse(reporte[5].ToString())), fontParapragh));
-
-                    document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
+                    PdfPTable tblSerie = new PdfPTable(3);
+                    tblSerie.WidthPercentage = 80;
+                    string Serie = reporte[4].ToString();
+                    string Marca = reporte[2].ToString();
+                    string Modelo = reporte[3].ToString();
+                    //Mandamos los nombres de los titulos que tendran las columnas de la tabla
+                    tblSerie = AgregarTablaSerie(Serie, Marca, Modelo);
+                    document.Add(tblSerie);
                     Series.Add(reporte[4].ToString());
-
                 }
+                foreach (string serie in Series)
+                {
+                    if (serie != reporte[4].ToString())
+                    {
+                        nuevaSerie = true;
+                    }
+                    else
+                    {
+                        nuevaSerie = false;
+                    }
+                }
+                if (nuevaSerie)
+                {
+                    PdfPTable tblSerie = new PdfPTable(3);
+                    tblSerie.WidthPercentage = 80;
+                    string Serie = reporte[4].ToString();
+                    string Marca = reporte[2].ToString();
+                    string Modelo = reporte[3].ToString();
+                    //Mandamos los nombres de los titulos que tendran las columnas de la tabla
+                    tblSerie = AgregarTablaSerie(Serie, Marca, Modelo);
+                    document.Add(tblSerie);
+                }
+                //Colocamos los datos del servicio
+                DateTime Fecha = Convert.ToDateTime(reporte[6].ToString());
+                document.Add(new Paragraph("                                 Fecha Servicio:" + Fecha.ToString("dd/MM/yyyy") + "                      " + reporte[8].ToString().ToUpper() + "                     " + reporte[0].ToString(), fontParapragh));
+                document.Add(new Paragraph("DIAGNOSTICO: " + reporte[11].ToString().ToUpper(), fontParapragh));
+                document.Add(new Paragraph("SERVICIO: " + reporte[10].ToString().ToUpper(), fontParapragh));
+                document.Add(new Paragraph("FUSOR: " + reporte[9].ToString().ToUpper(), fontParapragh));
+                document.Add(new Paragraph("CONTADOR: " + string.Format("{0:n0}", int.Parse(reporte[5].ToString())), fontParapragh));
 
+                document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
+                //Agregamos la serie a la lista
+                Series.Add(reporte[4].ToString());
+                
             }
             document.Close();
 
@@ -479,6 +342,7 @@ namespace SpeedToner
             p.Start();
         }
 
+        //Inserta los titulos de cada Serie en el pdf
         public PdfPTable AgregarTablaSerie(string Serie, string Marca, string Modelo)
         {
             iTextSharp.text.Font fontParapraghBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 11, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
@@ -514,7 +378,7 @@ namespace SpeedToner
 
         #region Clientes
 
-        //Metodo para devolver el cliente dependiendo el Id que tenga
+        //Metodo para devolver el cliente dependiendo el Id que tenga SE PUEDE REUTILIZAR
         public SqlDataReader BuscarCliente(int IdCliente, string sp)
         {
             SqlDataReader leer;
@@ -714,15 +578,16 @@ namespace SpeedToner
 
         #region Equipos
 
-        public void AgregarEquipo(int IdCliente, string Referencia, string Modelo, string Serie, int IdRenta, int Precio, string Fecha_Pago)
+        public void AgregarEquipo(int IdCliente, string Ubicacion,int Marca, int Modelo, string Serie, int IdRenta, int Precio, string Fecha_Pago)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "AgregarEquipo";
             comando.CommandType = CommandType.StoredProcedure;
 
             comando.Parameters.AddWithValue("@IdCliente", IdCliente);
-            comando.Parameters.AddWithValue("@Referencia", Referencia);
-            comando.Parameters.AddWithValue("@Modelo", Modelo);
+            comando.Parameters.AddWithValue("@Ubicacion", Ubicacion);
+            comando.Parameters.AddWithValue("@IdMarca", Marca);
+            comando.Parameters.AddWithValue("@IdModelo", Modelo);
             comando.Parameters.AddWithValue("@Serie", Serie);
             comando.Parameters.AddWithValue("@IdRenta", IdRenta);
             comando.Parameters.AddWithValue("@Precio", Precio);
@@ -734,7 +599,7 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
-        public void ModificarEquipo(int Id, int IdCliente, string Referencia, string Modelo, string Serie, int IdRenta, int Precio, string Fecha_Pago)
+        public void ModificarEquipo(int Id, int IdCliente, string Ubicacion,int Marca, int Modelo, string Serie, int IdRenta, int Precio, string Fecha_Pago)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "ModificarEquipo";
@@ -742,8 +607,9 @@ namespace SpeedToner
 
             comando.Parameters.AddWithValue("@Id", Id);
             comando.Parameters.AddWithValue("@IdCliente", IdCliente);
-            comando.Parameters.AddWithValue("@Referencia", Referencia);
-            comando.Parameters.AddWithValue("@Modelo", Modelo);
+            comando.Parameters.AddWithValue("@Ubicacion", Ubicacion);
+            comando.Parameters.AddWithValue("@IdMarca", Marca);
+            comando.Parameters.AddWithValue("@IdModelo", Modelo);
             comando.Parameters.AddWithValue("@Serie", Serie);
             comando.Parameters.AddWithValue("@IdRenta", IdRenta);
             comando.Parameters.AddWithValue("@Precio", Precio);

@@ -42,9 +42,9 @@ namespace SpeedToner
 
             //Agregamos opciones a los combobox
             AgregarOpcionesMostrar();
-            LlenarComboBox(cboClientes, "SeleccionarClientes", 1,0);
-            LlenarComboBox(cboMarca, "SeleccionarMarca", 1,0);
-            LlenarComboBox(cboModelos, "SeleccionarModelos", 2,2);
+            LlenarComboBox(cboClientes, "SeleccionarClientes",0);
+            LlenarComboBox(cboMarca, "SeleccionarMarca",0);
+            LlenarComboBox(cboModelos, "SeleccionarModelos",2);
 
             //Denegar escritura en combobox
             cboMarca.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -236,7 +236,7 @@ namespace SpeedToner
         }
 
         //Metodo que ayuda a llenar los combobox dependiendo el stop procedure que se ejecute
-        public void LlenarComboBox(ComboBox cb, string sp, int indice,int Marca)
+        public void LlenarComboBox(ComboBox cb, string sp,int Marca)
         {
             SqlDataReader dr;
             cb.Items.Clear();
@@ -253,7 +253,7 @@ namespace SpeedToner
             while (dr.Read())
             {
                 //Agregamos las opciones dependiendo los registros que nos devolvieron
-                cb.Items.Add(dr[indice].ToString());
+                cb.Items.Add(dr[0].ToString());
             }
             
             //Agregamos un espacio en blanco y lo asignamos como opcion por defecto
@@ -330,6 +330,24 @@ namespace SpeedToner
             rtxtServicio.Text = dtgServicios.CurrentRow.Cells[10].Value.ToString();
             rtxtFallas.Text = dtgServicios.CurrentRow.Cells[11].Value.ToString();
         }
+
+        private void cboMostrar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Habilitamos el boton para poder mostrarlo
+            btnMostrar.Enabled = true;
+        }
+
+        //Se llenara el combo box modelos dependiendo la marca que se seleccione
+        private void cboMarca_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //En dado caso que se haya seleccionado algo de las marcas
+            if (cboMarca.SelectedItem.ToString() != " ")
+            {
+                int IdMarca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
+                LlenarComboBox(cboModelos, "SeleccionarModelos", IdMarca);
+            }
+
+        }
         #endregion
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -364,25 +382,14 @@ namespace SpeedToner
 
         }
 
-        private void cboMostrar_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //Habilitamos el boton para poder mostrarlo
-            btnMostrar.Enabled = true;
-        }
 
         private void cboModelos_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void cboMarca_SelectedIndexChanged(object sender, EventArgs e)
+        private void txtBusqueda_TextChanged(object sender, EventArgs e)
         {
-            //En dado caso que se haya seleccionado algo de las marcas
-            if (cboMarca.SelectedItem.ToString() != " ")
-            {
-                int IdMarca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
-                LlenarComboBox(cboModelos, "SeleccionarModelos", 2, IdMarca);
-            }
 
         }
     }

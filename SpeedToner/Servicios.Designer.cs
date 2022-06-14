@@ -452,6 +452,7 @@
             this.txtBusqueda.Name = "txtBusqueda";
             this.txtBusqueda.Size = new System.Drawing.Size(196, 27);
             this.txtBusqueda.TabIndex = 33;
+            this.txtBusqueda.TextChanged += new System.EventHandler(this.txtBusqueda_TextChanged);
             // 
             // Servicios
             // 

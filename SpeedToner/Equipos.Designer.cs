@@ -29,11 +29,13 @@
         private void InitializeComponent()
         {
             this.grpDatos = new System.Windows.Forms.GroupBox();
+            this.cboMarcas = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cboModelos = new System.Windows.Forms.ComboBox();
             this.txtReferencia = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cboTipoRenta = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtModelo = new System.Windows.Forms.TextBox();
             this.txtFechaPago = new System.Windows.Forms.TextBox();
             this.txtPrecio = new System.Windows.Forms.TextBox();
             this.txtSerie = new System.Windows.Forms.TextBox();
@@ -47,17 +49,21 @@
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.btnBuscar = new System.Windows.Forms.Button();
+            this.txtSerieBusqueda = new System.Windows.Forms.TextBox();
             this.grpDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEquipos)).BeginInit();
             this.SuspendLayout();
             // 
             // grpDatos
             // 
+            this.grpDatos.Controls.Add(this.cboMarcas);
+            this.grpDatos.Controls.Add(this.label8);
+            this.grpDatos.Controls.Add(this.cboModelos);
             this.grpDatos.Controls.Add(this.txtReferencia);
             this.grpDatos.Controls.Add(this.label7);
             this.grpDatos.Controls.Add(this.cboTipoRenta);
             this.grpDatos.Controls.Add(this.label6);
-            this.grpDatos.Controls.Add(this.txtModelo);
             this.grpDatos.Controls.Add(this.txtFechaPago);
             this.grpDatos.Controls.Add(this.txtPrecio);
             this.grpDatos.Controls.Add(this.txtSerie);
@@ -75,6 +81,38 @@
             this.grpDatos.TabIndex = 0;
             this.grpDatos.TabStop = false;
             this.grpDatos.Text = "Datos:";
+            // 
+            // cboMarcas
+            // 
+            this.cboMarcas.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboMarcas.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboMarcas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMarcas.FormattingEnabled = true;
+            this.cboMarcas.Location = new System.Drawing.Point(86, 124);
+            this.cboMarcas.Name = "cboMarcas";
+            this.cboMarcas.Size = new System.Drawing.Size(482, 29);
+            this.cboMarcas.TabIndex = 16;
+            this.cboMarcas.SelectedIndexChanged += new System.EventHandler(this.cboMarcas_SelectedIndexChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(7, 127);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(66, 21);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "Marca:";
+            // 
+            // cboModelos
+            // 
+            this.cboModelos.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboModelos.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboModelos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboModelos.FormattingEnabled = true;
+            this.cboModelos.Location = new System.Drawing.Point(86, 169);
+            this.cboModelos.Name = "cboModelos";
+            this.cboModelos.Size = new System.Drawing.Size(482, 29);
+            this.cboModelos.TabIndex = 14;
             // 
             // txtReferencia
             // 
@@ -109,18 +147,11 @@
             this.label6.TabIndex = 11;
             this.label6.Text = "Tipo renta:";
             // 
-            // txtModelo
-            // 
-            this.txtModelo.Location = new System.Drawing.Point(83, 127);
-            this.txtModelo.Name = "txtModelo";
-            this.txtModelo.Size = new System.Drawing.Size(485, 27);
-            this.txtModelo.TabIndex = 3;
-            // 
             // txtFechaPago
             // 
-            this.txtFechaPago.Location = new System.Drawing.Point(148, 205);
+            this.txtFechaPago.Location = new System.Drawing.Point(732, 166);
             this.txtFechaPago.Name = "txtFechaPago";
-            this.txtFechaPago.Size = new System.Drawing.Size(420, 27);
+            this.txtFechaPago.Size = new System.Drawing.Size(340, 27);
             this.txtFechaPago.TabIndex = 5;
             // 
             // txtPrecio
@@ -132,7 +163,7 @@
             // 
             // txtSerie
             // 
-            this.txtSerie.Location = new System.Drawing.Point(63, 169);
+            this.txtSerie.Location = new System.Drawing.Point(63, 217);
             this.txtSerie.Name = "txtSerie";
             this.txtSerie.Size = new System.Drawing.Size(505, 27);
             this.txtSerie.TabIndex = 4;
@@ -151,7 +182,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 211);
+            this.label5.Location = new System.Drawing.Point(591, 169);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(135, 21);
             this.label5.TabIndex = 4;
@@ -169,7 +200,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 175);
+            this.label3.Location = new System.Drawing.Point(7, 223);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(50, 21);
             this.label3.TabIndex = 2;
@@ -178,7 +209,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 133);
+            this.label2.Location = new System.Drawing.Point(7, 172);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 21);
             this.label2.TabIndex = 1;
@@ -233,11 +264,30 @@
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
+            // btnBuscar
+            // 
+            this.btnBuscar.Location = new System.Drawing.Point(605, 318);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(92, 29);
+            this.btnBuscar.TabIndex = 5;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // txtSerieBusqueda
+            // 
+            this.txtSerieBusqueda.Location = new System.Drawing.Point(414, 318);
+            this.txtSerieBusqueda.Name = "txtSerieBusqueda";
+            this.txtSerieBusqueda.Size = new System.Drawing.Size(185, 27);
+            this.txtSerieBusqueda.TabIndex = 6;
+            // 
             // Equipos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1172, 750);
+            this.Controls.Add(this.txtSerieBusqueda);
+            this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnGuardar);
@@ -252,6 +302,7 @@
             this.grpDatos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEquipos)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -268,7 +319,6 @@
         private Label label2;
         private Label label1;
         private DataGridView dtgEquipos;
-        private TextBox txtModelo;
         private ComboBox cboTipoRenta;
         private Label label6;
         private Button btnGuardar;
@@ -276,5 +326,10 @@
         private Button btnCancelar;
         private TextBox txtReferencia;
         private Label label7;
+        private ComboBox cboMarcas;
+        private Label label8;
+        private ComboBox cboModelos;
+        private Button btnBuscar;
+        private TextBox txtSerieBusqueda;
     }
 }

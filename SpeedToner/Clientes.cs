@@ -48,7 +48,7 @@ namespace SpeedToner
         public void MostrarDatosClientes()
         {  
             DataTable tabla = new DataTable();
-            tabla = objetoCN.Mostrar("SeleccionarClientes");
+            tabla = objetoCN.Mostrar("MostrarClientes");
             dtgClientes.DataSource = tabla;
         }
 
