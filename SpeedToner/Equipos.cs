@@ -20,7 +20,9 @@ namespace SpeedToner
 
         //Sabremos si estamos modificando o agregando
         private bool Modificando = false;
+        private bool Buscando = false;
         int Id;
+        string TipoBusqueda = "";
 
         public Equipos()
         {
@@ -40,7 +42,8 @@ namespace SpeedToner
             LlenarComboBox(cboClientes, "SeleccionarClientes",0);
             LlenarComboBox(cboTipoRenta, "SeleccionarTipoRenta",0);
             LlenarComboBox(cboMarcas, "SeleccionarMarca", 0);
-            LlenarComboBox(cboModelos, "SeleccionarModelos", 2);
+            LlenarComboBox(cboModelos, "SeleccionarModelos", 0);
+
 
             //Llenamos el datagridview
             Mostrar("MostrarEquipos");
@@ -54,6 +57,7 @@ namespace SpeedToner
         {
             btnEliminar.Enabled = Desactivado;
             btnCancelar.Enabled = Desactivado;
+            btnMostrar.Enabled = Desactivado;
         }
 
         public void PropiedadesDtg()
@@ -240,9 +244,10 @@ namespace SpeedToner
         private void cboMarcas_SelectedIndexChanged(object sender, EventArgs e)
         {
             //En dado caso que se haya seleccionado algo de las marcas
-            if (cboMarcas.SelectedItem.ToString() != " ")
+            if (cboMarcas.SelectedItem.ToString() != " " && Buscando == false)
             {
                 int IdMarca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
+                //Se llenara de acuerdo a la marca que se haya escogido
                 LlenarComboBox(cboModelos, "SeleccionarModelos", IdMarca);
             }
         }
@@ -250,7 +255,7 @@ namespace SpeedToner
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             SqlDataReader dr = objetoCN.Buscar(txtSerieBusqueda.Text,"BuscarSerie");
-
+            Buscando = true;
             if (dr.Read())
             {
                 cboClientes.SelectedItem = (dr[1].ToString());
@@ -271,6 +276,46 @@ namespace SpeedToner
             dr.Close();
             cn.CerrarConexion();
             txtSerieBusqueda.Text = "";
+            Buscando = false;
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnMostrar.Enabled = true;
+            TipoBusqueda = cboMostrar.SelectedItem.ToString();
+            switch (TipoBusqueda)
+            {
+                case "Cliente": LlenarComboBox(cboBusqueda, "SeleccionarClientes", 0); break;
+                case "Marca": LlenarComboBox(cboBusqueda, "SeleccionarMarca", 0); break;
+                case "Modelo": LlenarComboBox(cboBusqueda, "SeleccionarModelos", 0); break;
+            }
+        }
+
+        public void MostrarComboBox(ComboBox cb, string TipoBusqueda)
+        {
+            txtDato.Visible = false;
+            cb.Visible = true;
+            switch (TipoBusqueda)
+            {
+                case "Clientes":  break;
+            }
+            LlenarComboBox(cboBusqueda, "SeleccionarClientes", 0);
+            LlenarComboBox(cboTipoRenta, "SeleccionarTipoRenta", 0);
+            LlenarComboBox(cboMarcas, "SeleccionarMarca", 0);
+        }
+
+        private void btnMostrar_Click(object sender, EventArgs e)
+        {
+            //Limpiamos los datos del datagridview
+            dtgEquipos.DataSource = null;
+            dtgEquipos.Refresh();
+            DataTable tabla = new DataTable();
+            //Guardamos los registros dependiendo la consulta
+            tabla = objetoCN.OrdenarEquipos(cboBusqueda.SelectedItem.ToString());
+            //Asignamos los registros que optuvimos al datagridview
+            dtgEquipos.DataSource = tabla;
+            cboMostrar.SelectedIndex = 0;
+            cboBusqueda.SelectedIndex = 0;
         }
     }
 }

@@ -36,6 +36,8 @@
             this.btnEliminar = new System.Windows.Forms.Button();
             this.dtgCartuchos = new System.Windows.Forms.DataGridView();
             this.grpDatosInventario = new System.Windows.Forms.GroupBox();
+            this.cboMarca = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.lblRestarBodega = new System.Windows.Forms.Label();
             this.btnRestar = new System.Windows.Forms.Button();
             this.txtRestanteBodega = new System.Windows.Forms.TextBox();
@@ -90,7 +92,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 35);
+            this.label2.Location = new System.Drawing.Point(7, 67);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(150, 21);
             this.label2.TabIndex = 2;
@@ -98,14 +100,14 @@
             // 
             // txtOficina
             // 
-            this.txtOficina.Location = new System.Drawing.Point(169, 66);
+            this.txtOficina.Location = new System.Drawing.Point(169, 104);
             this.txtOficina.Name = "txtOficina";
             this.txtOficina.Size = new System.Drawing.Size(294, 27);
             this.txtOficina.TabIndex = 2;
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(17, 237);
+            this.btnGuardar.Location = new System.Drawing.Point(17, 257);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(114, 43);
             this.btnGuardar.TabIndex = 14;
@@ -115,7 +117,7 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(137, 237);
+            this.btnEliminar.Location = new System.Drawing.Point(137, 257);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(114, 43);
             this.btnEliminar.TabIndex = 16;
@@ -126,7 +128,7 @@
             // dtgCartuchos
             // 
             this.dtgCartuchos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgCartuchos.Location = new System.Drawing.Point(17, 286);
+            this.dtgCartuchos.Location = new System.Drawing.Point(17, 306);
             this.dtgCartuchos.Name = "dtgCartuchos";
             this.dtgCartuchos.RowTemplate.Height = 25;
             this.dtgCartuchos.Size = new System.Drawing.Size(1148, 326);
@@ -135,6 +137,8 @@
             // 
             // grpDatosInventario
             // 
+            this.grpDatosInventario.Controls.Add(this.cboMarca);
+            this.grpDatosInventario.Controls.Add(this.label3);
             this.grpDatosInventario.Controls.Add(this.lblRestarBodega);
             this.grpDatosInventario.Controls.Add(this.btnRestar);
             this.grpDatosInventario.Controls.Add(this.txtRestanteBodega);
@@ -148,10 +152,33 @@
             this.grpDatosInventario.Controls.Add(this.txtOficina);
             this.grpDatosInventario.Location = new System.Drawing.Point(9, 16);
             this.grpDatosInventario.Name = "grpDatosInventario";
-            this.grpDatosInventario.Size = new System.Drawing.Size(1050, 154);
+            this.grpDatosInventario.Size = new System.Drawing.Size(1050, 183);
             this.grpDatosInventario.TabIndex = 19;
             this.grpDatosInventario.TabStop = false;
             this.grpDatosInventario.Text = "Datos";
+            // 
+            // cboMarca
+            // 
+            this.cboMarca.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboMarca.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboMarca.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMarca.FormattingEnabled = true;
+            this.cboMarca.Location = new System.Drawing.Point(169, 24);
+            this.cboMarca.Margin = new System.Windows.Forms.Padding(2);
+            this.cboMarca.Name = "cboMarca";
+            this.cboMarca.Size = new System.Drawing.Size(294, 29);
+            this.cboMarca.Sorted = true;
+            this.cboMarca.TabIndex = 33;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(91, 27);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(66, 21);
+            this.label3.TabIndex = 32;
+            this.label3.Text = "Marca:";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // lblRestarBodega
             // 
@@ -183,14 +210,14 @@
             // 
             // txtModelo
             // 
-            this.txtModelo.Location = new System.Drawing.Point(169, 29);
+            this.txtModelo.Location = new System.Drawing.Point(169, 64);
             this.txtModelo.Name = "txtModelo";
             this.txtModelo.Size = new System.Drawing.Size(294, 27);
             this.txtModelo.TabIndex = 1;
             // 
             // txtBodega
             // 
-            this.txtBodega.Location = new System.Drawing.Point(170, 99);
+            this.txtBodega.Location = new System.Drawing.Point(170, 137);
             this.txtBodega.Name = "txtBodega";
             this.txtBodega.Size = new System.Drawing.Size(293, 27);
             this.txtBodega.TabIndex = 3;
@@ -198,7 +225,7 @@
             // lblBodega
             // 
             this.lblBodega.AutoSize = true;
-            this.lblBodega.Location = new System.Drawing.Point(6, 107);
+            this.lblBodega.Location = new System.Drawing.Point(6, 137);
             this.lblBodega.Name = "lblBodega";
             this.lblBodega.Size = new System.Drawing.Size(157, 21);
             this.lblBodega.TabIndex = 25;
@@ -207,7 +234,7 @@
             // lblOficina
             // 
             this.lblOficina.AutoSize = true;
-            this.lblOficina.Location = new System.Drawing.Point(6, 69);
+            this.lblOficina.Location = new System.Drawing.Point(6, 104);
             this.lblOficina.Name = "lblOficina";
             this.lblOficina.Size = new System.Drawing.Size(151, 21);
             this.lblOficina.TabIndex = 24;
@@ -215,7 +242,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(257, 237);
+            this.btnCancelar.Location = new System.Drawing.Point(257, 257);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(114, 43);
             this.btnCancelar.TabIndex = 20;
@@ -230,7 +257,7 @@
             this.tabControl1.Location = new System.Drawing.Point(17, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1070, 219);
+            this.tabControl1.Size = new System.Drawing.Size(1070, 239);
             this.tabControl1.TabIndex = 25;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -240,7 +267,7 @@
             this.tab_Inventario.Location = new System.Drawing.Point(4, 30);
             this.tab_Inventario.Name = "tab_Inventario";
             this.tab_Inventario.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Inventario.Size = new System.Drawing.Size(1062, 185);
+            this.tab_Inventario.Size = new System.Drawing.Size(1062, 205);
             this.tab_Inventario.TabIndex = 0;
             this.tab_Inventario.Text = "Inventario";
             this.tab_Inventario.UseVisualStyleBackColor = true;
@@ -251,7 +278,7 @@
             this.Registro.Location = new System.Drawing.Point(4, 24);
             this.Registro.Name = "Registro";
             this.Registro.Padding = new System.Windows.Forms.Padding(3);
-            this.Registro.Size = new System.Drawing.Size(1062, 191);
+            this.Registro.Size = new System.Drawing.Size(1062, 211);
             this.Registro.TabIndex = 1;
             this.Registro.Text = "Registros";
             this.Registro.UseVisualStyleBackColor = true;
@@ -401,14 +428,14 @@
             // 
             // txtBusqueda
             // 
-            this.txtBusqueda.Location = new System.Drawing.Point(411, 247);
+            this.txtBusqueda.Location = new System.Drawing.Point(411, 273);
             this.txtBusqueda.Name = "txtBusqueda";
             this.txtBusqueda.Size = new System.Drawing.Size(205, 27);
             this.txtBusqueda.TabIndex = 26;
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(622, 240);
+            this.btnBuscar.Location = new System.Drawing.Point(622, 268);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(100, 37);
             this.btnBuscar.TabIndex = 27;
@@ -484,5 +511,7 @@
         private Button btnRestar;
         private TextBox txtRestanteBodega;
         private Label lblRestarBodega;
+        private Label label3;
+        private ComboBox cboMarca;
     }
 }

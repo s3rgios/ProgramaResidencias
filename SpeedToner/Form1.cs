@@ -64,19 +64,18 @@ namespace SpeedToner
             SendMessage(this.Handle, 0x112, 0xf012, 0);
         }
 
-        //Mostrar interfaz de los reportes de los servicios
+        //ABRIENDO LAS INTERFACES
+
         private void btnServicios_Click(object sender, EventArgs e)
         {
             AbrirForm(new Servicios());
         }
 
-        //Mostrar interfaz de los clientes
         private void btnClientes_Click(object sender, EventArgs e)
         {
             AbrirForm(new Clientes());
         }
 
-        //Mostrar interfaz del inventario
         private void btnInventario_Click(object sender, EventArgs e)
         {
             AbrirForm(new Inventario());

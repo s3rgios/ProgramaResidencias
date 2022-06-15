@@ -68,7 +68,7 @@ namespace SpeedToner
             cboOpcionReporte.DropDownStyle = ComboBoxStyle.DropDownList;
 
             //Llenamos nuestro combobox de Clientes
-            LlenarComboBox(cboClientes, "SeleccionarClientes", 1);
+            LlenarComboBox(cboClientes, "SeleccionarClientes", 0);
         }
         #endregion
 

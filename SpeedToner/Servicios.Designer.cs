@@ -63,6 +63,7 @@
             this.cboModelos = new System.Windows.Forms.ComboBox();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.txtBusqueda = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtgServicios)).BeginInit();
             this.grpDatos.SuspendLayout();
             this.SuspendLayout();
@@ -293,10 +294,10 @@
             // 
             this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
             this.btnBuscar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnBuscar.Location = new System.Drawing.Point(586, 315);
+            this.btnBuscar.Location = new System.Drawing.Point(586, 318);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(2);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(112, 51);
+            this.btnBuscar.Size = new System.Drawing.Size(112, 52);
             this.btnBuscar.TabIndex = 23;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = false;
@@ -305,7 +306,7 @@
             // btnMostrar
             // 
             this.btnMostrar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnMostrar.Location = new System.Drawing.Point(855, 315);
+            this.btnMostrar.Location = new System.Drawing.Point(908, 315);
             this.btnMostrar.Margin = new System.Windows.Forms.Padding(2);
             this.btnMostrar.Name = "btnMostrar";
             this.btnMostrar.Size = new System.Drawing.Size(112, 52);
@@ -317,7 +318,7 @@
             // btnReporte
             // 
             this.btnReporte.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnReporte.Location = new System.Drawing.Point(971, 316);
+            this.btnReporte.Location = new System.Drawing.Point(1043, 316);
             this.btnReporte.Margin = new System.Windows.Forms.Padding(2);
             this.btnReporte.Name = "btnReporte";
             this.btnReporte.Size = new System.Drawing.Size(112, 51);
@@ -333,7 +334,7 @@
             this.cboMostrar.Location = new System.Drawing.Point(728, 331);
             this.cboMostrar.Margin = new System.Windows.Forms.Padding(2);
             this.cboMostrar.Name = "cboMostrar";
-            this.cboMostrar.Size = new System.Drawing.Size(108, 29);
+            this.cboMostrar.Size = new System.Drawing.Size(176, 29);
             this.cboMostrar.TabIndex = 27;
             this.cboMostrar.SelectedIndexChanged += new System.EventHandler(this.cboMostrar_SelectedIndexChanged);
             // 
@@ -447,12 +448,23 @@
             // txtBusqueda
             // 
             this.txtBusqueda.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtBusqueda.Location = new System.Drawing.Point(386, 331);
+            this.txtBusqueda.Location = new System.Drawing.Point(386, 342);
             this.txtBusqueda.Margin = new System.Windows.Forms.Padding(2);
             this.txtBusqueda.Name = "txtBusqueda";
             this.txtBusqueda.Size = new System.Drawing.Size(196, 27);
             this.txtBusqueda.TabIndex = 33;
             this.txtBusqueda.TextChanged += new System.EventHandler(this.txtBusqueda_TextChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label12.Location = new System.Drawing.Point(386, 317);
+            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(139, 21);
+            this.label12.TabIndex = 36;
+            this.label12.Text = "Número de Folio:";
             // 
             // Servicios
             // 
@@ -460,6 +472,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(69)))), ((int)(((byte)(82)))));
             this.ClientSize = new System.Drawing.Size(1172, 749);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.txtBusqueda);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.grpDatos);
@@ -520,5 +533,6 @@
         private Button btnCancelar;
         private TextBox txtBusqueda;
         private ComboBox cboModelos;
+        private Label label12;
     }
 }

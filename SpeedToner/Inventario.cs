@@ -46,8 +46,9 @@ namespace SpeedToner
             ControlesDesactivados(false, true);
 
             //Agregamos opciones que estan en la base de datos
-            LlenarComboBox(cboClientes, "SeleccionarClientes", 1);
-            LlenarComboBox(cboModelos, "SeleccionarCartuchos", 1);
+            LlenarComboBox(cboClientes, "SeleccionarClientes", 0);
+            //LlenarComboBox(cboModelos, "SeleccionarCartuchos", 0);
+            LlenarComboBox(cboMarca, "SeleccionarMarca", 0);
 
 
             //Denegar escritura en combobox
@@ -138,6 +139,7 @@ namespace SpeedToner
                 if (inventario)
                 {
                     string Modelo = txtModelo.Text;
+                    int Marca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
                     string CantidadOficina = txtOficina.Text;
                     string CantidadBodega = txtBodega.Text;
                     if (Modificando)
@@ -149,11 +151,11 @@ namespace SpeedToner
                             LimpiarForm();
                             return;
                         }
-                        objetoCN.ModificarRegistroInventario(Id, Modelo, CantidadOficina, CantidadBodega);
+                        objetoCN.ModificarRegistroInventario(Id, Modelo, Marca, CantidadOficina, CantidadBodega);
                     }
                     else
                     {
-                        objetoCN.AñadirRegistroInventario(Modelo, CantidadOficina, CantidadBodega);
+                        objetoCN.AñadirRegistroInventario(Modelo, Marca, CantidadOficina, CantidadBodega);
                     }
                     Mostrar("MostrarInventario");
                     LimpiarForm();
@@ -262,11 +264,11 @@ namespace SpeedToner
             {
                 //Agregamos las opciones dependiendo los registros que nos devolvieron
                 txtModelo.Text = (dr[0].ToString());
-                txtOficina.Text = (dr[1].ToString());
-                txtBodega.Text = (dr[2].ToString());
-                dtpFecha.Value = Convert.ToDateTime(dr[3].ToString());
+                cboMarca.SelectedItem = (dr[1].ToString());
+                txtOficina.Text = dr[2].ToString();
+                txtBodega.Text = (dr[3].ToString());
+                dtpFecha.Value = Convert.ToDateTime(dr[4].ToString());
             }
-
             dr.Close();
             cn.CerrarConexion();
         }
@@ -281,8 +283,7 @@ namespace SpeedToner
         //Metodo para reiniciar todos los controles para una posible nueva insercion, modificacion o eliminacion
         private void LimpiarForm()
         {
-            foreach (Control c in 
-                grpDatosInventario.Controls)
+            foreach (Control c in grpDatosInventario.Controls)
             {
                 if (c is TextBox)
                 {
@@ -313,7 +314,7 @@ namespace SpeedToner
 
             //Para poder decir al sistema que vamos a modificar y no agregar algo al inventario al dar clic a agregar
             Modificando = true;
-            
+
             //Asignacion a los controles
             if (inventario)//En caso de ser verdadero se asignaran a los datos para el inventario
             {
@@ -335,11 +336,11 @@ namespace SpeedToner
         }
 
         //Muestra el inventario 
-        
+
         //Evento que nos ayudara a saber cuando se realizan acciones en el inventario o en el registro del mismo
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(tabControl1.SelectedTab == tab_Inventario)
+            if (tabControl1.SelectedTab == tab_Inventario)
             {
                 Mostrar("MostrarInventario");
                 inventario = true;
@@ -347,13 +348,17 @@ namespace SpeedToner
             else
             {
                 Mostrar("VerRegistroInventario");
-                inventario=false;
+                inventario = false;
                 Modificando = false;
             }
         }
+
+
         #endregion
 
-        
+        private void label3_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 }

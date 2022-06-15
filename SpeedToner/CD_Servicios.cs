@@ -435,13 +435,14 @@ namespace SpeedToner
 
         #region Inventario
 
-        public void AñadirRegistroInventario(string cartucho, string Oficina, string Bodega)
+        public void AñadirRegistroInventario(string cartucho, int Marca,string Oficina, string Bodega)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "AñadirInventario";
             comando.CommandType = CommandType.StoredProcedure;
 
-            comando.Parameters.AddWithValue("@Nombre", cartucho);
+            comando.Parameters.AddWithValue("@Modelo", cartucho);
+            comando.Parameters.AddWithValue("@IdMarca", Marca);
             comando.Parameters.AddWithValue("@CantidadOficina", int.Parse(Oficina));
             comando.Parameters.AddWithValue("@CantidadBodega", int.Parse(Bodega));
 
@@ -452,14 +453,15 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
-        public void ModificarRegistroInventario(int Id, string cartucho, string Oficina, string Bodega)
+        public void ModificarRegistroInventario(int Id, string cartucho,int Marca, string Oficina, string Bodega)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "ModificarInventario";
             comando.CommandType = CommandType.StoredProcedure;
-
+            
             comando.Parameters.AddWithValue("@Id", Id);
-            comando.Parameters.AddWithValue("@Nombre", cartucho);
+            comando.Parameters.AddWithValue("@Modelo", cartucho);
+            comando.Parameters.AddWithValue("@IdMarca", Marca);
             comando.Parameters.AddWithValue("@CantidadOficina", int.Parse(Oficina));
             comando.Parameters.AddWithValue("@CantidadBodega", int.Parse(Bodega));
 
@@ -630,6 +632,21 @@ namespace SpeedToner
             comando.ExecuteNonQuery();
             comando.Parameters.Clear();
             conexion.CerrarConexion();
+        }
+
+        public DataTable OrdenarEquipos(string ParametroBusqueda)
+        {
+            DataTable tabla = new DataTable();
+            SqlDataReader leer;
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "OrdenarEquipos";
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@ParametroBusqueda", ParametroBusqueda);
+            leer = comando.ExecuteReader();
+            comando.Parameters.Clear();
+            tabla.Load(leer);
+            conexion.CerrarConexion();
+            return tabla;
         }
 
         #endregion

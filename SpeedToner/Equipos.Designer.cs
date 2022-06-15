@@ -51,6 +51,12 @@
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.txtSerieBusqueda = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cboMostrar = new System.Windows.Forms.ComboBox();
+            this.btnMostrar = new System.Windows.Forms.Button();
+            this.txtDato = new System.Windows.Forms.TextBox();
+            this.cboBusqueda = new System.Windows.Forms.ComboBox();
             this.grpDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEquipos)).BeginInit();
             this.SuspendLayout();
@@ -77,7 +83,7 @@
             this.grpDatos.Margin = new System.Windows.Forms.Padding(4);
             this.grpDatos.Name = "grpDatos";
             this.grpDatos.Padding = new System.Windows.Forms.Padding(4);
-            this.grpDatos.Size = new System.Drawing.Size(1146, 284);
+            this.grpDatos.Size = new System.Drawing.Size(1146, 252);
             this.grpDatos.TabIndex = 0;
             this.grpDatos.TabStop = false;
             this.grpDatos.Text = "Datos:";
@@ -236,7 +242,7 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(20, 304);
+            this.btnGuardar.Location = new System.Drawing.Point(13, 272);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(111, 43);
             this.btnGuardar.TabIndex = 2;
@@ -246,7 +252,7 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(137, 304);
+            this.btnEliminar.Location = new System.Drawing.Point(130, 272);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(111, 43);
             this.btnEliminar.TabIndex = 3;
@@ -256,7 +262,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(254, 304);
+            this.btnCancelar.Location = new System.Drawing.Point(247, 272);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(111, 43);
             this.btnCancelar.TabIndex = 4;
@@ -266,7 +272,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(605, 318);
+            this.btnBuscar.Location = new System.Drawing.Point(625, 280);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(92, 29);
             this.btnBuscar.TabIndex = 5;
@@ -276,16 +282,85 @@
             // 
             // txtSerieBusqueda
             // 
-            this.txtSerieBusqueda.Location = new System.Drawing.Point(414, 318);
+            this.txtSerieBusqueda.Location = new System.Drawing.Point(434, 280);
             this.txtSerieBusqueda.Name = "txtSerieBusqueda";
             this.txtSerieBusqueda.Size = new System.Drawing.Size(185, 27);
             this.txtSerieBusqueda.TabIndex = 6;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(378, 284);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(50, 21);
+            this.label9.TabIndex = 7;
+            this.label9.Text = "Serie:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(20, 331);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(103, 21);
+            this.label10.TabIndex = 8;
+            this.label10.Text = "Mostrar por:";
+            // 
+            // cboMostrar
+            // 
+            this.cboMostrar.FormattingEnabled = true;
+            this.cboMostrar.Items.AddRange(new object[] {
+            "",
+            "Cliente",
+            "Marca",
+            "Modelo"});
+            this.cboMostrar.Location = new System.Drawing.Point(124, 328);
+            this.cboMostrar.Name = "cboMostrar";
+            this.cboMostrar.Size = new System.Drawing.Size(244, 29);
+            this.cboMostrar.TabIndex = 9;
+            this.cboMostrar.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // btnMostrar
+            // 
+            this.btnMostrar.Location = new System.Drawing.Point(825, 330);
+            this.btnMostrar.Name = "btnMostrar";
+            this.btnMostrar.Size = new System.Drawing.Size(92, 32);
+            this.btnMostrar.TabIndex = 10;
+            this.btnMostrar.Text = "Mostrar";
+            this.btnMostrar.UseVisualStyleBackColor = true;
+            this.btnMostrar.Click += new System.EventHandler(this.btnMostrar_Click);
+            // 
+            // txtDato
+            // 
+            this.txtDato.Location = new System.Drawing.Point(378, 330);
+            this.txtDato.Name = "txtDato";
+            this.txtDato.Size = new System.Drawing.Size(441, 27);
+            this.txtDato.TabIndex = 11;
+            this.txtDato.Visible = false;
+            // 
+            // cboBusqueda
+            // 
+            this.cboBusqueda.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboBusqueda.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboBusqueda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboBusqueda.FormattingEnabled = true;
+            this.cboBusqueda.Location = new System.Drawing.Point(378, 328);
+            this.cboBusqueda.Margin = new System.Windows.Forms.Padding(2);
+            this.cboBusqueda.Name = "cboBusqueda";
+            this.cboBusqueda.Size = new System.Drawing.Size(442, 29);
+            this.cboBusqueda.Sorted = true;
+            this.cboBusqueda.TabIndex = 12;
             // 
             // Equipos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1172, 750);
+            this.Controls.Add(this.cboBusqueda);
+            this.Controls.Add(this.txtDato);
+            this.Controls.Add(this.btnMostrar);
+            this.Controls.Add(this.cboMostrar);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.txtSerieBusqueda);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.btnCancelar);
@@ -331,5 +406,11 @@
         private ComboBox cboModelos;
         private Button btnBuscar;
         private TextBox txtSerieBusqueda;
+        private Label label9;
+        private Label label10;
+        private ComboBox cboMostrar;
+        private Button btnMostrar;
+        private TextBox txtDato;
+        private ComboBox cboBusqueda;
     }
 }

@@ -19,6 +19,7 @@ namespace SpeedToner
 
         //Sabremos cuando estamos añadiendo un nuevo registro o modificando
         bool Modificar = false;
+        bool BuscandoFolio = false;
         public Servicios()
         {
             InitializeComponent();
@@ -44,7 +45,7 @@ namespace SpeedToner
             AgregarOpcionesMostrar();
             LlenarComboBox(cboClientes, "SeleccionarClientes",0);
             LlenarComboBox(cboMarca, "SeleccionarMarca",0);
-            LlenarComboBox(cboModelos, "SeleccionarModelos",2);
+            LlenarComboBox(cboModelos, "SeleccionarModelos",0);
 
             //Denegar escritura en combobox
             cboMarca.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -341,7 +342,7 @@ namespace SpeedToner
         private void cboMarca_SelectedIndexChanged(object sender, EventArgs e)
         {
             //En dado caso que se haya seleccionado algo de las marcas
-            if (cboMarca.SelectedItem.ToString() != " ")
+            if (cboMarca.SelectedItem.ToString() != " " && BuscandoFolio == false)
             {
                 int IdMarca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
                 LlenarComboBox(cboModelos, "SeleccionarModelos", IdMarca);
@@ -353,6 +354,7 @@ namespace SpeedToner
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             SqlDataReader dr = objetoCN.BuscarServicio(txtBusqueda.Text);
+            BuscandoFolio = true;
 
             if (dr.Read())
             {
@@ -379,7 +381,7 @@ namespace SpeedToner
             dr.Close();
             cn.CerrarConexion();
             txtBusqueda.Text = "";
-
+            BuscandoFolio = false;
         }
 
 
