@@ -201,7 +201,7 @@ namespace SpeedToner
             try
             {
                 string NumeroFolio = txtNumeroFolio.Text;
-                objetoCN.EliminarServicio(NumeroFolio);
+                objetoCN.Eliminar(NumeroFolio,"EliminarServicio");
                 MessageBox.Show("Se elimino el registro");
                 MostrarDatosServicios();
                 LimpiarForm();

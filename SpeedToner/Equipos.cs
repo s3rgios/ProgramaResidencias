@@ -230,7 +230,7 @@ namespace SpeedToner
                     LimpiarForm();
                     return;
                 }
-                objetoCN.EliminarEquipo(Id);
+                objetoCN.Eliminar(Convert.ToString(Id),"EliminarEquipo");
                 MessageBox.Show("Se ha eliminado el registro correctamente");
                 Mostrar("MostrarEquipos");
                 LimpiarForm();
@@ -256,8 +256,10 @@ namespace SpeedToner
         {
             SqlDataReader dr = objetoCN.Buscar(txtSerieBusqueda.Text,"BuscarSerie");
             Buscando = true;
+            //Comprobamos si la consulta nos devuelve informacion
             if (dr.Read())
             {
+                //Cargamos la infomacion en el formulario
                 cboClientes.SelectedItem = (dr[1].ToString());
                 txtReferencia.Text = (dr[2].ToString());
                 cboMarcas.SelectedItem = (dr[3].ToString());

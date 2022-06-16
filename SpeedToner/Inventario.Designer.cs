@@ -50,6 +50,8 @@
             this.tab_Inventario = new System.Windows.Forms.TabPage();
             this.Registro = new System.Windows.Forms.TabPage();
             this.grpDatosRegistro = new System.Windows.Forms.GroupBox();
+            this.cboMarcas = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.txtCantidadEntrada = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.radBodega = new System.Windows.Forms.RadioButton();
@@ -275,16 +277,18 @@
             // Registro
             // 
             this.Registro.Controls.Add(this.grpDatosRegistro);
-            this.Registro.Location = new System.Drawing.Point(4, 24);
+            this.Registro.Location = new System.Drawing.Point(4, 30);
             this.Registro.Name = "Registro";
             this.Registro.Padding = new System.Windows.Forms.Padding(3);
-            this.Registro.Size = new System.Drawing.Size(1062, 211);
+            this.Registro.Size = new System.Drawing.Size(1062, 205);
             this.Registro.TabIndex = 1;
             this.Registro.Text = "Registros";
             this.Registro.UseVisualStyleBackColor = true;
             // 
             // grpDatosRegistro
             // 
+            this.grpDatosRegistro.Controls.Add(this.cboMarcas);
+            this.grpDatosRegistro.Controls.Add(this.label4);
             this.grpDatosRegistro.Controls.Add(this.txtCantidadEntrada);
             this.grpDatosRegistro.Controls.Add(this.label7);
             this.grpDatosRegistro.Controls.Add(this.radBodega);
@@ -300,10 +304,32 @@
             this.grpDatosRegistro.Controls.Add(this.label12);
             this.grpDatosRegistro.Location = new System.Drawing.Point(9, 25);
             this.grpDatosRegistro.Name = "grpDatosRegistro";
-            this.grpDatosRegistro.Size = new System.Drawing.Size(1050, 154);
+            this.grpDatosRegistro.Size = new System.Drawing.Size(1050, 177);
             this.grpDatosRegistro.TabIndex = 26;
             this.grpDatosRegistro.TabStop = false;
             this.grpDatosRegistro.Text = "Datos";
+            // 
+            // cboMarcas
+            // 
+            this.cboMarcas.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboMarcas.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboMarcas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMarcas.FormattingEnabled = true;
+            this.cboMarcas.Location = new System.Drawing.Point(88, 61);
+            this.cboMarcas.Name = "cboMarcas";
+            this.cboMarcas.Size = new System.Drawing.Size(375, 29);
+            this.cboMarcas.Sorted = true;
+            this.cboMarcas.TabIndex = 28;
+            this.cboMarcas.SelectedIndexChanged += new System.EventHandler(this.cboMarcas_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 69);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(66, 21);
+            this.label4.TabIndex = 27;
+            this.label4.Text = "Marca:";
             // 
             // txtCantidadEntrada
             // 
@@ -365,7 +391,7 @@
             this.cboModelos.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboModelos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboModelos.FormattingEnabled = true;
-            this.cboModelos.Location = new System.Drawing.Point(88, 66);
+            this.cboModelos.Location = new System.Drawing.Point(88, 101);
             this.cboModelos.Name = "cboModelos";
             this.cboModelos.Size = new System.Drawing.Size(375, 29);
             this.cboModelos.Sorted = true;
@@ -374,7 +400,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(9, 69);
+            this.label9.Location = new System.Drawing.Point(9, 111);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(73, 21);
             this.label9.TabIndex = 2;
@@ -412,15 +438,15 @@
             // 
             // txtCantidadSalida
             // 
-            this.txtCantidadSalida.Location = new System.Drawing.Point(169, 104);
+            this.txtCantidadSalida.Location = new System.Drawing.Point(154, 143);
             this.txtCantidadSalida.Name = "txtCantidadSalida";
-            this.txtCantidadSalida.Size = new System.Drawing.Size(294, 27);
+            this.txtCantidadSalida.Size = new System.Drawing.Size(309, 27);
             this.txtCantidadSalida.TabIndex = 10;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 107);
+            this.label12.Location = new System.Drawing.Point(6, 143);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(142, 21);
             this.label12.TabIndex = 9;
@@ -513,5 +539,7 @@
         private Label lblRestarBodega;
         private Label label3;
         private ComboBox cboMarca;
+        private ComboBox cboMarcas;
+        private Label label4;
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.txtCliente = new System.Windows.Forms.TextBox();
             this.cboClientes = new System.Windows.Forms.ComboBox();
@@ -64,8 +65,10 @@
             this.btnCancelar = new System.Windows.Forms.Button();
             this.txtBusqueda = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
+            this.erServicios = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dtgServicios)).BeginInit();
             this.grpDatos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.erServicios)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -466,6 +469,10 @@
             this.label12.TabIndex = 36;
             this.label12.Text = "Número de Folio:";
             // 
+            // erServicios
+            // 
+            this.erServicios.ContainerControl = this;
+            // 
             // Servicios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -491,6 +498,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dtgServicios)).EndInit();
             this.grpDatos.ResumeLayout(false);
             this.grpDatos.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.erServicios)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -534,5 +542,6 @@
         private TextBox txtBusqueda;
         private ComboBox cboModelos;
         private Label label12;
+        private ErrorProvider erServicios;
     }
 }

@@ -21,6 +21,7 @@ namespace SpeedToner
 
         //Sabremos si estamos modificando o agregando
         private bool Modificando = false;
+        private bool Buscando = false;
 
         //Variable para guadar el id ya sea de un cartucho en el inventario o de algun regristro que se seleccione
         int Id = 0;
@@ -49,6 +50,8 @@ namespace SpeedToner
             LlenarComboBox(cboClientes, "SeleccionarClientes", 0);
             //LlenarComboBox(cboModelos, "SeleccionarCartuchos", 0);
             LlenarComboBox(cboMarca, "SeleccionarMarca", 0);
+            LlenarComboBox(cboMarcas, "SeleccionarMarca", 0);
+            LlenarComboBox(cboModelos, "SeleccionarCartuchos", 0);
 
 
             //Denegar escritura en combobox
@@ -104,13 +107,21 @@ namespace SpeedToner
 
         public void LlenarComboBox(ComboBox cb, string sp, int indice)
         {
+            SqlDataReader dr;
             cb.Items.Clear();
-            SqlDataReader dr = objetoCN.LlenarComboBox(sp);
+            if (sp == "SeleccionarModelos" || sp == "SeleccionarCartuchos")
+            {
+                dr = objetoCN.LlenarComboBoxModelos(sp, indice);
+            }
+            else
+            {
+                dr = objetoCN.LlenarComboBox(sp);
+            }
 
             while (dr.Read())
             {
                 //Agregamos las opciones dependiendo los registros que nos devolvieron
-                cb.Items.Add(dr[indice].ToString());
+                cb.Items.Add(dr[0].ToString());
             }
 
             //Agregamos un espacio en blanco y lo asignamos como opcion por defecto
@@ -165,7 +176,7 @@ namespace SpeedToner
                     //string Cliente = cboClientes.SelectedItem.ToString();
                     string destino = "";
                     string Cliente = cboClientes.SelectedItem.ToString();
-                    //string IdCartucho = cboModelos.SelectedItem.ToString();
+                    int IdMarca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
                     int IdCartucho = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdCartucho");
                     string Salida = txtCantidadSalida.Text;
                     string Entrada = txtCantidadEntrada.Text;
@@ -191,8 +202,8 @@ namespace SpeedToner
                     }
                     else
                     {
-                        objetoCN.AgregarRegistroInventario(IdCartucho, Salida, Entrada, Cliente, Fecha, destino);
-                        MessageBox.Show("Se ha agregado el resgitro correctamente. Se ha actualizado el inventario");
+                        string Mensaje = objetoCN.AgregarRegistroInventario(IdMarca,IdCartucho, Salida, Entrada, Cliente, Fecha, destino);
+                        MessageBox.Show(Mensaje);
                     }
                     Mostrar("VerRegistroInventario");
                     LimpiarForm();
@@ -217,12 +228,12 @@ namespace SpeedToner
             {
                 if (inventario)
                 {
-                    objetoCN.EliminarRegistroInventario(Id);
+                    objetoCN.Eliminar(Convert.ToString(Id),"EliminarInventario");
                     Mostrar("MostrarInventario");
                 }
                 else
                 {
-                    objetoCN.DeleteRegistroInventario(Id);
+                    objetoCN.Eliminar(Convert.ToString(Id), "EliminarRegistroInventario");
                     Mostrar("VerRegistroInventario");
                 }
                 LimpiarForm();
@@ -359,6 +370,16 @@ namespace SpeedToner
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void cboMarcas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboMarcas.SelectedItem.ToString() != " " && Buscando == false)
+            {
+                int IdMarca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
+                //Se llenara de acuerdo a la marca que se haya escogido
+                LlenarComboBox(cboModelos, "SeleccionarCartuchos", IdMarca);
+            }
         }
     }
 }

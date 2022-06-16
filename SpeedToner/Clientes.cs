@@ -114,8 +114,7 @@ namespace SpeedToner
             try
             {
                 string Empresa = txtEmpresa.Text;
-
-                objetoCN.EliminarCliente(Id);
+                objetoCN.Eliminar(Convert.ToString(Id),"EliminarCliente");
                 LimpiarForm();
                 MostrarDatosClientes();
 
