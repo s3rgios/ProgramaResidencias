@@ -176,7 +176,7 @@ namespace SpeedToner
                     //string Cliente = cboClientes.SelectedItem.ToString();
                     string destino = "";
                     string Cliente = cboClientes.SelectedItem.ToString();
-                    int IdMarca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
+                    int IdMarca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
                     int IdCartucho = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdCartucho");
                     string Salida = txtCantidadSalida.Text;
                     string Entrada = txtCantidadEntrada.Text;
@@ -198,7 +198,7 @@ namespace SpeedToner
                             LimpiarForm();
                             return;
                         }
-                        objetoCN.ModificarRegistroInventario(Id, IdCartucho, Salida, Entrada, Cliente, Fecha);
+                        objetoCN.ModificarRegistroInventario(Id, IdMarca,IdCartucho, Salida, Entrada, Cliente, Fecha);
                     }
                     else
                     {
@@ -312,6 +312,8 @@ namespace SpeedToner
 
             cboClientes.SelectedIndex = 0;
             cboModelos.SelectedIndex = 0;
+            cboMarcas.SelectedIndex = 0;
+            cboMarca.SelectedIndex = 0;
             dtpFecha.Value = DateTime.Now;
         }
 
@@ -330,19 +332,21 @@ namespace SpeedToner
             if (inventario)//En caso de ser verdadero se asignaran a los datos para el inventario
             {
                 Id = int.Parse(dtgCartuchos.CurrentRow.Cells[0].Value.ToString());
-                txtModelo.Text = dtgCartuchos.CurrentRow.Cells[1].Value.ToString();
-                txtOficina.Text = dtgCartuchos.CurrentRow.Cells[2].Value.ToString();
-                txtBodega.Text = dtgCartuchos.CurrentRow.Cells[3].Value.ToString();
-                dtpFecha.Value = Convert.ToDateTime(dtgCartuchos.CurrentRow.Cells[4].Value.ToString());
+                cboMarca.SelectedItem = dtgCartuchos.CurrentRow.Cells[1].Value.ToString();
+                txtModelo.Text = dtgCartuchos.CurrentRow.Cells[2].Value.ToString();
+                txtOficina.Text = dtgCartuchos.CurrentRow.Cells[3].Value.ToString();
+                txtBodega.Text = dtgCartuchos.CurrentRow.Cells[4].Value.ToString();
+                dtpFecha.Value = Convert.ToDateTime(dtgCartuchos.CurrentRow.Cells[5].Value.ToString());
             }
             else //Si no para los datos de registro
             {
                 Id = int.Parse(dtgCartuchos.CurrentRow.Cells[0].Value.ToString());
-                cboModelos.SelectedItem = dtgCartuchos.CurrentRow.Cells[1].Value.ToString();
-                txtCantidadSalida.Text = dtgCartuchos.CurrentRow.Cells[2].Value.ToString();
-                txtCantidadEntrada.Text = dtgCartuchos.CurrentRow.Cells[3].Value.ToString();
-                cboClientes.SelectedItem = dtgCartuchos.CurrentRow.Cells[4].Value.ToString();
-                dtpFechaRegistro.Value = Convert.ToDateTime(dtgCartuchos.CurrentRow.Cells[5].Value.ToString());
+                cboMarcas.SelectedItem = dtgCartuchos.CurrentRow.Cells[1].Value.ToString();
+                cboModelos.SelectedItem = dtgCartuchos.CurrentRow.Cells[2].Value.ToString();
+                txtCantidadSalida.Text = dtgCartuchos.CurrentRow.Cells[3].Value.ToString();
+                txtCantidadEntrada.Text = dtgCartuchos.CurrentRow.Cells[4].Value.ToString();
+                cboClientes.SelectedItem = dtgCartuchos.CurrentRow.Cells[5].Value.ToString();
+                dtpFechaRegistro.Value = Convert.ToDateTime(dtgCartuchos.CurrentRow.Cells[6].Value.ToString());
             }
         }
 
@@ -380,6 +384,11 @@ namespace SpeedToner
                 //Se llenara de acuerdo a la marca que se haya escogido
                 LlenarComboBox(cboModelos, "SeleccionarCartuchos", IdMarca);
             }
+        }
+
+        private void btnImprimirInventario_Click(object sender, EventArgs e)
+        {
+            objetoCN.ImprimirInventario();
         }
     }
 }

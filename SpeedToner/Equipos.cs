@@ -171,7 +171,6 @@ namespace SpeedToner
                 }
                 else
                 {
-
                     if (Modificando)
                     {
                         if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)

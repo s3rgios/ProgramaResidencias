@@ -17,6 +17,7 @@ namespace SpeedToner
         private CD_Conexion conexion = new CD_Conexion();
         SqlCommand comando = new SqlCommand();
         SqlDataReader reporte;
+        
 
 
         //Metodo para mostrar los registros de los servicios, dependiendo el stop procedure que se envie, se mostrara informacion como la requiera el usuario
@@ -321,13 +322,14 @@ namespace SpeedToner
             
         }
 
-        public void ModificarRegistroInventario(int IdRegistro, int IdCartucho, string Salida, string Entrada, string Cliente, DateTime Fecha)
+        public void ModificarRegistroInventario(int IdRegistro,int Marca, int IdCartucho, string Salida, string Entrada, string Cliente, DateTime Fecha)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "ModificarRegistroInventario";
             comando.CommandType = CommandType.StoredProcedure;
 
             comando.Parameters.AddWithValue("@IdRegistro", IdRegistro);
+            comando.Parameters.AddWithValue("@IdMarca", Marca);
             comando.Parameters.AddWithValue("@IdCartucho", IdCartucho);
             comando.Parameters.AddWithValue("@CantidadSalida", int.Parse(Salida));
             comando.Parameters.AddWithValue("@CantidadEntrada", int.Parse(Entrada));
@@ -677,6 +679,114 @@ namespace SpeedToner
             tblSerie.HorizontalAlignment = Element.ALIGN_LEFT;
             return tblSerie;
         }
+
+        public void ImprimirInventario()
+        {
+            //Primero obtenemos de la base de datos nuestro inventario 
+            SqlDataReader Inventario;
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "MostrarInventario";
+            comando.CommandType = CommandType.StoredProcedure;
+            Inventario = comando.ExecuteReader();
+
+            string NombreArchivo = @"C:\Users\DELL PC\Documents\Base de datos\" + "Inventario" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            FileStream fs = new FileStream(NombreArchivo, FileMode.Create);
+            Document document = new Document(PageSize.LETTER);
+            document.SetMargins(25f, 25f, 25f, 25f);
+            document.SetPageSize(iTextSharp.text.PageSize.LETTER);
+            PdfWriter pw = PdfWriter.GetInstance(document, fs);
+
+            document.Open();
+            //Fuentes 
+            iTextSharp.text.Font fontTitle = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 18, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+
+            iTextSharp.text.Font fontParapragh = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 11, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+            iTextSharp.text.Font fontParapraghBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 11, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+
+            Paragraph titulo = new Paragraph("EXISTENCIAS CARTUCHOS SPEED TONER", fontTitle);
+            titulo.Alignment = Element.ALIGN_CENTER;
+            document.Add(titulo);
+            document.Add(new Paragraph("\n"));
+
+            iTextSharp.text.Image Logo = iTextSharp.text.Image.GetInstance(Properties.Resources.TanquesGasolina, System.Drawing.Imaging.ImageFormat.Png);
+            Logo.ScaleToFit(280, 250);
+            Logo.Alignment = iTextSharp.text.Image.UNDERLYING;
+            Logo.SetAbsolutePosition(document.LeftMargin, document.Top - 58);
+            document.Add(Logo);
+
+            
+            PdfPTable tblInventario = new PdfPTable(3);
+            //tblInventario.WidthPercentage = 100;
+            document.Add(new Paragraph("\n"));
+            PdfPCell clModelo = new PdfPCell(new Phrase("MODELO", fontParapraghBold));
+            clModelo.BorderWidth = 0;
+            clModelo.Colspan = 1;
+            clModelo.BorderWidthLeft = .5f;
+            clModelo.BorderWidthTop = .5f;
+            clModelo.BorderWidthBottom = .5f;
+
+            PdfPCell clCantidadOficina = new PdfPCell(new Phrase("CANTIDAD OFICINA", fontParapraghBold));
+            clCantidadOficina.BorderWidth = 0;
+            clCantidadOficina.Colspan = 1;
+            clCantidadOficina.BorderWidthLeft = .5f;
+            clCantidadOficina.BorderWidthRight = .5f;
+            clCantidadOficina.BorderWidthTop = .5f;
+            clCantidadOficina.BorderWidthBottom = .5f;
+
+            PdfPCell clCantidadBodega = new PdfPCell(new Phrase("CANTIDAD BODEGA", fontParapraghBold));
+            clCantidadBodega.BorderWidth = 0;
+            clCantidadBodega.Colspan = 1;
+            clCantidadBodega.BorderWidthRight = .5f;
+            clCantidadBodega.BorderWidthTop = .5f;
+            clCantidadBodega.BorderWidthBottom = .5f;
+
+            tblInventario.AddCell(clModelo);
+            tblInventario.AddCell(clCantidadOficina);
+            tblInventario.AddCell(clCantidadBodega);
+
+            while (Inventario.Read())
+            {
+                PdfPCell clModeloDato = new PdfPCell(new Phrase(Inventario[1].ToString() + " " + Inventario[2].ToString(), fontParapragh));
+                clModeloDato.BorderWidth = 0;
+                clModeloDato.Colspan = 1;
+                clModeloDato.BorderWidthLeft = .5f;
+                clModeloDato.BorderWidthTop = .5f;
+                clModeloDato.BorderWidthBottom = .5f;
+
+                PdfPCell clCantidadOficinaDato = new PdfPCell(new Phrase(Inventario[3].ToString(), fontParapragh));
+                clCantidadOficinaDato.BorderWidth = 0;
+                clCantidadOficinaDato.Colspan = 1;
+                clCantidadOficinaDato.BorderWidthLeft = .5f;
+                clCantidadOficinaDato.BorderWidthRight = .5f;
+                clCantidadOficinaDato.BorderWidthTop = .5f;
+                clCantidadOficinaDato.BorderWidthBottom = .5f;
+
+                PdfPCell clCantidadBodegaDato = new PdfPCell(new Phrase(Inventario[4].ToString(), fontParapragh));
+                clCantidadBodegaDato.BorderWidth = 0;
+                clCantidadBodegaDato.Colspan = 1;
+                clCantidadBodegaDato.BorderWidthRight = .5f;
+                clCantidadBodegaDato.BorderWidthTop = .5f;
+                clCantidadBodegaDato.BorderWidthBottom = .5f;
+
+                tblInventario.AddCell(clModeloDato);
+                tblInventario.AddCell(clCantidadOficinaDato);
+                tblInventario.AddCell(clCantidadBodegaDato);
+            }
+            document.Add(tblInventario);
+
+
+            document.Close();
+
+            //Abrimos el pdf 
+            var p = new Process();
+            p.StartInfo = new ProcessStartInfo(NombreArchivo)
+            {
+                UseShellExecute = true
+            };
+            p.Start();
+            conexion.CerrarConexion();
+        }
+
         #endregion
     }
 }

@@ -67,6 +67,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.txtBusqueda = new System.Windows.Forms.TextBox();
             this.btnBuscar = new System.Windows.Forms.Button();
+            this.btnImprimirInventario = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtgCartuchos)).BeginInit();
             this.grpDatosInventario.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -277,10 +278,10 @@
             // Registro
             // 
             this.Registro.Controls.Add(this.grpDatosRegistro);
-            this.Registro.Location = new System.Drawing.Point(4, 30);
+            this.Registro.Location = new System.Drawing.Point(4, 24);
             this.Registro.Name = "Registro";
             this.Registro.Padding = new System.Windows.Forms.Padding(3);
-            this.Registro.Size = new System.Drawing.Size(1062, 205);
+            this.Registro.Size = new System.Drawing.Size(1062, 211);
             this.Registro.TabIndex = 1;
             this.Registro.Text = "Registros";
             this.Registro.UseVisualStyleBackColor = true;
@@ -454,14 +455,14 @@
             // 
             // txtBusqueda
             // 
-            this.txtBusqueda.Location = new System.Drawing.Point(411, 273);
+            this.txtBusqueda.Location = new System.Drawing.Point(420, 268);
             this.txtBusqueda.Name = "txtBusqueda";
             this.txtBusqueda.Size = new System.Drawing.Size(205, 27);
             this.txtBusqueda.TabIndex = 26;
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(622, 268);
+            this.btnBuscar.Location = new System.Drawing.Point(631, 263);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(100, 37);
             this.btnBuscar.TabIndex = 27;
@@ -469,11 +470,22 @@
             this.btnBuscar.UseVisualStyleBackColor = true;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
+            // btnImprimirInventario
+            // 
+            this.btnImprimirInventario.Location = new System.Drawing.Point(876, 263);
+            this.btnImprimirInventario.Name = "btnImprimirInventario";
+            this.btnImprimirInventario.Size = new System.Drawing.Size(100, 37);
+            this.btnImprimirInventario.TabIndex = 28;
+            this.btnImprimirInventario.Text = "Imprimir";
+            this.btnImprimirInventario.UseVisualStyleBackColor = true;
+            this.btnImprimirInventario.Click += new System.EventHandler(this.btnImprimirInventario_Click);
+            // 
             // Inventario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1172, 749);
+            this.Controls.Add(this.btnImprimirInventario);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.txtBusqueda);
             this.Controls.Add(this.tabControl1);
@@ -541,5 +553,6 @@
         private ComboBox cboMarca;
         private ComboBox cboMarcas;
         private Label label4;
+        private Button btnImprimirInventario;
     }
 }

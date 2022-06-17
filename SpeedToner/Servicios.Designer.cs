@@ -243,7 +243,7 @@
             this.rtxtServicio.Location = new System.Drawing.Point(449, 107);
             this.rtxtServicio.Margin = new System.Windows.Forms.Padding(2);
             this.rtxtServicio.Name = "rtxtServicio";
-            this.rtxtServicio.Size = new System.Drawing.Size(697, 77);
+            this.rtxtServicio.Size = new System.Drawing.Size(669, 77);
             this.rtxtServicio.TabIndex = 11;
             this.rtxtServicio.Text = "";
             this.rtxtServicio.TextChanged += new System.EventHandler(this.rtxtServicio_TextChanged);
@@ -263,7 +263,7 @@
             this.rtxtFallas.Location = new System.Drawing.Point(449, 213);
             this.rtxtFallas.Margin = new System.Windows.Forms.Padding(2);
             this.rtxtFallas.Name = "rtxtFallas";
-            this.rtxtFallas.Size = new System.Drawing.Size(697, 87);
+            this.rtxtFallas.Size = new System.Drawing.Size(669, 87);
             this.rtxtFallas.TabIndex = 12;
             this.rtxtFallas.Text = "";
             // 

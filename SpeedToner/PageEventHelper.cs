@@ -100,7 +100,7 @@ namespace SpeedToner
             iTextSharp.text.Image Logo = iTextSharp.text.Image.GetInstance(Properties.Resources.LogoSpeedToner, System.Drawing.Imaging.ImageFormat.Png);
             Logo.ScaleToFit(150, 80);
             Logo.Alignment = iTextSharp.text.Image.UNDERLYING;
-            Logo.SetAbsolutePosition(document.LeftMargin, document.Top - 40);
+            Logo.SetAbsolutePosition(document.LeftMargin, document.Top - 50);
             cb.AddImage(Logo);
 
             //Agregamos el logo de la derecha

@@ -102,7 +102,7 @@ namespace SpeedToner.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Speed_toner {
             get {
-                object obj = ResourceManager.GetObject("Speed toner", resourceCulture);
+                object obj = ResourceManager.GetObject("Speed_toner", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,6 +113,16 @@ namespace SpeedToner.Properties {
         internal static System.Drawing.Bitmap Stoner {
             get {
                 object obj = ResourceManager.GetObject("Stoner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TanquesGasolina {
+            get {
+                object obj = ResourceManager.GetObject("TanquesGasolina", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

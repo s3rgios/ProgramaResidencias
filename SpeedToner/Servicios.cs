@@ -113,46 +113,92 @@ namespace SpeedToner
 
         }
 
+        public bool ValidarCamposVacios()
+        {
+            bool Validado = true;
+            erServicios.Clear();
+
+            if (txtNumeroFolio.Text == "")
+            {
+                erServicios.SetError(txtNumeroFolio, "Ingrese número de folio");
+                Validado = false;
+            }
+            if(txtSerie.Text == "")
+            {
+                erServicios.SetError(txtSerie, "Ingrese una serie");
+                Validado = false;
+            }
+            if (txtContador.Text == "")
+            {
+                erServicios.SetError(txtContador, "Ingrese contador");
+                Validado = false;
+            }
+            if (txtTecnico.Text == "")
+            {
+                erServicios.SetError(txtTecnico, "Ingrese tecnico");
+                Validado = false;
+            }
+            if (txtUsuario.Text == "")
+            {
+                erServicios.SetError(txtUsuario, "Ingrese usuario");
+                Validado = false;
+            }
+            foreach (Control c in grpDatos.Controls)
+            {
+                if (c is ComboBox || c is RichTextBox)
+                {
+                    if (c.Text == "" || c.Text == " ")
+                    {
+                        erServicios.SetError(c, "Campo Obligatorio");
+                        Validado = false;
+                    }
+                }
+            }
+            return Validado;
+        }
         #region Botones
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             try
             {
-                string NumeroFolio = txtNumeroFolio.Text;
-                //Buscamos el Id del cliente con el stop procedure, mandando el nombre para ayudar en la consulta
-                int IdCliente = objetoCN.BuscarId(cboClientes.SelectedItem.ToString(), "ObtenerIdCliente");
-                //Buscamos el Id de la marca con el stop procedure, mandando el nombre para ayudar en la consulta
-                int IdMarca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
-                
-                int Modelo = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdModelo");
-                string Serie = txtSerie.Text;
-                string Contador = txtContador.Text;
-                DateTime Fecha = dtpFecha.Value;
-                string Tecnico = txtTecnico.Text;
-                string Usuario = txtUsuario.Text;
-                string Fusor = txtFusor.Text;
-                string Servicio = rtxtServicio.Text;
-                string Falla = rtxtFallas.Text;
+                if (ValidarCamposVacios())
+                {
+                    string NumeroFolio = txtNumeroFolio.Text;
+                    //Buscamos el Id del cliente con el stop procedure, mandando el nombre para ayudar en la consulta
+                    int IdCliente = objetoCN.BuscarId(cboClientes.SelectedItem.ToString(), "ObtenerIdCliente");
+                    //Buscamos el Id de la marca con el stop procedure, mandando el nombre para ayudar en la consulta
+                    int IdMarca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
+                    int Modelo = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdModelo");
+                    string Serie = txtSerie.Text;
+                    string Contador = txtContador.Text;
+                    DateTime Fecha = dtpFecha.Value;
+                    string Tecnico = txtTecnico.Text;
+                    string Usuario = txtUsuario.Text;
+                    string Fusor = txtFusor.Text;
+                    string Servicio = rtxtServicio.Text;
+                    string Falla = rtxtFallas.Text;
 
-                if (Modificar)
-                {
-                    if (MessageBox.Show("Desea modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    if (Modificar)
                     {
-                        MessageBox.Show("Modificacion cancelada!!");
-                        LimpiarForm();
-                        return;
+                        if (MessageBox.Show("Desea modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                        {
+                            MessageBox.Show("Modificacion cancelada!!");
+                            LimpiarForm();
+                            return;
+                        }
+                        objetoCN.ModificarServicio(NumeroFolio, IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Tecnico, Usuario, Fusor, Servicio, Falla);
+                        MessageBox.Show("Registro modificado correctamente");
                     }
-                    objetoCN.ModificarServicio(NumeroFolio, IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Tecnico, Usuario, Fusor, Servicio, Falla);
-                    MessageBox.Show("Registro modificado correctamente");
-                }
-                else
-                {
-                    objetoCN.InsertarServicio(NumeroFolio, IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Tecnico, Usuario, Fusor, Servicio, Falla);
-                    MessageBox.Show("Registro agregado correctamente");
+                    else
+                    {
+                        objetoCN.InsertarServicio(NumeroFolio, IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Tecnico, Usuario, Fusor, Servicio, Falla);
+                        MessageBox.Show("Registro agregado correctamente");
+                    }
+
+                    LimpiarForm();
+                    MostrarDatosServicios();
                 }
                 
-                LimpiarForm();
-                MostrarDatosServicios();
             }
             catch (Exception ex)
             {
