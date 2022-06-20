@@ -359,7 +359,6 @@ namespace SpeedToner
             //Una vez que se escoga alguna fila podremos activar los botones para poder modificar y eliminar
             btnGuardar.Enabled = true;
             ControlesDesactivadosInicialmente(true);
-
             Modificar = true;
 
             //Asignacion a los controles

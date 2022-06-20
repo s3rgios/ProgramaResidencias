@@ -35,6 +35,13 @@
             this.btnMinimizar = new System.Windows.Forms.PictureBox();
             this.btnCerrar = new System.Windows.Forms.PictureBox();
             this.PanelMenu = new System.Windows.Forms.Panel();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.btnFuzores = new System.Windows.Forms.Button();
+            this.pEquipos = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnEquipos = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -51,6 +58,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimizar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCerrar)).BeginInit();
             this.PanelMenu.SuspendLayout();
+            this.pEquipos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -126,6 +134,9 @@
             // 
             this.PanelMenu.AllowDrop = true;
             this.PanelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(32)))), ((int)(((byte)(40)))));
+            this.PanelMenu.Controls.Add(this.panel7);
+            this.PanelMenu.Controls.Add(this.btnFuzores);
+            this.PanelMenu.Controls.Add(this.pEquipos);
             this.PanelMenu.Controls.Add(this.panel4);
             this.PanelMenu.Controls.Add(this.btnEquipos);
             this.PanelMenu.Controls.Add(this.panel3);
@@ -140,6 +151,93 @@
             this.PanelMenu.Name = "PanelMenu";
             this.PanelMenu.Size = new System.Drawing.Size(214, 750);
             this.PanelMenu.TabIndex = 1;
+            this.PanelMenu.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelMenu_Paint);
+            // 
+            // panel7
+            // 
+            this.panel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            this.panel7.Location = new System.Drawing.Point(3, 488);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(10, 57);
+            this.panel7.TabIndex = 7;
+            // 
+            // btnFuzores
+            // 
+            this.btnFuzores.FlatAppearance.BorderSize = 0;
+            this.btnFuzores.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            this.btnFuzores.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFuzores.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnFuzores.ForeColor = System.Drawing.Color.White;
+            this.btnFuzores.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnFuzores.Location = new System.Drawing.Point(9, 488);
+            this.btnFuzores.Name = "btnFuzores";
+            this.btnFuzores.Size = new System.Drawing.Size(199, 57);
+            this.btnFuzores.TabIndex = 10;
+            this.btnFuzores.Text = "Fuzores";
+            this.btnFuzores.UseVisualStyleBackColor = true;
+            // 
+            // pEquipos
+            // 
+            this.pEquipos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(32)))), ((int)(((byte)(40)))));
+            this.pEquipos.Controls.Add(this.panel5);
+            this.pEquipos.Controls.Add(this.button2);
+            this.pEquipos.Controls.Add(this.panel6);
+            this.pEquipos.Controls.Add(this.button1);
+            this.pEquipos.Location = new System.Drawing.Point(36, 478);
+            this.pEquipos.Name = "pEquipos";
+            this.pEquipos.Size = new System.Drawing.Size(202, 130);
+            this.pEquipos.TabIndex = 9;
+            this.pEquipos.Visible = false;
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            this.panel5.Location = new System.Drawing.Point(19, 68);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(10, 53);
+            this.panel5.TabIndex = 8;
+            // 
+            // button2
+            // 
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.button2.ForeColor = System.Drawing.Color.White;
+            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button2.Location = new System.Drawing.Point(22, 68);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(203, 53);
+            this.button2.TabIndex = 10;
+            this.button2.Text = "Bodega";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // panel6
+            // 
+            this.panel6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            this.panel6.Location = new System.Drawing.Point(19, 9);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(10, 53);
+            this.panel6.TabIndex = 7;
+            // 
+            // button1
+            // 
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(22, 9);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(203, 53);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Renta";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // panel4
             // 
@@ -278,6 +376,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimizar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCerrar)).EndInit();
             this.PanelMenu.ResumeLayout(false);
+            this.pEquipos.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
@@ -301,5 +400,12 @@
         private Button btnClientes;
         private Panel panel4;
         private Button btnEquipos;
+        private Panel pEquipos;
+        private Panel panel6;
+        private Button button1;
+        private Panel panel5;
+        private Button button2;
+        private Panel panel7;
+        private Button btnFuzores;
     }
 }

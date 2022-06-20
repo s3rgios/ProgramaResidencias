@@ -102,3 +102,4 @@ C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\bin\Debug\net6.0-windows\Mic
 C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\bin\Debug\net6.0-windows\Microsoft.Extensions.Options.dll
 C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\bin\Debug\net6.0-windows\Microsoft.Extensions.Primitives.dll
 C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
+C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\obj\Debug\net6.0-windows\SpeedToner.EquiposBodega.resources

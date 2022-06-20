@@ -13,7 +13,7 @@ namespace SpeedToner
         {
             Application.Exit();
         }
-
+        bool PanelEquiposAbierto = false;
         private void btnMaximizar_Click(object sender, EventArgs e)
         {
            this.WindowState = FormWindowState.Maximized;
@@ -69,21 +69,52 @@ namespace SpeedToner
         private void btnServicios_Click(object sender, EventArgs e)
         {
             AbrirForm(new Servicios());
+            pEquipos.Visible = false;
         }
 
         private void btnClientes_Click(object sender, EventArgs e)
-        {
+        {   
             AbrirForm(new Clientes());
+            pEquipos.Visible = false;
         }
 
         private void btnInventario_Click(object sender, EventArgs e)
         {
             AbrirForm(new Inventario());
+            pEquipos.Visible = false;
         }
 
         private void btnEquipos_Click(object sender, EventArgs e)
         {
+            if (PanelEquiposAbierto)
+            {
+                PanelEquiposAbierto = false;
+                pEquipos.Visible = false;
+                btnFuzores.Visible = true;
+            }
+            else
+            {
+                PanelEquiposAbierto = true;
+                pEquipos.Visible = true;
+                btnFuzores.Visible = false;
+            }
+            
+        }
+
+
+        private void PanelMenu_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
             AbrirForm(new Equipos());
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            AbrirForm(new EquiposBodega());
         }
     }
 }

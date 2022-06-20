@@ -176,6 +176,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label3.Location = new System.Drawing.Point(91, 27);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(66, 21);
@@ -278,10 +279,10 @@
             // Registro
             // 
             this.Registro.Controls.Add(this.grpDatosRegistro);
-            this.Registro.Location = new System.Drawing.Point(4, 24);
+            this.Registro.Location = new System.Drawing.Point(4, 30);
             this.Registro.Name = "Registro";
             this.Registro.Padding = new System.Windows.Forms.Padding(3);
-            this.Registro.Size = new System.Drawing.Size(1062, 211);
+            this.Registro.Size = new System.Drawing.Size(1062, 205);
             this.Registro.TabIndex = 1;
             this.Registro.Text = "Registros";
             this.Registro.UseVisualStyleBackColor = true;

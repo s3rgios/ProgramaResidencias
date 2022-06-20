@@ -469,6 +469,26 @@ namespace SpeedToner
             return tabla;
         }
 
+        //EQUIPOS BODEGA
+
+        public void AgregarBodega(int Marca, int Modelo, string Serie, string Ubicacion, string Estado, string Notas)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "AgregarBodega";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@IdMarca", Marca);
+            comando.Parameters.AddWithValue("@IdModelo", Modelo);
+            comando.Parameters.AddWithValue("@Serie", Serie);
+            comando.Parameters.AddWithValue("@Ubicacion", Ubicacion);
+            comando.Parameters.AddWithValue("@Estado", Estado);
+            comando.Parameters.AddWithValue("@Notas", Notas);
+
+            comando.ExecuteNonQuery();
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
         #endregion
 
         #region PDF
@@ -497,10 +517,12 @@ namespace SpeedToner
             FileStream fs = new FileStream(NombreArchivo, FileMode.Create);
             Document document = new Document(PageSize.LETTER);
             document.SetMargins(25f, 25f, 25f, 25f);
+            //Colocamos el pdf en horizontal
             document.SetPageSize(iTextSharp.text.PageSize.LETTER.Rotate());
 
             PdfWriter pw = PdfWriter.GetInstance(document, fs);
 
+            //Nos ayudara a controlar el numero de registros que seran mostrados
             int contadorRegistros = 0;
             bool nuevaSerie = true;
             //Instanciamos la clase para la paginacion
@@ -512,25 +534,18 @@ namespace SpeedToner
             document.AddAuthor("Sergio Manuel García");
             document.AddTitle("Reporte de ");
 
-            //Definir tipo de fuente
-            iTextSharp.text.Font standarFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-
-            iTextSharp.text.Font arial = FontFactory.GetFont("Arial", 28);
-
+            //TIPO DE FUENTE
             //Variable para definir tipo de fuente normal
             iTextSharp.text.Font fontTitle = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 20, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
 
-            iTextSharp.text.Font fontParapragh = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 11, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+            iTextSharp.text.Font fontParapragh = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
             //Fuente para los parrafos en negritas
-            iTextSharp.text.Font fontParapraghBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 11, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
-
-            //iTextSharp.text.Font fontParapragh = FontFactory.GetFont("arial", 10);
+            iTextSharp.text.Font fontParapraghBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 10, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
 
             iTextSharp.text.Font fontFecha = FontFactory.GetFont("arial", 9);
 
             Paragraph titulo = new Paragraph("REPORTE SERVICIO TECNICO " + TipoBusqueda.ToUpper(), fontTitle);
             titulo.Alignment = Element.ALIGN_CENTER;
-
 
             Paragraph Fechas = new Paragraph("FECHA DE INICIO: " + FechaInicio.ToString("dd/MM/yyyy") + "       FECHA FINAL: " + FechaFinal.ToString("dd/MM/yyyy"), fontFecha);
             Fechas.Alignment = Element.ALIGN_CENTER;
@@ -538,13 +553,13 @@ namespace SpeedToner
             document.Add(titulo);
             document.Add(Fechas);
 
-
             //Tabla para cuando se requiera hacer reporte por cliente
             PdfPTable tblCliente = new PdfPTable(4);
             tblCliente.WidthPercentage = 100;
 
             document.Add(new Paragraph("\n"));
 
+            //Si estamos filtrando por cliente, entonces se añade una tabla con los titulos de los datos que nos arrojara
             if (TipoBusqueda == "Clientes")
             {
                 PdfPCell clCliente = new PdfPCell(new Phrase("Cliente", fontParapraghBold));
@@ -631,7 +646,7 @@ namespace SpeedToner
                 document.Add(new Paragraph("SERVICIO: " + reporte[10].ToString().ToUpper(), fontParapragh));
                 document.Add(new Paragraph("FUSOR: " + reporte[9].ToString().ToUpper(), fontParapragh));
                 document.Add(new Paragraph("CONTADOR: " + string.Format("{0:n0}", int.Parse(reporte[5].ToString())), fontParapragh));
-
+                
                 document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
                 //Agregamos la serie a la lista
                 Series.Add(reporte[4].ToString());
@@ -702,19 +717,29 @@ namespace SpeedToner
 
             iTextSharp.text.Font fontParapragh = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 11, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
             iTextSharp.text.Font fontParapraghBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 11, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+            iTextSharp.text.Font fontFecha = FontFactory.GetFont("arial", 9);
 
             Paragraph titulo = new Paragraph("EXISTENCIAS CARTUCHOS SPEED TONER", fontTitle);
             titulo.Alignment = Element.ALIGN_CENTER;
             document.Add(titulo);
-            document.Add(new Paragraph("\n"));
+            //document.Add(new Paragraph("\n"));
 
             iTextSharp.text.Image Logo = iTextSharp.text.Image.GetInstance(Properties.Resources.TanquesGasolina, System.Drawing.Imaging.ImageFormat.Png);
-            Logo.ScaleToFit(280, 250);
+            //Logo.ScaleToFit(280, 250);
+            Logo.ScaleToFit(350, 250);
             Logo.Alignment = iTextSharp.text.Image.UNDERLYING;
-            Logo.SetAbsolutePosition(document.LeftMargin, document.Top - 58);
+            Logo.SetAbsolutePosition(document.LeftMargin, document.Top - 65);
             document.Add(Logo);
 
-            
+            Paragraph Fecha = new Paragraph("Fecha: " + DateTime.Now.ToString("dd/MM/yyyy"), fontFecha);
+            Fecha.Alignment = Element.ALIGN_RIGHT;
+            document.Add(Fecha);
+
+            Paragraph Hora = new Paragraph("Hora: " + DateTime.Now.ToString("hh:mm:ss tt"), fontFecha);
+            Hora.Alignment = Element.ALIGN_RIGHT;
+            document.Add(Hora);
+
+
             PdfPTable tblInventario = new PdfPTable(3);
             //tblInventario.WidthPercentage = 100;
             document.Add(new Paragraph("\n"));

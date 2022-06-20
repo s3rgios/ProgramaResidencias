@@ -318,5 +318,15 @@ namespace SpeedToner
             cboMostrar.SelectedIndex = 0;
             cboBusqueda.SelectedIndex = 0;
         }
+
+        private void txtDato_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cboBusqueda_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
