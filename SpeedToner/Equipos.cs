@@ -20,8 +20,11 @@ namespace SpeedToner
 
         //Sabremos si estamos modificando o agregando
         private bool Modificando = false;
+        //Ayudara a saber si estamos buscando algun registro
         private bool Buscando = false;
+        //Guardara el id en caso de que se seleccione algun registro del datagridview
         int Id;
+        //Segun la variable es lo que mostrara en el datagridview
         string TipoBusqueda = "";
 
         public Equipos()
@@ -39,8 +42,8 @@ namespace SpeedToner
             ControlesDesactivados(false);
 
             //Se manda el nombre del cbo,el stop procedure que ejecutara, en dado caso de que sea modelos se manda el id de la marca
-            LlenarComboBox(cboClientes, "SeleccionarClientes",0);
-            LlenarComboBox(cboTipoRenta, "SeleccionarTipoRenta",0);
+            LlenarComboBox(cboClientes, "SeleccionarClientes", 0);
+            LlenarComboBox(cboTipoRenta, "SeleccionarTipoRenta", 0);
             LlenarComboBox(cboMarcas, "SeleccionarMarca", 0);
             LlenarComboBox(cboModelos, "SeleccionarModelos", 0);
 
@@ -119,104 +122,42 @@ namespace SpeedToner
 
         #endregion
 
-        public void LimpiarForm()
-        {
-            foreach (Control c in
-                grpDatos.Controls)
-            {
-                if (c is TextBox)
-                {
-                    c.Text = "";
-                }
-            }
-            cboClientes.Focus();
-
-            cboClientes.SelectedIndex = 0;
-            cboTipoRenta.SelectedIndex = 0;
-        }
-
+        #region Botones
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             try
             {
-                if (inventario)
-                {
-                    int Cliente = objetoCN.BuscarId(cboClientes.SelectedItem.ToString(), "ObtenerIdCliente");
-                    string Ubicacion = txtReferencia.Text;
-                    int Marca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
-                    int Modelo = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdModelo"); 
-                    string Serie = txtSerie.Text;
-                    int TipoRenta = objetoCN.BuscarId(cboTipoRenta.SelectedItem.ToString(), "ObtenerIdTipoRenta");
-                    //int TipoRenta = objetoCN.BuscarId(cboTipoRenta.SelectedItem.ToString(), "ObtenerIdTipoRenta");
-                    int Precio = int.Parse(txtPrecio.Text);
-                    string FechaPago = txtFechaPago.Text;
+                int Cliente = objetoCN.BuscarId(cboClientes.SelectedItem.ToString(), "ObtenerIdCliente");
+                string Ubicacion = txtReferencia.Text;
+                int Marca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
+                int Modelo = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdModelo");
+                string Serie = txtSerie.Text;
+                int TipoRenta = objetoCN.BuscarId(cboTipoRenta.SelectedItem.ToString(), "ObtenerIdTipoRenta");
+                int Precio = int.Parse(txtPrecio.Text);
+                string FechaPago = txtFechaPago.Text;
 
-                    if (Modificando)
+                if (Modificando)
+                {
+                    //Modificar stop procedure de modificar, para que se pueda cambiar la fecha
+                    if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                     {
-                        //Modificar stop procedure de modificar, para que se pueda cambiar la fecha
-                        if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                        {
-                            MessageBox.Show("!!Modificación cancelada!!");
-                            LimpiarForm();
-                            return;
-                        }
-                        objetoCN.ModificarEquipo(Id, Cliente, Ubicacion, Marca,Modelo, Serie, TipoRenta, Precio, FechaPago);
+                        MessageBox.Show("!!Modificación cancelada!!");
+                        LimpiarForm();
+                        return;
                     }
-                    else
-                    {
-                        objetoCN.AgregarEquipo(Cliente, Ubicacion,Marca, Modelo, Serie, TipoRenta, Precio, FechaPago);
-                    }
-                    Mostrar("MostrarEquipos");
-                    LimpiarForm();
+                    objetoCN.ModificarEquipo(Id, Cliente, Ubicacion, Marca, Modelo, Serie, TipoRenta, Precio, FechaPago);
                 }
                 else
                 {
-                    if (Modificando)
-                    {
-                        if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                        {
-                            MessageBox.Show("!!Modificación cancelada!!");
-                            LimpiarForm();
-                            return;
-                        }
-                        //objetoCN.ModificarRegistroInventario(Id, IdCartucho, Salida, Entrada, Cliente, Fecha);
-                    }
-                    else
-                    {
-                        //objetoCN.AgregarRegistroInventario(IdCartucho, Salida, Entrada, Cliente, Fecha, destino);
-                    }
-                    //Mostrar("VerRegistroInventario");
-                    LimpiarForm();
+                    objetoCN.AgregarEquipo(Cliente, Ubicacion, Marca, Modelo, Serie, TipoRenta, Precio, FechaPago);
                 }
-
+                Mostrar("MostrarEquipos");
+                LimpiarForm();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ocurrio un error" + ex);
             }
-        }
-
-        private void dtgEquipos_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            ControlesDesactivados(true);
-            Modificando = true;
-
-            Id = int.Parse(dtgEquipos.CurrentRow.Cells[0].Value.ToString());
-            cboClientes.SelectedItem = dtgEquipos.CurrentRow.Cells[1].Value.ToString();
-            txtReferencia.Text = dtgEquipos.CurrentRow.Cells[2].Value.ToString();
-            cboMarcas.SelectedItem = dtgEquipos.CurrentRow.Cells[3].Value.ToString();
-            cboModelos.SelectedItem = dtgEquipos.CurrentRow.Cells[4].Value.ToString();
-            txtSerie.Text = dtgEquipos.CurrentRow.Cells[5].Value.ToString();
-            cboTipoRenta.SelectedItem = dtgEquipos.CurrentRow.Cells[6].Value.ToString();
-            txtPrecio.Text = dtgEquipos.CurrentRow.Cells[7].Value.ToString();
-            txtFechaPago.Text = dtgEquipos.CurrentRow.Cells[8].Value.ToString();
-        }
-
-        private void btnCancelar_Click(object sender, EventArgs e)
-        {
-            ControlesDesactivados(false);
-            LimpiarForm();
-            Modificando = false;
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -229,7 +170,7 @@ namespace SpeedToner
                     LimpiarForm();
                     return;
                 }
-                objetoCN.Eliminar(Convert.ToString(Id),"EliminarEquipo");
+                objetoCN.Eliminar(Id, "EliminarEquipo");
                 MessageBox.Show("Se ha eliminado el registro correctamente");
                 Mostrar("MostrarEquipos");
                 LimpiarForm();
@@ -240,20 +181,9 @@ namespace SpeedToner
             }
         }
 
-        private void cboMarcas_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //En dado caso que se haya seleccionado algo de las marcas
-            if (cboMarcas.SelectedItem.ToString() != " " && Buscando == false)
-            {
-                int IdMarca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
-                //Se llenara de acuerdo a la marca que se haya escogido
-                LlenarComboBox(cboModelos, "SeleccionarModelos", IdMarca);
-            }
-        }
-
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            SqlDataReader dr = objetoCN.Buscar(txtSerieBusqueda.Text,"BuscarSerie");
+            SqlDataReader dr = objetoCN.Buscar(txtSerieBusqueda.Text, "BuscarSerie");
             Buscando = true;
             //Comprobamos si la consulta nos devuelve informacion
             if (dr.Read())
@@ -279,32 +209,6 @@ namespace SpeedToner
             txtSerieBusqueda.Text = "";
             Buscando = false;
         }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            btnMostrar.Enabled = true;
-            TipoBusqueda = cboMostrar.SelectedItem.ToString();
-            switch (TipoBusqueda)
-            {
-                case "Cliente": LlenarComboBox(cboBusqueda, "SeleccionarClientes", 0); break;
-                case "Marca": LlenarComboBox(cboBusqueda, "SeleccionarMarca", 0); break;
-                case "Modelo": LlenarComboBox(cboBusqueda, "SeleccionarModelos", 0); break;
-            }
-        }
-
-        public void MostrarComboBox(ComboBox cb, string TipoBusqueda)
-        {
-            txtDato.Visible = false;
-            cb.Visible = true;
-            switch (TipoBusqueda)
-            {
-                case "Clientes":  break;
-            }
-            LlenarComboBox(cboBusqueda, "SeleccionarClientes", 0);
-            LlenarComboBox(cboTipoRenta, "SeleccionarTipoRenta", 0);
-            LlenarComboBox(cboMarcas, "SeleccionarMarca", 0);
-        }
-
         private void btnMostrar_Click(object sender, EventArgs e)
         {
             //Limpiamos los datos del datagridview
@@ -319,14 +223,86 @@ namespace SpeedToner
             cboBusqueda.SelectedIndex = 0;
         }
 
-        private void txtDato_TextChanged(object sender, EventArgs e)
+        private void btnCancelar_Click(object sender, EventArgs e)
         {
+            ControlesDesactivados(false);
+            LimpiarForm();
+            Modificando = false;
+        }
+        #endregion
 
+        #region Eventos
+        private void dtgEquipos_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            LimpiarForm();
+            ControlesDesactivados(true);
+            Modificando = true;
+
+            Id = int.Parse(dtgEquipos.CurrentRow.Cells[0].Value.ToString());
+            cboClientes.SelectedItem = dtgEquipos.CurrentRow.Cells[1].Value.ToString();
+            txtReferencia.Text = dtgEquipos.CurrentRow.Cells[2].Value.ToString();
+            cboMarcas.SelectedItem = dtgEquipos.CurrentRow.Cells[3].Value.ToString();
+            cboModelos.SelectedItem = dtgEquipos.CurrentRow.Cells[4].Value.ToString();
+            txtSerie.Text = dtgEquipos.CurrentRow.Cells[5].Value.ToString();
+            cboTipoRenta.SelectedItem = dtgEquipos.CurrentRow.Cells[6].Value.ToString();
+            txtPrecio.Text = dtgEquipos.CurrentRow.Cells[7].Value.ToString();
+            txtFechaPago.Text = dtgEquipos.CurrentRow.Cells[8].Value.ToString();
         }
 
-        private void cboBusqueda_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
+        private void cboMarcas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //En dado caso que se haya seleccionado algo de las marcas
+            if (cboMarcas.SelectedItem.ToString() != " " && Buscando == false)
+            {
+                int IdMarca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
+                //Se llenara de acuerdo a la marca que se haya escogido
+                LlenarComboBox(cboModelos, "SeleccionarModelos", IdMarca);
+            }
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnMostrar.Enabled = true;
+            TipoBusqueda = cboMostrar.SelectedItem.ToString();
+            switch (TipoBusqueda)
+            {
+                case "Cliente": LlenarComboBox(cboBusqueda, "SeleccionarClientes", 0); break;
+                case "Marca": LlenarComboBox(cboBusqueda, "SeleccionarMarca", 0); break;
+                case "Modelo": LlenarComboBox(cboBusqueda, "SeleccionarModelos", 0); break;
+            }
+        }
+        #endregion 
+
+        public void LimpiarForm()
+        {
+            foreach (Control c in
+                grpDatos.Controls)
+            {
+                if (c is TextBox)
+                {
+                    c.Text = "";
+                }
+            }
+            cboClientes.Focus();
+
+            cboClientes.SelectedIndex = 0;
+            cboTipoRenta.SelectedIndex = 0;
+            cboModelos.SelectedIndex = 0;
+            LlenarComboBox(cboModelos, "SeleccionarModelos", 0);
+        }
+
+        public void MostrarComboBox(ComboBox cb, string TipoBusqueda)
+        {
+            cb.Visible = true;
+            switch (TipoBusqueda)
+            {
+                case "Clientes": break;
+            }
+            LlenarComboBox(cboBusqueda, "SeleccionarClientes", 0);
+            LlenarComboBox(cboTipoRenta, "SeleccionarTipoRenta", 0);
+            LlenarComboBox(cboMarcas, "SeleccionarMarca", 0);
+        }
+
     }
 }

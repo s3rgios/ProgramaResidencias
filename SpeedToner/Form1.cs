@@ -101,7 +101,6 @@ namespace SpeedToner
             
         }
 
-
         private void PanelMenu_Paint(object sender, PaintEventArgs e)
         {
 

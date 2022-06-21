@@ -34,9 +34,9 @@
             this.txtEmpresa = new System.Windows.Forms.TextBox();
             this.dtgClientes = new System.Windows.Forms.DataGridView();
             this.btnAgregar = new System.Windows.Forms.Button();
-            this.btnModificar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.grpDatosClientes = new System.Windows.Forms.GroupBox();
+            this.btnCancelar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtgClientes)).BeginInit();
             this.grpDatosClientes.SuspendLayout();
             this.SuspendLayout();
@@ -93,19 +93,9 @@
             this.btnAgregar.UseVisualStyleBackColor = true;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
-            // btnModificar
-            // 
-            this.btnModificar.Location = new System.Drawing.Point(149, 141);
-            this.btnModificar.Name = "btnModificar";
-            this.btnModificar.Size = new System.Drawing.Size(113, 47);
-            this.btnModificar.TabIndex = 6;
-            this.btnModificar.Text = "Modificar";
-            this.btnModificar.UseVisualStyleBackColor = true;
-            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
-            // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(268, 141);
+            this.btnEliminar.Location = new System.Drawing.Point(149, 141);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(113, 47);
             this.btnEliminar.TabIndex = 7;
@@ -126,14 +116,24 @@
             this.grpDatosClientes.TabStop = false;
             this.grpDatosClientes.Text = "Datos:";
             // 
+            // btnCancelar
+            // 
+            this.btnCancelar.Location = new System.Drawing.Point(268, 141);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(113, 47);
+            this.btnCancelar.TabIndex = 9;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
             // Clientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1186, 712);
+            this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.grpDatosClientes);
             this.Controls.Add(this.btnEliminar);
-            this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.dtgClientes);
             this.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -156,8 +156,8 @@
         private TextBox txtEmpresa;
         private DataGridView dtgClientes;
         private Button btnAgregar;
-        private Button btnModificar;
         private Button btnEliminar;
         private GroupBox grpDatosClientes;
+        private Button btnCancelar;
     }
 }

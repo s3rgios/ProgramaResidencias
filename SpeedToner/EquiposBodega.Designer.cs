@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.cboMarcas = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.cboModelos = new System.Windows.Forms.ComboBox();
@@ -45,8 +46,10 @@
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.erBodega = new System.Windows.Forms.ErrorProvider(this.components);
             this.grpDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEquipos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erBodega)).BeginInit();
             this.SuspendLayout();
             // 
             // cboMarcas
@@ -233,6 +236,7 @@
             this.btnEliminar.TabIndex = 26;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnCancelar
             // 
@@ -243,6 +247,10 @@
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
+            // erBodega
+            // 
+            this.erBodega.ContainerControl = this;
             // 
             // EquiposBodega
             // 
@@ -262,6 +270,7 @@
             this.grpDatos.ResumeLayout(false);
             this.grpDatos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEquipos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erBodega)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -285,5 +294,6 @@
         private Button btnGuardar;
         private Button btnEliminar;
         private Button btnCancelar;
+        private ErrorProvider erBodega;
     }
 }

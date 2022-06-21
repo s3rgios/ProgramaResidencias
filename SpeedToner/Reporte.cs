@@ -33,7 +33,6 @@ namespace SpeedToner
         {
             cboOpcionReporte.Items.Add("Clientes");
             cboOpcionReporte.Items.Add("Serie");
-            cboOpcionReporte.Items.Add("Tecnico");
             cboOpcionReporte.Items.Add("Fecha");
             cboOpcionReporte.Items.Add("Fusor");
         }
@@ -70,6 +69,52 @@ namespace SpeedToner
             //Llenamos nuestro combobox de Clientes
             LlenarComboBox(cboClientes, "SeleccionarClientes", 0);
         }
+
+        private bool ValidarCampos()
+        {
+            bool Validado = true;
+            erReporte.Clear();
+            if(cboOpcionReporte.SelectedItem == null)
+            {
+                erReporte.SetError(cboOpcionReporte, "Escoja una opcion");
+                Validado = false;
+            }
+            else
+            {
+                switch (cboOpcionReporte.SelectedItem.ToString())
+                {
+                    case "Serie": Validado = ValidarTxtDato(); break;
+                    case "Tecnico":Validado = ValidarTxtDato() ; break;
+                    case "Fusor": Validado = ValidarTxtDato() ; break;
+                    case "Clientes": Validado = ValidarCb(); break;
+                    default:
+                        break;
+                }
+            }
+            return Validado;
+        }
+
+        private bool ValidarTxtDato()
+        {
+            bool Validado = true;
+            if (txtDato.Text == "")
+            {
+                erReporte.SetError(txtDato, "Campo Obligatorio");
+                Validado = false;
+            }
+            return Validado;
+        }
+
+        private bool ValidarCb()
+        {
+            bool Validado = true;
+            if (cboClientes.SelectedItem == " ")
+            {
+                erReporte.SetError(cboClientes, "Escoga un cliente");
+                Validado = false;
+            }
+            return Validado;
+        }
         #endregion
 
         private void btnGenerarReporte_Click(object sender, EventArgs e)
@@ -77,28 +122,26 @@ namespace SpeedToner
             string Parametro;
             try
             {
-                if(txtDato.Text != "")
+                if (ValidarCampos())
                 {
-                    Parametro = txtDato.Text;
-                }else
-                {
-                    Parametro = cboClientes.SelectedItem.ToString();
+                    if (txtDato.Text != "")
+                    {
+                        Parametro = txtDato.Text;
+                    }
+                    else
+                    {
+                        Parametro = cboClientes.SelectedItem.ToString();
+                    }
+
+                    DateTime FechaInicial = dtpFechaInicial.Value;
+                    DateTime FechaFinal = dtpFechaFinal.Value;
+                    objetoCN.GenerarReporte(FechaInicial, FechaFinal, Parametro, TipoBusqueda);
                 }
                 
-                DateTime FechaInicial = dtpFechaInicial.Value;
-                DateTime FechaFinal = dtpFechaFinal.Value;
-                objetoCN.GenerarReporte(FechaInicial, FechaFinal, Parametro,TipoBusqueda);
             }catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            //Ayudara a poder ver el contenido del pdf
-            //var p = new Process();
-            //p.StartInfo = new ProcessStartInfo(@"C:\Escaner\2022-05-17\Escaneo2.pdf")
-            //{
-            //    UseShellExecute = true
-            //};
-            //p.Start();
         }  
 
         #region Metodos Locales
@@ -111,6 +154,7 @@ namespace SpeedToner
             txtDato.Enabled = true;
             txtIdCliente.Visible = false;
             txtDato.Focus();
+            erReporte.Clear();
         }
 
         private void MostrarComboBoxClientes()
@@ -119,6 +163,7 @@ namespace SpeedToner
             txtDato.Visible = false;
             cboClientes.Visible = true;
             txtIdCliente.Visible = true;
+            erReporte.Clear();
         }
         #endregion
 
@@ -134,7 +179,7 @@ namespace SpeedToner
 
             btnGenerarReporte.Enabled = true;
             TipoBusqueda = cboOpcionReporte.SelectedItem.ToString();
-
+            
             switch (cboOpcionReporte.SelectedItem.ToString())
             {
                 case "Serie": MostrarTextBoxDato(); break;

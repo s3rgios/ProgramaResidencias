@@ -131,12 +131,12 @@ namespace SpeedToner
         }
 
         //METODO GLOBAL PARA ELIMINAR EN CUALQUIER TABLA
-        public void Eliminar(string Id,string sp)
+        public void Eliminar(int Id,string sp)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = sp;
             comando.CommandType = CommandType.StoredProcedure;
-            comando.Parameters.AddWithValue("@Id", int.Parse(Id));
+            comando.Parameters.AddWithValue("@Id", Id);
             comando.ExecuteNonQuery();
             comando.Parameters.Clear();
 
@@ -477,6 +477,26 @@ namespace SpeedToner
             comando.CommandText = "AgregarBodega";
             comando.CommandType = CommandType.StoredProcedure;
 
+            comando.Parameters.AddWithValue("@IdMarca", Marca);
+            comando.Parameters.AddWithValue("@IdModelo", Modelo);
+            comando.Parameters.AddWithValue("@Serie", Serie);
+            comando.Parameters.AddWithValue("@Ubicacion", Ubicacion);
+            comando.Parameters.AddWithValue("@Estado", Estado);
+            comando.Parameters.AddWithValue("@Notas", Notas);
+
+            comando.ExecuteNonQuery();
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
+        public void ModificarBodega(int Id,int Marca, int Modelo, string Serie, string Ubicacion, string Estado, string Notas)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "ModificarBodega";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@Id", Id);
             comando.Parameters.AddWithValue("@IdMarca", Marca);
             comando.Parameters.AddWithValue("@IdModelo", Modelo);
             comando.Parameters.AddWithValue("@Serie", Serie);

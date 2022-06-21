@@ -131,6 +131,47 @@ namespace SpeedToner
             cn.CerrarConexion();
         }
 
+        private bool ValidarCamposInventario()
+        {
+            bool Validado = true;
+            erInventario.Clear();
+
+            if (txtModelo.Text == "")
+            {
+                erInventario.SetError(txtModelo, "Ingrese el modelo");
+                Validado = false;
+            }
+            if (txtOficina.Text == "")
+            {
+                erInventario.SetError(txtOficina, "Ingrese cantidad en oficina");
+                Validado = false;
+            }
+            if (txtBodega.Text == "")
+            {
+                erInventario.SetError(txtBodega, "Ingrese cantidad en bodega");
+                Validado = false;
+            }
+            if(cboMarca.Text == " ")
+            {
+                erInventario.SetError(cboMarca, "Seleccione una marca");
+                Validado = false;
+            }
+            return Validado;
+        }
+
+        private bool ValidarCantidad()
+        {
+            bool Validado = true;
+            erInventario.Clear();
+
+            if (txtRestanteBodega.Text == "")
+            {
+                 erInventario.SetError(txtRestanteBodega, "Ingrese la cantidad a traspasar");
+                Validado = false;
+            }
+            return Validado;
+        }
+
         #endregion
 
         #region Botones
@@ -149,25 +190,29 @@ namespace SpeedToner
                 //Entrara en dado caso que nos encontremos en el inventario
                 if (inventario)
                 {
-                    string Modelo = txtModelo.Text;
-                    int Marca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
-                    string CantidadOficina = txtOficina.Text;
-                    string CantidadBodega = txtBodega.Text;
-                    if (Modificando)
+                    if (ValidarCamposInventario())
                     {
-                        //Modificar stop procedure de modificar, para que se pueda cambiar la fecha
-                        if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                        string Modelo = txtModelo.Text;
+                        int Marca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
+                        string CantidadOficina = txtOficina.Text;
+                        string CantidadBodega = txtBodega.Text;
+                        if (Modificando)
                         {
-                            MessageBox.Show("!!Modificación cancelada!!");
-                            LimpiarForm();
-                            return;
+                            //Modificar stop procedure de modificar, para que se pueda cambiar la fecha
+                            if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                            {
+                                MessageBox.Show("!!Modificación cancelada!!");
+                                LimpiarForm();
+                                return;
+                            }
+                            objetoCN.ModificarRegistroInventario(Id, Modelo, Marca, CantidadOficina, CantidadBodega);
                         }
-                        objetoCN.ModificarRegistroInventario(Id, Modelo, Marca, CantidadOficina, CantidadBodega);
+                        else
+                        {
+                            objetoCN.AñadirRegistroInventario(Modelo, Marca, CantidadOficina, CantidadBodega);
+                        }
                     }
-                    else
-                    {
-                        objetoCN.AñadirRegistroInventario(Modelo, Marca, CantidadOficina, CantidadBodega);
-                    }
+                    
                     Mostrar("MostrarInventario");
                     LimpiarForm();
                 }
@@ -228,12 +273,12 @@ namespace SpeedToner
             {
                 if (inventario)
                 {
-                    objetoCN.Eliminar(Convert.ToString(Id),"EliminarInventario");
+                    objetoCN.Eliminar(Id,"EliminarInventario");
                     Mostrar("MostrarInventario");
                 }
                 else
                 {
-                    objetoCN.Eliminar(Convert.ToString(Id), "EliminarRegistroInventario");
+                    objetoCN.Eliminar(Id, "EliminarRegistroInventario");
                     Mostrar("VerRegistroInventario");
                 }
                 LimpiarForm();
@@ -248,16 +293,20 @@ namespace SpeedToner
         {
             try
             {
-                if (MessageBox.Show("¿Esta seguro de agregar la cantidad?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                if (ValidarCantidad())
                 {
-                    MessageBox.Show("!!Modificación cancelada!!");
+                    if (MessageBox.Show("¿Esta seguro de agregar la cantidad?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    {
+                        MessageBox.Show("!!Modificación cancelada!!");
+                        LimpiarForm();
+                        return;
+                    }
+                    string Mensaje = objetoCN.EnviarOficina(txtRestanteBodega.Text, Id);
+                    MessageBox.Show(Mensaje);
+                    Mostrar("MostrarInventario");
                     LimpiarForm();
-                    return;
                 }
-                string Mensaje = objetoCN.EnviarOficina(txtRestanteBodega.Text, Id);
-                MessageBox.Show(Mensaje);
-                Mostrar("MostrarInventario");
-                LimpiarForm();
+                
             }
             catch (Exception ex)
             {
@@ -284,12 +333,11 @@ namespace SpeedToner
             cn.CerrarConexion();
         }
 
-        #endregion
-
-        private void Cantidad_Click(object sender, EventArgs e)
+        private void btnImprimirInventario_Click(object sender, EventArgs e)
         {
-
+            objetoCN.ImprimirInventario();
         }
+        #endregion
 
         //Metodo para reiniciar todos los controles para una posible nueva insercion, modificacion o eliminacion
         private void LimpiarForm()
@@ -368,14 +416,6 @@ namespace SpeedToner
             }
         }
 
-
-        #endregion
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void cboMarcas_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboMarcas.SelectedItem.ToString() != " " && Buscando == false)
@@ -385,10 +425,7 @@ namespace SpeedToner
                 LlenarComboBox(cboModelos, "SeleccionarCartuchos", IdMarca);
             }
         }
+        #endregion
 
-        private void btnImprimirInventario_Click(object sender, EventArgs e)
-        {
-            objetoCN.ImprimirInventario();
-        }
     }
 }

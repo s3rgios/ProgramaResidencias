@@ -208,7 +208,7 @@
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button2.Location = new System.Drawing.Point(22, 68);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(203, 53);
+            this.button2.Size = new System.Drawing.Size(215, 53);
             this.button2.TabIndex = 10;
             this.button2.Text = "Bodega";
             this.button2.UseVisualStyleBackColor = true;

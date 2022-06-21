@@ -57,15 +57,12 @@ namespace SpeedToner
             MostrarDatosServicios();
         }
 
-
-        
         private void ControlesDesactivadosInicialmente(bool activado)
         {
             btnCancelar.Enabled = activado;
             btnEliminar.Enabled = activado;
             btnMostrar.Enabled = activado;
         }
-
 
         //Opciones combobox Mostrar
         public void AgregarOpcionesMostrar()
@@ -77,7 +74,6 @@ namespace SpeedToner
             cboMostrar.Items.Add("Todos");
         }
 
-        
         public void PropiedadesDtgServicios()
         {
             //Solo lectura
@@ -107,12 +103,6 @@ namespace SpeedToner
             dtgServicios.DataSource = tabla;
         }
 
-        #endregion
-        private void rtxtServicio_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         public bool ValidarCamposVacios()
         {
             bool Validado = true;
@@ -123,7 +113,7 @@ namespace SpeedToner
                 erServicios.SetError(txtNumeroFolio, "Ingrese número de folio");
                 Validado = false;
             }
-            if(txtSerie.Text == "")
+            if (txtSerie.Text == "")
             {
                 erServicios.SetError(txtSerie, "Ingrese una serie");
                 Validado = false;
@@ -156,6 +146,10 @@ namespace SpeedToner
             }
             return Validado;
         }
+
+        #endregion
+
+        
         #region Botones
         private void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -246,7 +240,7 @@ namespace SpeedToner
 
             try
             {
-                string NumeroFolio = txtNumeroFolio.Text;
+                int NumeroFolio = int.Parse(txtNumeroFolio.Text);
                 objetoCN.Eliminar(NumeroFolio,"EliminarServicio");
                 MessageBox.Show("Se elimino el registro");
                 MostrarDatosServicios();
@@ -256,6 +250,39 @@ namespace SpeedToner
             {
                 MessageBox.Show("No se pudo eliminar el registro: " + ex);
             }
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            SqlDataReader dr = objetoCN.BuscarServicio(txtBusqueda.Text);
+            BuscandoFolio = true;
+
+            if (dr.Read())
+            {
+                txtNumeroFolio.Text = (dr[0].ToString());
+                cboClientes.SelectedItem = (dr[1].ToString());
+                cboMarca.SelectedItem = (dr[2].ToString());
+                cboModelos.SelectedItem = (dr[3].ToString());
+                txtSerie.Text = (dr[4].ToString());
+                txtContador.Text = (dr[5].ToString());
+                DateTime FechaRegistro = Convert.ToDateTime((dr[6].ToString()));
+                dtpFecha.Value = FechaRegistro;
+                txtTecnico.Text = (dr[7].ToString()); ;
+                txtUsuario.Text = (dr[8].ToString()); ;
+                txtFusor.Text = (dr[9].ToString()); ;
+                rtxtServicio.Text = (dr[10].ToString()); ;
+                rtxtFallas.Text = (dr[11].ToString()); ;
+                //Agregamos las opciones dependiendo los registros que nos devolvieron
+            }
+            else
+            {
+                MessageBox.Show("El número de folio no esta registrado en la base de datos");
+            }
+
+            dr.Close();
+            cn.CerrarConexion();
+            txtBusqueda.Text = "";
+            BuscandoFolio = false;
         }
         #endregion
 
@@ -280,6 +307,7 @@ namespace SpeedToner
             cboMarca.SelectedIndex = 0;
             cboModelos.SelectedIndex = 0;
             dtpFecha.Value = DateTime.Now;
+            LlenarComboBox(cboModelos, "SeleccionarModelos", 0);
         }
 
         //Metodo que ayuda a llenar los combobox dependiendo el stop procedure que se ejecute
@@ -328,9 +356,6 @@ namespace SpeedToner
 
         //Boton que mostrara los registros dependiendo de lo que solicite el usuario
         
-        private void txtCliente_Click(object sender, EventArgs e)
-        {
-                    }
         #region Eventos
 
         //Evento que ayuda a saber el cliente solo con ingresar el id del cliente en el txtCliente
@@ -356,6 +381,7 @@ namespace SpeedToner
         //Evento del datagridview que nos ayudara a saber cuando una fila es seleccionada  
         private void dtgServicios_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            LimpiarForm();
             //Una vez que se escoga alguna fila podremos activar los botones para poder modificar y eliminar
             btnGuardar.Enabled = true;
             ControlesDesactivadosInicialmente(true);
@@ -386,7 +412,7 @@ namespace SpeedToner
         //Se llenara el combo box modelos dependiendo la marca que se seleccione
         private void cboMarca_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //En dado caso que se haya seleccionado algo de las marcas
+            //En dado caso que se haya seleccionado algo de las marcas y mientras no estemos buscando un registro en especifico
             if (cboMarca.SelectedItem.ToString() != " " && BuscandoFolio == false)
             {
                 int IdMarca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
@@ -395,50 +421,7 @@ namespace SpeedToner
 
         }
         #endregion
-
-        private void btnBuscar_Click(object sender, EventArgs e)
-        {
-            SqlDataReader dr = objetoCN.BuscarServicio(txtBusqueda.Text);
-            BuscandoFolio = true;
-
-            if (dr.Read())
-            {
-                txtNumeroFolio.Text = (dr[0].ToString());
-                cboClientes.SelectedItem = (dr[1].ToString());
-                cboMarca.SelectedItem = (dr[2].ToString());
-                cboModelos.SelectedItem = (dr[3].ToString());
-                txtSerie.Text = (dr[4].ToString());
-                txtContador.Text = (dr[5].ToString());
-                DateTime FechaRegistro = Convert.ToDateTime((dr[6].ToString()));
-                dtpFecha.Value = FechaRegistro;
-                txtTecnico.Text = (dr[7].ToString()); ;
-                txtUsuario.Text = (dr[8].ToString()); ;
-                txtFusor.Text = (dr[9].ToString()); ;
-                rtxtServicio.Text = (dr[10].ToString()); ;
-                rtxtFallas.Text = (dr[11].ToString()); ;
-                //Agregamos las opciones dependiendo los registros que nos devolvieron
-            }
-            else
-            {
-                MessageBox.Show("El número de folio no esta registrado en la base de datos");
-            }    
-
-            dr.Close();
-            cn.CerrarConexion();
-            txtBusqueda.Text = "";
-            BuscandoFolio = false;
-        }
-
-
-        private void cboModelos_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtBusqueda_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+       
     }
 
     

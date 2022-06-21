@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(txtCliente));
             this.label1 = new System.Windows.Forms.Label();
             this.cboOpcionReporte = new System.Windows.Forms.ComboBox();
@@ -46,12 +47,14 @@
             this.btnMinimizar = new System.Windows.Forms.PictureBox();
             this.btnCerrar = new System.Windows.Forms.PictureBox();
             this.txtIdCliente = new System.Windows.Forms.TextBox();
+            this.erReporte = new System.Windows.Forms.ErrorProvider(this.components);
             this.BarraSuperior.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnRestaurar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMaximizar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimizar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCerrar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erReporte)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -137,7 +140,7 @@
             this.cboClientes.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboClientes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboClientes.FormattingEnabled = true;
-            this.cboClientes.Location = new System.Drawing.Point(129, 81);
+            this.cboClientes.Location = new System.Drawing.Point(129, 83);
             this.cboClientes.Name = "cboClientes";
             this.cboClientes.Size = new System.Drawing.Size(316, 29);
             this.cboClientes.TabIndex = 9;
@@ -230,6 +233,10 @@
             this.txtIdCliente.Visible = false;
             this.txtIdCliente.TextChanged += new System.EventHandler(this.txtIdCliente_TextChanged);
             // 
+            // erReporte
+            // 
+            this.erReporte.ContainerControl = this;
+            // 
             // txtCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -259,6 +266,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnMaximizar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimizar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCerrar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erReporte)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -283,5 +291,6 @@
         private PictureBox btnCerrar;
         private PictureBox pictureBox1;
         private TextBox txtIdCliente;
+        private ErrorProvider erReporte;
     }
 }

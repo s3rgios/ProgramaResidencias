@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.dtpFecha = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
@@ -37,7 +38,6 @@
             this.dtgCartuchos = new System.Windows.Forms.DataGridView();
             this.grpDatosInventario = new System.Windows.Forms.GroupBox();
             this.cboMarca = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.lblRestarBodega = new System.Windows.Forms.Label();
             this.btnRestar = new System.Windows.Forms.Button();
             this.txtRestanteBodega = new System.Windows.Forms.TextBox();
@@ -68,12 +68,15 @@
             this.txtBusqueda = new System.Windows.Forms.TextBox();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnImprimirInventario = new System.Windows.Forms.Button();
+            this.erInventario = new System.Windows.Forms.ErrorProvider(this.components);
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtgCartuchos)).BeginInit();
             this.grpDatosInventario.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tab_Inventario.SuspendLayout();
             this.Registro.SuspendLayout();
             this.grpDatosRegistro.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.erInventario)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -140,8 +143,8 @@
             // 
             // grpDatosInventario
             // 
-            this.grpDatosInventario.Controls.Add(this.cboMarca);
             this.grpDatosInventario.Controls.Add(this.label3);
+            this.grpDatosInventario.Controls.Add(this.cboMarca);
             this.grpDatosInventario.Controls.Add(this.lblRestarBodega);
             this.grpDatosInventario.Controls.Add(this.btnRestar);
             this.grpDatosInventario.Controls.Add(this.txtRestanteBodega);
@@ -172,17 +175,6 @@
             this.cboMarca.Size = new System.Drawing.Size(294, 29);
             this.cboMarca.Sorted = true;
             this.cboMarca.TabIndex = 33;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(91, 27);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 21);
-            this.label3.TabIndex = 32;
-            this.label3.Text = "Marca:";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // lblRestarBodega
             // 
@@ -335,7 +327,7 @@
             // 
             // txtCantidadEntrada
             // 
-            this.txtCantidadEntrada.Location = new System.Drawing.Point(662, 59);
+            this.txtCantidadEntrada.Location = new System.Drawing.Point(662, 63);
             this.txtCantidadEntrada.Name = "txtCantidadEntrada";
             this.txtCantidadEntrada.Size = new System.Drawing.Size(293, 27);
             this.txtCantidadEntrada.TabIndex = 26;
@@ -440,7 +432,7 @@
             // 
             // txtCantidadSalida
             // 
-            this.txtCantidadSalida.Location = new System.Drawing.Point(154, 143);
+            this.txtCantidadSalida.Location = new System.Drawing.Point(154, 137);
             this.txtCantidadSalida.Name = "txtCantidadSalida";
             this.txtCantidadSalida.Size = new System.Drawing.Size(309, 27);
             this.txtCantidadSalida.TabIndex = 10;
@@ -481,6 +473,19 @@
             this.btnImprimirInventario.UseVisualStyleBackColor = true;
             this.btnImprimirInventario.Click += new System.EventHandler(this.btnImprimirInventario_Click);
             // 
+            // erInventario
+            // 
+            this.erInventario.ContainerControl = this;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(91, 32);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(66, 21);
+            this.label3.TabIndex = 34;
+            this.label3.Text = "Marca:";
+            // 
             // Inventario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -508,6 +513,7 @@
             this.Registro.ResumeLayout(false);
             this.grpDatosRegistro.ResumeLayout(false);
             this.grpDatosRegistro.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.erInventario)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -550,10 +556,11 @@
         private Button btnRestar;
         private TextBox txtRestanteBodega;
         private Label lblRestarBodega;
-        private Label label3;
         private ComboBox cboMarca;
         private ComboBox cboMarcas;
         private Label label4;
         private Button btnImprimirInventario;
+        private ErrorProvider erInventario;
+        private Label label3;
     }
 }

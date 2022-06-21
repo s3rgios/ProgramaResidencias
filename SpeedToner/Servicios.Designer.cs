@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtCliente = new System.Windows.Forms.TextBox();
             this.cboClientes = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtNumeroFolio = new System.Windows.Forms.TextBox();
@@ -46,7 +45,6 @@
             this.txtTecnico = new System.Windows.Forms.TextBox();
             this.dtgServicios = new System.Windows.Forms.DataGridView();
             this.label8 = new System.Windows.Forms.Label();
-            this.rtxtServicio = new System.Windows.Forms.RichTextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.rtxtFallas = new System.Windows.Forms.RichTextBox();
             this.btnGuardar = new System.Windows.Forms.Button();
@@ -61,11 +59,13 @@
             this.label10 = new System.Windows.Forms.Label();
             this.txtFusor = new System.Windows.Forms.TextBox();
             this.grpDatos = new System.Windows.Forms.GroupBox();
-            this.cboModelos = new System.Windows.Forms.ComboBox();
             this.btnCancelar = new System.Windows.Forms.Button();
-            this.txtBusqueda = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.erServicios = new System.Windows.Forms.ErrorProvider(this.components);
+            this.cboModelos = new System.Windows.Forms.ComboBox();
+            this.txtBusqueda = new System.Windows.Forms.TextBox();
+            this.txtCliente = new System.Windows.Forms.TextBox();
+            this.rtxtServicio = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dtgServicios)).BeginInit();
             this.grpDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.erServicios)).BeginInit();
@@ -80,16 +80,6 @@
             this.label1.Size = new System.Drawing.Size(70, 21);
             this.label1.TabIndex = 0;
             this.label1.Text = "Cliente:";
-            // 
-            // txtCliente
-            // 
-            this.txtCliente.Location = new System.Drawing.Point(91, 56);
-            this.txtCliente.Margin = new System.Windows.Forms.Padding(2);
-            this.txtCliente.Name = "txtCliente";
-            this.txtCliente.Size = new System.Drawing.Size(43, 27);
-            this.txtCliente.TabIndex = 1;
-            this.txtCliente.Click += new System.EventHandler(this.txtCliente_Click);
-            this.txtCliente.TextChanged += new System.EventHandler(this.txtCliente_TextChanged);
             // 
             // cboClientes
             // 
@@ -238,16 +228,6 @@
             this.label8.TabIndex = 16;
             this.label8.Text = "Servicio Realizado:";
             // 
-            // rtxtServicio
-            // 
-            this.rtxtServicio.Location = new System.Drawing.Point(449, 107);
-            this.rtxtServicio.Margin = new System.Windows.Forms.Padding(2);
-            this.rtxtServicio.Name = "rtxtServicio";
-            this.rtxtServicio.Size = new System.Drawing.Size(669, 77);
-            this.rtxtServicio.TabIndex = 11;
-            this.rtxtServicio.Text = "";
-            this.rtxtServicio.TextChanged += new System.EventHandler(this.rtxtServicio_TextChanged);
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -390,11 +370,12 @@
             // grpDatos
             // 
             this.grpDatos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(69)))), ((int)(((byte)(82)))));
+            this.grpDatos.Controls.Add(this.rtxtServicio);
+            this.grpDatos.Controls.Add(this.txtCliente);
             this.grpDatos.Controls.Add(this.cboModelos);
             this.grpDatos.Controls.Add(this.label2);
             this.grpDatos.Controls.Add(this.label1);
             this.grpDatos.Controls.Add(this.txtFusor);
-            this.grpDatos.Controls.Add(this.txtCliente);
             this.grpDatos.Controls.Add(this.label10);
             this.grpDatos.Controls.Add(this.cboClientes);
             this.grpDatos.Controls.Add(this.txtNumeroFolio);
@@ -414,7 +395,6 @@
             this.grpDatos.Controls.Add(this.rtxtFallas);
             this.grpDatos.Controls.Add(this.label8);
             this.grpDatos.Controls.Add(this.label9);
-            this.grpDatos.Controls.Add(this.rtxtServicio);
             this.grpDatos.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.grpDatos.ForeColor = System.Drawing.Color.White;
             this.grpDatos.Location = new System.Drawing.Point(9, -1);
@@ -425,15 +405,6 @@
             this.grpDatos.TabIndex = 34;
             this.grpDatos.TabStop = false;
             this.grpDatos.Text = "Datos:";
-            // 
-            // cboModelos
-            // 
-            this.cboModelos.FormattingEnabled = true;
-            this.cboModelos.Location = new System.Drawing.Point(87, 125);
-            this.cboModelos.Name = "cboModelos";
-            this.cboModelos.Size = new System.Drawing.Size(341, 29);
-            this.cboModelos.TabIndex = 33;
-            this.cboModelos.SelectedIndexChanged += new System.EventHandler(this.cboModelos_SelectedIndexChanged);
             // 
             // btnCancelar
             // 
@@ -447,16 +418,6 @@
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = false;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
-            // 
-            // txtBusqueda
-            // 
-            this.txtBusqueda.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtBusqueda.Location = new System.Drawing.Point(386, 342);
-            this.txtBusqueda.Margin = new System.Windows.Forms.Padding(2);
-            this.txtBusqueda.Name = "txtBusqueda";
-            this.txtBusqueda.Size = new System.Drawing.Size(196, 27);
-            this.txtBusqueda.TabIndex = 33;
-            this.txtBusqueda.TextChanged += new System.EventHandler(this.txtBusqueda_TextChanged);
             // 
             // label12
             // 
@@ -473,14 +434,52 @@
             // 
             this.erServicios.ContainerControl = this;
             // 
+            // cboModelos
+            // 
+            this.cboModelos.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboModelos.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboModelos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboModelos.FormattingEnabled = true;
+            this.cboModelos.Location = new System.Drawing.Point(87, 130);
+            this.cboModelos.Margin = new System.Windows.Forms.Padding(2);
+            this.cboModelos.Name = "cboModelos";
+            this.cboModelos.Size = new System.Drawing.Size(341, 29);
+            this.cboModelos.Sorted = true;
+            this.cboModelos.TabIndex = 33;
+            // 
+            // txtBusqueda
+            // 
+            this.txtBusqueda.Location = new System.Drawing.Point(383, 340);
+            this.txtBusqueda.Margin = new System.Windows.Forms.Padding(2);
+            this.txtBusqueda.Name = "txtBusqueda";
+            this.txtBusqueda.Size = new System.Drawing.Size(199, 23);
+            this.txtBusqueda.TabIndex = 34;
+            // 
+            // txtCliente
+            // 
+            this.txtCliente.Location = new System.Drawing.Point(87, 54);
+            this.txtCliente.Margin = new System.Windows.Forms.Padding(2);
+            this.txtCliente.Name = "txtCliente";
+            this.txtCliente.Size = new System.Drawing.Size(48, 27);
+            this.txtCliente.TabIndex = 34;
+            // 
+            // rtxtServicio
+            // 
+            this.rtxtServicio.Location = new System.Drawing.Point(449, 105);
+            this.rtxtServicio.Margin = new System.Windows.Forms.Padding(2);
+            this.rtxtServicio.Name = "rtxtServicio";
+            this.rtxtServicio.Size = new System.Drawing.Size(669, 79);
+            this.rtxtServicio.TabIndex = 35;
+            this.rtxtServicio.Text = "";
+            // 
             // Servicios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(69)))), ((int)(((byte)(82)))));
             this.ClientSize = new System.Drawing.Size(1172, 749);
-            this.Controls.Add(this.label12);
             this.Controls.Add(this.txtBusqueda);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.grpDatos);
             this.Controls.Add(this.cboMostrar);
@@ -507,7 +506,6 @@
         #endregion
 
         private Label label1;
-        private TextBox txtCliente;
         private ComboBox cboClientes;
         private Label label2;
         private TextBox txtNumeroFolio;
@@ -523,7 +521,6 @@
         private TextBox txtTecnico;
         private DataGridView dtgServicios;
         private Label label8;
-        private RichTextBox rtxtServicio;
         private Label label9;
         private RichTextBox rtxtFallas;
         private Button btnGuardar;
@@ -539,9 +536,11 @@
         private TextBox txtFusor;
         private GroupBox grpDatos;
         private Button btnCancelar;
-        private TextBox txtBusqueda;
-        private ComboBox cboModelos;
         private Label label12;
         private ErrorProvider erServicios;
+        private ComboBox cboModelos;
+        private TextBox txtBusqueda;
+        private TextBox txtCliente;
+        private RichTextBox rtxtServicio;
     }
 }

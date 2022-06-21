@@ -15,16 +15,18 @@ namespace SpeedToner
         CD_Servicios objetoCN = new CD_Servicios();
         CD_Conexion cn = new CD_Conexion();
         int Id = 0;
+        bool Modificando = false;
         public Clientes()
         {
             InitializeComponent();
             Inicio();
         }
 
+        #region Inicio
         public void Inicio()
         {
             btnEliminar.Enabled = false;
-            btnModificar.Enabled = false;   
+            btnCancelar.Enabled = false;
 
             LlenarDtg();
             MostrarDatosClientes();
@@ -46,59 +48,31 @@ namespace SpeedToner
         }
 
         public void MostrarDatosClientes()
-        {  
+        {
             DataTable tabla = new DataTable();
             tabla = objetoCN.Mostrar("MostrarClientes");
             dtgClientes.DataSource = tabla;
         }
+        #endregion
 
+
+        #region Botones
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             try
             {
                 string Empresa = txtEmpresa.Text;
-
-                objetoCN.InsertarCliente(Empresa);
-                LimpiarForm();
-                MostrarDatosClientes();
-
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("Ha ocurrido un error: " + ex.Message);
-            }
-        }
-
-        private void LimpiarForm()
-        {
-            foreach (Control c in grpDatosClientes.Controls)
-            {
-                if (c is TextBox)
+                if (Modificando)
                 {
-                    c.Text = "";
+                    objetoCN.ModificarCliente(Id, Empresa);
+                    MessageBox.Show("Se ha modificado el cliente correctamente");
                 }
-            }
-            txtEmpresa.Focus();
-        }
+                else
+                {
+                    objetoCN.InsertarCliente(Empresa);
+                    MessageBox.Show("Se ha agregado correctamente");
+                }
 
-        //Llenar campos dependiendo la fila que se eliga
-        private void dtgClientes_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            btnModificar.Enabled = true;
-            btnEliminar.Enabled = true;
-
-            //Guardamos el Id en dado caso que se quiera modificar o eliminar
-            Id = int.Parse(dtgClientes.CurrentRow.Cells[0].Value.ToString());
-            txtEmpresa.Text = dtgClientes.CurrentRow.Cells[1].Value.ToString();
-        }
-
-        private void btnModificar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string Empresa = txtEmpresa.Text;
-
-                objetoCN.ModificarCliente(Id,Empresa);
                 LimpiarForm();
                 MostrarDatosClientes();
 
@@ -114,7 +88,7 @@ namespace SpeedToner
             try
             {
                 string Empresa = txtEmpresa.Text;
-                objetoCN.Eliminar(Convert.ToString(Id),"EliminarCliente");
+                objetoCN.Eliminar(Id, "EliminarCliente");
                 LimpiarForm();
                 MostrarDatosClientes();
 
@@ -124,6 +98,39 @@ namespace SpeedToner
                 MessageBox.Show("Ha ocurrido un error: " + ex.Message);
             }
         }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Modificando = true;
+            LimpiarForm();
+        }
+        #endregion
+
+        private void LimpiarForm()
+        {
+            foreach (Control c in grpDatosClientes.Controls)
+            {
+                if (c is TextBox)
+                {
+                    c.Text = "";
+                }
+            }
+            txtEmpresa.Focus();
+        }
+
+        #region Eventos
+        //Llenar campos dependiendo la fila que se eliga
+        private void dtgClientes_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            btnCancelar.Enabled = true;
+            btnEliminar.Enabled = true;
+            Modificando = true;
+
+            //Guardamos el Id en dado caso que se quiera modificar o eliminar
+            Id = int.Parse(dtgClientes.CurrentRow.Cells[0].Value.ToString());
+            txtEmpresa.Text = dtgClientes.CurrentRow.Cells[1].Value.ToString();
+        }
+        #endregion
     }
 
     

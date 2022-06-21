@@ -23,7 +23,7 @@ namespace SpeedToner
         CD_Conexion cn = new CD_Conexion();
         //Sabremos si estamos modificando o agregando
         private bool Modificando = false;
-        bool Buscando = false;
+        //Guardar el id de un registro
         int Id;
 
         #region Inicio
@@ -101,6 +101,24 @@ namespace SpeedToner
             dr.Close();
             cn.CerrarConexion();
         }
+
+        private bool ValidarDatos()
+        {
+            bool Validado = true;
+            erBodega.Clear();
+            foreach (Control c in grpDatos.Controls)
+            {
+                if (c is ComboBox || c is TextBox)
+                {
+                    if(c.Text == "" || c.Text == " ")
+                    {
+                        erBodega.SetError(c, "Campo obligatorio");
+                        Validado = false;
+                    }
+                }
+            }
+            return Validado;
+        }
         #endregion
 
         #region Botones
@@ -108,25 +126,63 @@ namespace SpeedToner
         {
             try
             {
-                int Marca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
-                int Modelo = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdModelo");
-                string Serie = txtSerie.Text;
-                string Ubicacion = txtUbicacion.Text;
-                string Estado = cboEstado.SelectedItem.ToString();
-                string Notas = rtxtNotas.Text;
-                if (Modificando)
+                if (ValidarDatos())
                 {
-                    
-                }
-                else
-                {
-                    objetoCN.AgregarBodega(Marca,Modelo,Serie,Ubicacion,Estado,Notas);
-                    MessageBox.Show("Equipo añadido correctamente!");
+                    int Marca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
+                    int Modelo = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdModelo");
+                    string Serie = txtSerie.Text;
+                    string Ubicacion = txtUbicacion.Text;
+                    string Estado = cboEstado.SelectedItem.ToString();
+                    string Notas = rtxtNotas.Text;
+                    if (Modificando)
+                    {
+                        if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                        {
+                            MessageBox.Show("!!Modificación cancelada!!");
+                            LimpiarForm();
+                            return;
+                        }
+                        objetoCN.ModificarBodega(Id, Marca, Modelo, Serie, Ubicacion, Estado, Notas);
+                        MessageBox.Show("¡Equipo modificado correctamente!");
+                    }
+                    else
+                    {
+                        objetoCN.AgregarBodega(Marca, Modelo, Serie, Ubicacion, Estado, Notas);
+                        MessageBox.Show("¡Equipo añadido correctamente!");
+                    }
                     Mostrar("MostrarBodega");
+                    LimpiarForm();
                 }
-                LimpiarForm();
                 
             }catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            ControlesDesactivados(false);
+            Modificando = false;
+            LimpiarForm();
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("¿Esta seguro de eliminar el registro?", "CONFIRME LA ELIMINACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    MessageBox.Show("!!Eliminacion cancelada!!");
+                    LimpiarForm();
+                    return;
+                }
+                objetoCN.Eliminar(Id, "EliminarBodega");
+                MessageBox.Show("Se ha eliminado el registro correctamente");
+                Mostrar("MostrarEquipos");
+                LimpiarForm();
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -147,25 +203,30 @@ namespace SpeedToner
 
             cboMarcas.SelectedIndex = 0;
             cboModelos.SelectedIndex = 0;
+            LlenarComboBox(cboModelos, "SeleccionarModelos", 0);
         }
 
         #region Eventos
+        //Nos ayudara a llenar el combobox de modelos dependiendo de su marca
         private void cboMarcas_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboMarcas.SelectedItem.ToString() != " " && Buscando == false)
+            //Mientras haya una marca seleccionada y mientras no estemos modificando
+            if (cboMarcas.SelectedItem.ToString() != " " && Modificando == false)
             {
                 int IdMarca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
-                //Se llenara de acuerdo a la marca que se haya escogido
+                //Se mostraran los modelos de acuerdo a la marca que se haya escogido
                 LlenarComboBox(cboModelos, "SeleccionarModelos", IdMarca);
             }
         }
-        #endregion
 
+        //Seleccionamos algun registro del dtg para poder modificarlo o eliminarlo
         private void dtgEquipos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            LimpiarForm();
             ControlesDesactivados(true);
             Modificando = true;
 
+            //Se cargan los controles con el registro seleccionado
             Id = int.Parse(dtgEquipos.CurrentRow.Cells[0].Value.ToString());
             cboMarcas.SelectedItem = dtgEquipos.CurrentRow.Cells[1].Value.ToString();
             cboModelos.SelectedItem = dtgEquipos.CurrentRow.Cells[2].Value.ToString();
@@ -174,12 +235,8 @@ namespace SpeedToner
             cboEstado.SelectedItem = dtgEquipos.CurrentRow.Cells[5].Value.ToString();
             rtxtNotas.Text = dtgEquipos.CurrentRow.Cells[6].Value.ToString();
         }
+        #endregion
 
-        private void btnCancelar_Click(object sender, EventArgs e)
-        {
-            ControlesDesactivados(false);
-            Modificando = true;
-            LimpiarForm();
-        }
+
     }
 }

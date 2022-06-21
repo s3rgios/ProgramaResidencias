@@ -32,8 +32,6 @@
             this.btnBuscar = new System.Windows.Forms.Button();
             this.txtSerieBusqueda = new System.Windows.Forms.TextBox();
             this.btnMostrar = new System.Windows.Forms.Button();
-            this.txtDato = new System.Windows.Forms.TextBox();
-            this.cboBusqueda = new System.Windows.Forms.ComboBox();
             this.cboMarcas = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.cboModelos = new System.Windows.Forms.ComboBox();
@@ -57,17 +55,17 @@
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.cboBusqueda = new System.Windows.Forms.ComboBox();
             this.grpDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEquipos)).BeginInit();
             this.SuspendLayout();
             // 
             // grpDatos
             // 
+            this.grpDatos.Controls.Add(this.cboBusqueda);
             this.grpDatos.Controls.Add(this.btnBuscar);
             this.grpDatos.Controls.Add(this.txtSerieBusqueda);
             this.grpDatos.Controls.Add(this.btnMostrar);
-            this.grpDatos.Controls.Add(this.txtDato);
-            this.grpDatos.Controls.Add(this.cboBusqueda);
             this.grpDatos.Controls.Add(this.cboMarcas);
             this.grpDatos.Controls.Add(this.label8);
             this.grpDatos.Controls.Add(this.cboModelos);
@@ -122,29 +120,6 @@
             this.btnMostrar.Text = "Mostrar";
             this.btnMostrar.UseVisualStyleBackColor = true;
             this.btnMostrar.Click += new System.EventHandler(this.btnMostrar_Click);
-            // 
-            // txtDato
-            // 
-            this.txtDato.Location = new System.Drawing.Point(367, 250);
-            this.txtDato.Name = "txtDato";
-            this.txtDato.Size = new System.Drawing.Size(441, 27);
-            this.txtDato.TabIndex = 11;
-            this.txtDato.Visible = false;
-            this.txtDato.TextChanged += new System.EventHandler(this.txtDato_TextChanged);
-            // 
-            // cboBusqueda
-            // 
-            this.cboBusqueda.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboBusqueda.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboBusqueda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboBusqueda.FormattingEnabled = true;
-            this.cboBusqueda.Location = new System.Drawing.Point(367, 250);
-            this.cboBusqueda.Margin = new System.Windows.Forms.Padding(2);
-            this.cboBusqueda.Name = "cboBusqueda";
-            this.cboBusqueda.Size = new System.Drawing.Size(442, 29);
-            this.cboBusqueda.Sorted = true;
-            this.cboBusqueda.TabIndex = 12;
-            this.cboBusqueda.SelectedIndexChanged += new System.EventHandler(this.cboBusqueda_SelectedIndexChanged);
             // 
             // cboMarcas
             // 
@@ -360,6 +335,17 @@
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
+            // cboBusqueda
+            // 
+            this.cboBusqueda.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboBusqueda.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboBusqueda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboBusqueda.FormattingEnabled = true;
+            this.cboBusqueda.Location = new System.Drawing.Point(366, 248);
+            this.cboBusqueda.Name = "cboBusqueda";
+            this.cboBusqueda.Size = new System.Drawing.Size(442, 29);
+            this.cboBusqueda.TabIndex = 17;
+            // 
             // Equipos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -411,7 +397,6 @@
         private Label label10;
         private ComboBox cboMostrar;
         private Button btnMostrar;
-        private TextBox txtDato;
         private ComboBox cboBusqueda;
     }
 }
