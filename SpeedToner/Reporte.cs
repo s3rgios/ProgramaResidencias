@@ -15,6 +15,7 @@ namespace SpeedToner
 {
     public partial class txtCliente : Form
     {
+        string Parametro;
         string TipoBusqueda = "";
         CD_Servicios objetoCN = new CD_Servicios();
         CD_Conexion cn = new CD_Conexion();
@@ -31,7 +32,7 @@ namespace SpeedToner
         #region Inicio
         public void AgregarOpcionesBusqueda()
         {
-            cboOpcionReporte.Items.Add("Clientes");
+            cboOpcionReporte.Items.Add("Cliente");
             cboOpcionReporte.Items.Add("Serie");
             cboOpcionReporte.Items.Add("Fecha");
             cboOpcionReporte.Items.Add("Fusor");
@@ -86,7 +87,7 @@ namespace SpeedToner
                     case "Serie": Validado = ValidarTxtDato(); break;
                     case "Tecnico":Validado = ValidarTxtDato() ; break;
                     case "Fusor": Validado = ValidarTxtDato() ; break;
-                    case "Clientes": Validado = ValidarCb(); break;
+                    case "Cliente": Validado = ValidarCb(); break;
                     default:
                         break;
                 }
@@ -119,7 +120,7 @@ namespace SpeedToner
 
         private void btnGenerarReporte_Click(object sender, EventArgs e)
         {
-            string Parametro;
+            
             try
             {
                 if (ValidarCampos())
@@ -132,7 +133,6 @@ namespace SpeedToner
                     {
                         Parametro = cboClientes.SelectedItem.ToString();
                     }
-
                     DateTime FechaInicial = dtpFechaInicial.Value;
                     DateTime FechaFinal = dtpFechaFinal.Value;
                     objetoCN.GenerarReporte(FechaInicial, FechaFinal, Parametro, TipoBusqueda);
@@ -176,16 +176,15 @@ namespace SpeedToner
 
         private void cboOpcionReporte_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             btnGenerarReporte.Enabled = true;
             TipoBusqueda = cboOpcionReporte.SelectedItem.ToString();
             
             switch (cboOpcionReporte.SelectedItem.ToString())
             {
                 case "Serie": MostrarTextBoxDato(); break;
-                case "Tecnico": MostrarTextBoxDato(); break;
+                case "Fecha": Parametro = " "; break;
                 case "Fusor": MostrarTextBoxDato(); break;
-                case "Clientes": MostrarComboBoxClientes(); break;
+                case "Cliente": MostrarComboBoxClientes(); break;
                 default:
                     txtDato.Visible = false; cboClientes.Visible = false;
                     break;

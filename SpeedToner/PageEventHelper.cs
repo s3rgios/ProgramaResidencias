@@ -137,7 +137,7 @@ namespace SpeedToner
             cb.SetRGBColorFill(100, 100, 100);
             cb.BeginText();
             cb.SetFontAndSize(bf, 8);
-            cb.SetTextMatrix(pagesize.GetLeft(40), pagesize.GetBottom(30));
+            cb.SetTextMatrix(pagesize.GetLeft(40), pagesize.GetBottom(20));
             cb.ShowText(text);
             cb.EndText();
             //Definimos otra platilla 
@@ -150,7 +150,7 @@ namespace SpeedToner
             cb.ShowTextAligned(PdfContentByte.ALIGN_RIGHT,
                 "Printed On " + PrintTime.ToString(),
                 pagesize.GetRight(40),
-                pagesize.GetBottom(30), 0);
+                pagesize.GetBottom(20), 0);
             cb.EndText();
         }
 

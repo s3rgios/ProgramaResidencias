@@ -165,6 +165,7 @@ namespace SpeedToner
                     int Modelo = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdModelo");
                     string Serie = txtSerie.Text;
                     string Contador = txtContador.Text;
+                    Contador = Contador.Replace(",", "");
                     DateTime Fecha = dtpFecha.Value;
                     string Tecnico = txtTecnico.Text;
                     string Usuario = txtUsuario.Text;
@@ -393,7 +394,7 @@ namespace SpeedToner
             cboMarca.SelectedItem = dtgServicios.CurrentRow.Cells[2].Value.ToString();
             cboModelos.SelectedItem = dtgServicios.CurrentRow.Cells[3].Value.ToString();
             txtSerie.Text = dtgServicios.CurrentRow.Cells[4].Value.ToString();
-            txtContador.Text = dtgServicios.CurrentRow.Cells[5].Value.ToString();
+            txtContador.Text = string.Format("{0:n0}",int.Parse(dtgServicios.CurrentRow.Cells[5].Value.ToString()));
             DateTime FechaRegistro = Convert.ToDateTime(dtgServicios.CurrentRow.Cells[6].Value.ToString());
             dtpFecha.Value = FechaRegistro;
             txtTecnico.Text = dtgServicios.CurrentRow.Cells[7].Value.ToString();

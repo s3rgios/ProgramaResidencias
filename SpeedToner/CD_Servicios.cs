@@ -10,6 +10,8 @@ using iTextSharp.text.pdf;
 using System.Xml.Linq;
 using System.Diagnostics;
 
+
+
 namespace SpeedToner
 {
     public class CD_Servicios
@@ -575,14 +577,14 @@ namespace SpeedToner
 
             //Tabla para cuando se requiera hacer reporte por cliente
             PdfPTable tblCliente = new PdfPTable(4);
-            tblCliente.WidthPercentage = 100;
+            tblCliente.WidthPercentage = 80;
 
             document.Add(new Paragraph("\n"));
 
             //Si estamos filtrando por cliente, entonces se añade una tabla con los titulos de los datos que nos arrojara
-            if (TipoBusqueda == "Clientes")
+            if (TipoBusqueda == "Cliente" || TipoBusqueda == "Fusor")
             {
-                PdfPCell clCliente = new PdfPCell(new Phrase("Cliente", fontParapraghBold));
+                PdfPCell clCliente = new PdfPCell(new Phrase(TipoBusqueda, fontParapraghBold));
                 clCliente.BorderWidth = 0;
                 clCliente.BorderWidthLeft = .5f;
                 clCliente.BorderWidthTop = .5f;
@@ -623,6 +625,7 @@ namespace SpeedToner
                 {
                     document.NewPage();
                     contadorRegistros = 0;
+                    document.Add(new Paragraph("\n"));
                 }
                 //Si esta vacia que agregue la primer tabla con la serie, marca y modelo
                 if (!Series.Any())
@@ -635,6 +638,10 @@ namespace SpeedToner
                     //Mandamos los nombres de los titulos que tendran las columnas de la tabla
                     tblSerie = AgregarTablaSerie(Serie, Marca, Modelo);
                     document.Add(tblSerie);
+                    if(TipoBusqueda != "Cliente")
+                    {
+                        document.Add(new Paragraph("Cliente: " + reporte[1].ToString(), fontParapraghBold));
+                    }
                     Series.Add(reporte[4].ToString());
                 }
                 foreach (string serie in Series)
@@ -658,6 +665,15 @@ namespace SpeedToner
                     //Mandamos los nombres de los titulos que tendran las columnas de la tabla
                     tblSerie = AgregarTablaSerie(Serie, Marca, Modelo);
                     document.Add(tblSerie);
+                    if (TipoBusqueda != "Cliente")
+                    {
+                        document.Add(new Paragraph("Cliente: " + reporte[1].ToString(), fontParapraghBold));
+                    }
+                    contadorRegistros++;
+                }
+                else
+                {
+                    //document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
                 }
                 //Colocamos los datos del servicio
                 DateTime Fecha = Convert.ToDateTime(reporte[6].ToString());
@@ -666,8 +682,8 @@ namespace SpeedToner
                 document.Add(new Paragraph("SERVICIO: " + reporte[10].ToString().ToUpper(), fontParapragh));
                 document.Add(new Paragraph("FUSOR: " + reporte[9].ToString().ToUpper(), fontParapragh));
                 document.Add(new Paragraph("CONTADOR: " + string.Format("{0:n0}", int.Parse(reporte[5].ToString())), fontParapragh));
-                
                 document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
+
                 //Agregamos la serie a la lista
                 Series.Add(reporte[4].ToString());
 
