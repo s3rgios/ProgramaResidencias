@@ -59,13 +59,13 @@
             this.label10 = new System.Windows.Forms.Label();
             this.txtFusor = new System.Windows.Forms.TextBox();
             this.grpDatos = new System.Windows.Forms.GroupBox();
+            this.rtxtServicio = new System.Windows.Forms.RichTextBox();
+            this.txtCliente = new System.Windows.Forms.TextBox();
+            this.cboModelos = new System.Windows.Forms.ComboBox();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.erServicios = new System.Windows.Forms.ErrorProvider(this.components);
-            this.cboModelos = new System.Windows.Forms.ComboBox();
             this.txtBusqueda = new System.Windows.Forms.TextBox();
-            this.txtCliente = new System.Windows.Forms.TextBox();
-            this.rtxtServicio = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dtgServicios)).BeginInit();
             this.grpDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.erServicios)).BeginInit();
@@ -277,7 +277,7 @@
             // 
             this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
             this.btnBuscar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnBuscar.Location = new System.Drawing.Point(586, 318);
+            this.btnBuscar.Location = new System.Drawing.Point(612, 318);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(2);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(112, 52);
@@ -406,6 +406,36 @@
             this.grpDatos.TabStop = false;
             this.grpDatos.Text = "Datos:";
             // 
+            // rtxtServicio
+            // 
+            this.rtxtServicio.Location = new System.Drawing.Point(449, 105);
+            this.rtxtServicio.Margin = new System.Windows.Forms.Padding(2);
+            this.rtxtServicio.Name = "rtxtServicio";
+            this.rtxtServicio.Size = new System.Drawing.Size(669, 79);
+            this.rtxtServicio.TabIndex = 35;
+            this.rtxtServicio.Text = "";
+            // 
+            // txtCliente
+            // 
+            this.txtCliente.Location = new System.Drawing.Point(87, 54);
+            this.txtCliente.Margin = new System.Windows.Forms.Padding(2);
+            this.txtCliente.Name = "txtCliente";
+            this.txtCliente.Size = new System.Drawing.Size(48, 27);
+            this.txtCliente.TabIndex = 34;
+            // 
+            // cboModelos
+            // 
+            this.cboModelos.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboModelos.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboModelos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboModelos.FormattingEnabled = true;
+            this.cboModelos.Location = new System.Drawing.Point(87, 130);
+            this.cboModelos.Margin = new System.Windows.Forms.Padding(2);
+            this.cboModelos.Name = "cboModelos";
+            this.cboModelos.Size = new System.Drawing.Size(341, 29);
+            this.cboModelos.Sorted = true;
+            this.cboModelos.TabIndex = 33;
+            // 
             // btnCancelar
             // 
             this.btnCancelar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
@@ -434,19 +464,6 @@
             // 
             this.erServicios.ContainerControl = this;
             // 
-            // cboModelos
-            // 
-            this.cboModelos.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboModelos.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboModelos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboModelos.FormattingEnabled = true;
-            this.cboModelos.Location = new System.Drawing.Point(87, 130);
-            this.cboModelos.Margin = new System.Windows.Forms.Padding(2);
-            this.cboModelos.Name = "cboModelos";
-            this.cboModelos.Size = new System.Drawing.Size(341, 29);
-            this.cboModelos.Sorted = true;
-            this.cboModelos.TabIndex = 33;
-            // 
             // txtBusqueda
             // 
             this.txtBusqueda.Location = new System.Drawing.Point(383, 340);
@@ -454,23 +471,6 @@
             this.txtBusqueda.Name = "txtBusqueda";
             this.txtBusqueda.Size = new System.Drawing.Size(199, 23);
             this.txtBusqueda.TabIndex = 34;
-            // 
-            // txtCliente
-            // 
-            this.txtCliente.Location = new System.Drawing.Point(87, 54);
-            this.txtCliente.Margin = new System.Windows.Forms.Padding(2);
-            this.txtCliente.Name = "txtCliente";
-            this.txtCliente.Size = new System.Drawing.Size(48, 27);
-            this.txtCliente.TabIndex = 34;
-            // 
-            // rtxtServicio
-            // 
-            this.rtxtServicio.Location = new System.Drawing.Point(449, 105);
-            this.rtxtServicio.Margin = new System.Windows.Forms.Padding(2);
-            this.rtxtServicio.Name = "rtxtServicio";
-            this.rtxtServicio.Size = new System.Drawing.Size(669, 79);
-            this.rtxtServicio.TabIndex = 35;
-            this.rtxtServicio.Text = "";
             // 
             // Servicios
             // 

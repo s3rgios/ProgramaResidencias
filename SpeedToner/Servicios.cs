@@ -147,6 +147,19 @@ namespace SpeedToner
             return Validado;
         }
 
+        public bool ValidarCampoBusqueda()
+        {
+            bool Validado = true;
+            erServicios.Clear();
+
+            if (txtBusqueda.Text == "")
+            {
+                erServicios.SetError(txtBusqueda, "Ingrese número de folio");
+                Validado = false;
+            }
+            return Validado;
+        }
+
         #endregion
 
         
@@ -255,35 +268,39 @@ namespace SpeedToner
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            SqlDataReader dr = objetoCN.BuscarServicio(txtBusqueda.Text);
-            BuscandoFolio = true;
-
-            if (dr.Read())
+            if (ValidarCampoBusqueda())
             {
-                txtNumeroFolio.Text = (dr[0].ToString());
-                cboClientes.SelectedItem = (dr[1].ToString());
-                cboMarca.SelectedItem = (dr[2].ToString());
-                cboModelos.SelectedItem = (dr[3].ToString());
-                txtSerie.Text = (dr[4].ToString());
-                txtContador.Text = (dr[5].ToString());
-                DateTime FechaRegistro = Convert.ToDateTime((dr[6].ToString()));
-                dtpFecha.Value = FechaRegistro;
-                txtTecnico.Text = (dr[7].ToString()); ;
-                txtUsuario.Text = (dr[8].ToString()); ;
-                txtFusor.Text = (dr[9].ToString()); ;
-                rtxtServicio.Text = (dr[10].ToString()); ;
-                rtxtFallas.Text = (dr[11].ToString()); ;
-                //Agregamos las opciones dependiendo los registros que nos devolvieron
-            }
-            else
-            {
-                MessageBox.Show("El número de folio no esta registrado en la base de datos");
-            }
+                SqlDataReader dr = objetoCN.BuscarServicio(txtBusqueda.Text);
+                BuscandoFolio = true;
+                btnCancelar.Enabled = true;
 
-            dr.Close();
-            cn.CerrarConexion();
-            txtBusqueda.Text = "";
-            BuscandoFolio = false;
+                if (dr.Read())
+                {
+                    txtNumeroFolio.Text = (dr[0].ToString());
+                    cboClientes.SelectedItem = (dr[1].ToString());
+                    cboMarca.SelectedItem = (dr[2].ToString());
+                    cboModelos.SelectedItem = (dr[3].ToString());
+                    txtSerie.Text = (dr[4].ToString());
+                    txtContador.Text = (dr[5].ToString());
+                    DateTime FechaRegistro = Convert.ToDateTime((dr[6].ToString()));
+                    dtpFecha.Value = FechaRegistro;
+                    txtTecnico.Text = (dr[7].ToString()); ;
+                    txtUsuario.Text = (dr[8].ToString()); ;
+                    txtFusor.Text = (dr[9].ToString()); ;
+                    rtxtServicio.Text = (dr[10].ToString()); ;
+                    rtxtFallas.Text = (dr[11].ToString()); ;
+                    //Agregamos las opciones dependiendo los registros que nos devolvieron
+                }
+                else
+                {
+                    MessageBox.Show("El número de folio no esta registrado en la base de datos");
+                }
+
+                dr.Close();
+                cn.CerrarConexion();
+                txtBusqueda.Text = "";
+                BuscandoFolio = false;
+            }
         }
         #endregion
 
@@ -394,7 +411,7 @@ namespace SpeedToner
             cboMarca.SelectedItem = dtgServicios.CurrentRow.Cells[2].Value.ToString();
             cboModelos.SelectedItem = dtgServicios.CurrentRow.Cells[3].Value.ToString();
             txtSerie.Text = dtgServicios.CurrentRow.Cells[4].Value.ToString();
-            txtContador.Text = string.Format("{0:n0}",int.Parse(dtgServicios.CurrentRow.Cells[5].Value.ToString()));
+            txtContador.Text = dtgServicios.CurrentRow.Cells[5].Value.ToString();
             DateTime FechaRegistro = Convert.ToDateTime(dtgServicios.CurrentRow.Cells[6].Value.ToString());
             dtpFecha.Value = FechaRegistro;
             txtTecnico.Text = dtgServicios.CurrentRow.Cells[7].Value.ToString();

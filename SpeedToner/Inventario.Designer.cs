@@ -37,6 +37,7 @@
             this.btnEliminar = new System.Windows.Forms.Button();
             this.dtgCartuchos = new System.Windows.Forms.DataGridView();
             this.grpDatosInventario = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.cboMarca = new System.Windows.Forms.ComboBox();
             this.lblRestarBodega = new System.Windows.Forms.Label();
             this.btnRestar = new System.Windows.Forms.Button();
@@ -69,7 +70,6 @@
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnImprimirInventario = new System.Windows.Forms.Button();
             this.erInventario = new System.Windows.Forms.ErrorProvider(this.components);
-            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtgCartuchos)).BeginInit();
             this.grpDatosInventario.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -162,6 +162,15 @@
             this.grpDatosInventario.TabIndex = 19;
             this.grpDatosInventario.TabStop = false;
             this.grpDatosInventario.Text = "Datos";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(91, 32);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(66, 21);
+            this.label3.TabIndex = 34;
+            this.label3.Text = "Marca:";
             // 
             // cboMarca
             // 
@@ -271,10 +280,10 @@
             // Registro
             // 
             this.Registro.Controls.Add(this.grpDatosRegistro);
-            this.Registro.Location = new System.Drawing.Point(4, 30);
+            this.Registro.Location = new System.Drawing.Point(4, 24);
             this.Registro.Name = "Registro";
             this.Registro.Padding = new System.Windows.Forms.Padding(3);
-            this.Registro.Size = new System.Drawing.Size(1062, 205);
+            this.Registro.Size = new System.Drawing.Size(1062, 211);
             this.Registro.TabIndex = 1;
             this.Registro.Text = "Registros";
             this.Registro.UseVisualStyleBackColor = true;
@@ -477,15 +486,6 @@
             // 
             this.erInventario.ContainerControl = this;
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(91, 32);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 21);
-            this.label3.TabIndex = 34;
-            this.label3.Text = "Marca:";
-            // 
             // Inventario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -503,7 +503,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Inventario";
-            this.Text = "Inventario";
+            this.Text = "6";
             this.Load += new System.EventHandler(this.Inventario_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgCartuchos)).EndInit();
             this.grpDatosInventario.ResumeLayout(false);

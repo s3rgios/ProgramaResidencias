@@ -151,7 +151,7 @@ namespace SpeedToner
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "BuscarServicio";
             comando.CommandType = CommandType.StoredProcedure;
-            comando.Parameters.AddWithValue("@NumeroFolio", int.Parse(NumeroFolio));
+            comando.Parameters.AddWithValue("@NumeroFolio", NumeroFolio);
             leer = comando.ExecuteReader();
             comando.Parameters.Clear();
 
@@ -848,6 +848,29 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
+        #endregion
+
+        #region Fusores
+        public void AgregarFusor(string NumeroSerie, string NumeroSerieSp,string NumeroFactura, DateTime FechaFactura, string Costo, string Garantia, string Ubicacion, DateTime FechaInstalacion)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "AgregarFusor";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@NumeroSerieO", NumeroSerie);
+            comando.Parameters.AddWithValue("@NumeroSerieS", NumeroSerieSp);
+            comando.Parameters.AddWithValue("@NumeroFactura", NumeroFactura);
+            comando.Parameters.AddWithValue("@FechaFactura", FechaFactura);
+            comando.Parameters.AddWithValue("@Costo", int.Parse(Costo));
+            comando.Parameters.AddWithValue("@Garantia", Garantia);
+            comando.Parameters.AddWithValue("@Ubicacion", Ubicacion);
+            comando.Parameters.AddWithValue("@FechaInstalacion", FechaInstalacion);
+
+            comando.ExecuteNonQuery();
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
         #endregion
     }
 }

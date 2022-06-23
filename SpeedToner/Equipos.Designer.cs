@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.grpDatos = new System.Windows.Forms.GroupBox();
+            this.cboBusqueda = new System.Windows.Forms.ComboBox();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.txtSerieBusqueda = new System.Windows.Forms.TextBox();
             this.btnMostrar = new System.Windows.Forms.Button();
@@ -55,24 +57,18 @@
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
-            this.cboBusqueda = new System.Windows.Forms.ComboBox();
+            this.erEquipos = new System.Windows.Forms.ErrorProvider(this.components);
             this.grpDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEquipos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erEquipos)).BeginInit();
             this.SuspendLayout();
             // 
             // grpDatos
             // 
-            this.grpDatos.Controls.Add(this.cboBusqueda);
-            this.grpDatos.Controls.Add(this.btnBuscar);
-            this.grpDatos.Controls.Add(this.txtSerieBusqueda);
-            this.grpDatos.Controls.Add(this.btnMostrar);
             this.grpDatos.Controls.Add(this.cboMarcas);
             this.grpDatos.Controls.Add(this.label8);
             this.grpDatos.Controls.Add(this.cboModelos);
-            this.grpDatos.Controls.Add(this.label9);
-            this.grpDatos.Controls.Add(this.cboMostrar);
             this.grpDatos.Controls.Add(this.txtReferencia);
-            this.grpDatos.Controls.Add(this.label10);
             this.grpDatos.Controls.Add(this.label7);
             this.grpDatos.Controls.Add(this.cboTipoRenta);
             this.grpDatos.Controls.Add(this.label6);
@@ -89,14 +85,25 @@
             this.grpDatos.Margin = new System.Windows.Forms.Padding(4);
             this.grpDatos.Name = "grpDatos";
             this.grpDatos.Padding = new System.Windows.Forms.Padding(4);
-            this.grpDatos.Size = new System.Drawing.Size(1146, 294);
+            this.grpDatos.Size = new System.Drawing.Size(1146, 223);
             this.grpDatos.TabIndex = 0;
             this.grpDatos.TabStop = false;
             this.grpDatos.Text = "Datos:";
             // 
+            // cboBusqueda
+            // 
+            this.cboBusqueda.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboBusqueda.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboBusqueda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboBusqueda.FormattingEnabled = true;
+            this.cboBusqueda.Location = new System.Drawing.Point(379, 240);
+            this.cboBusqueda.Name = "cboBusqueda";
+            this.cboBusqueda.Size = new System.Drawing.Size(442, 29);
+            this.cboBusqueda.TabIndex = 17;
+            // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(307, 215);
+            this.btnBuscar.Location = new System.Drawing.Point(570, 275);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(92, 29);
             this.btnBuscar.TabIndex = 5;
@@ -106,14 +113,14 @@
             // 
             // txtSerieBusqueda
             // 
-            this.txtSerieBusqueda.Location = new System.Drawing.Point(116, 217);
+            this.txtSerieBusqueda.Location = new System.Drawing.Point(379, 275);
             this.txtSerieBusqueda.Name = "txtSerieBusqueda";
             this.txtSerieBusqueda.Size = new System.Drawing.Size(185, 27);
             this.txtSerieBusqueda.TabIndex = 6;
             // 
             // btnMostrar
             // 
-            this.btnMostrar.Location = new System.Drawing.Point(814, 245);
+            this.btnMostrar.Location = new System.Drawing.Point(827, 240);
             this.btnMostrar.Name = "btnMostrar";
             this.btnMostrar.Size = new System.Drawing.Size(92, 32);
             this.btnMostrar.TabIndex = 10;
@@ -156,7 +163,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(63, 223);
+            this.label9.Location = new System.Drawing.Point(323, 278);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(50, 21);
             this.label9.TabIndex = 7;
@@ -170,7 +177,7 @@
             "Cliente",
             "Marca",
             "Modelo"});
-            this.cboMostrar.Location = new System.Drawing.Point(116, 250);
+            this.cboMostrar.Location = new System.Drawing.Point(129, 240);
             this.cboMostrar.Name = "cboMostrar";
             this.cboMostrar.Size = new System.Drawing.Size(244, 29);
             this.cboMostrar.TabIndex = 9;
@@ -186,7 +193,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(7, 258);
+            this.label10.Location = new System.Drawing.Point(20, 240);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(103, 21);
             this.label10.TabIndex = 8;
@@ -262,11 +269,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(623, 104);
+            this.label4.Location = new System.Drawing.Point(610, 104);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(61, 21);
+            this.label4.Size = new System.Drawing.Size(74, 21);
             this.label4.TabIndex = 3;
-            this.label4.Text = "Precio:";
+            this.label4.Text = "Precio $:";
             // 
             // label3
             // 
@@ -307,7 +314,7 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(21, 314);
+            this.btnGuardar.Location = new System.Drawing.Point(20, 314);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(111, 43);
             this.btnGuardar.TabIndex = 2;
@@ -335,27 +342,27 @@
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
-            // cboBusqueda
+            // erEquipos
             // 
-            this.cboBusqueda.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboBusqueda.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboBusqueda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboBusqueda.FormattingEnabled = true;
-            this.cboBusqueda.Location = new System.Drawing.Point(366, 248);
-            this.cboBusqueda.Name = "cboBusqueda";
-            this.cboBusqueda.Size = new System.Drawing.Size(442, 29);
-            this.cboBusqueda.TabIndex = 17;
+            this.erEquipos.ContainerControl = this;
             // 
             // Equipos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1172, 750);
+            this.Controls.Add(this.btnMostrar);
+            this.Controls.Add(this.txtSerieBusqueda);
+            this.Controls.Add(this.btnBuscar);
+            this.Controls.Add(this.cboBusqueda);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnGuardar);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.dtgEquipos);
             this.Controls.Add(this.grpDatos);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.cboMostrar);
             this.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -364,7 +371,9 @@
             this.grpDatos.ResumeLayout(false);
             this.grpDatos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEquipos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erEquipos)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -398,5 +407,6 @@
         private ComboBox cboMostrar;
         private Button btnMostrar;
         private ComboBox cboBusqueda;
+        private ErrorProvider erEquipos;
     }
 }

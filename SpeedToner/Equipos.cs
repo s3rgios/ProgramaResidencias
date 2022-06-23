@@ -120,6 +120,39 @@ namespace SpeedToner
             dtgEquipos.DataSource = tabla;
         }
 
+        public bool ValidarCampos()
+        {
+            bool Validado = true;
+            erEquipos.Clear();
+            if (txtSerie.Text == "")
+            {
+                erEquipos.SetError(txtSerie, "Ingrese una serie");
+                Validado = false;
+            }
+            if (txtPrecio.Text == "")
+            {
+                erEquipos.SetError(txtPrecio, "Ingrese el precio");
+                Validado = false;
+            }
+            if (txtFechaPago.Text == "")
+            {
+                erEquipos.SetError(txtFechaPago, "Ingrese una fecha de pago");
+                Validado = false;
+            }
+            foreach (Control c in grpDatos.Controls)
+            {
+                if (c is ComboBox)
+                {
+                    if (c.Text == "" || c.Text == " ")
+                    {
+                        erEquipos.SetError(c, "Campo Obligatorio");
+                        Validado = false;
+                    }
+                }
+            }
+            return Validado;
+        }
+
         #endregion
 
         #region Botones
@@ -127,32 +160,36 @@ namespace SpeedToner
         {
             try
             {
-                int Cliente = objetoCN.BuscarId(cboClientes.SelectedItem.ToString(), "ObtenerIdCliente");
-                string Ubicacion = txtReferencia.Text;
-                int Marca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
-                int Modelo = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdModelo");
-                string Serie = txtSerie.Text;
-                int TipoRenta = objetoCN.BuscarId(cboTipoRenta.SelectedItem.ToString(), "ObtenerIdTipoRenta");
-                int Precio = int.Parse(txtPrecio.Text);
-                string FechaPago = txtFechaPago.Text;
+                if (ValidarCampos())
+                {
+                    int Cliente = objetoCN.BuscarId(cboClientes.SelectedItem.ToString(), "ObtenerIdCliente");
+                    string Ubicacion = txtReferencia.Text;
+                    int Marca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
+                    int Modelo = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdModelo");
+                    string Serie = txtSerie.Text;
+                    int TipoRenta = objetoCN.BuscarId(cboTipoRenta.SelectedItem.ToString(), "ObtenerIdTipoRenta");
+                    int Precio = int.Parse(txtPrecio.Text.Replace(",", ""));
+                    string FechaPago = txtFechaPago.Text;
 
-                if (Modificando)
-                {
-                    //Modificar stop procedure de modificar, para que se pueda cambiar la fecha
-                    if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    if (Modificando)
                     {
-                        MessageBox.Show("!!Modificación cancelada!!");
-                        LimpiarForm();
-                        return;
+                        //Modificar stop procedure de modificar, para que se pueda cambiar la fecha
+                        if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                        {
+                            MessageBox.Show("!!Modificación cancelada!!");
+                            LimpiarForm();
+                            return;
+                        }
+                        objetoCN.ModificarEquipo(Id, Cliente, Ubicacion, Marca, Modelo, Serie, TipoRenta, Precio, FechaPago);
                     }
-                    objetoCN.ModificarEquipo(Id, Cliente, Ubicacion, Marca, Modelo, Serie, TipoRenta, Precio, FechaPago);
+                    else
+                    {
+                        objetoCN.AgregarEquipo(Cliente, Ubicacion, Marca, Modelo, Serie, TipoRenta, Precio, FechaPago);
+                    }
+                    Mostrar("MostrarEquipos");
+                    LimpiarForm();
                 }
-                else
-                {
-                    objetoCN.AgregarEquipo(Cliente, Ubicacion, Marca, Modelo, Serie, TipoRenta, Precio, FechaPago);
-                }
-                Mostrar("MostrarEquipos");
-                LimpiarForm();
+                
             }
             catch (Exception ex)
             {
@@ -237,6 +274,7 @@ namespace SpeedToner
             LimpiarForm();
             ControlesDesactivados(true);
             Modificando = true;
+            erEquipos.Clear();
 
             Id = int.Parse(dtgEquipos.CurrentRow.Cells[0].Value.ToString());
             cboClientes.SelectedItem = dtgEquipos.CurrentRow.Cells[1].Value.ToString();
@@ -245,7 +283,7 @@ namespace SpeedToner
             cboModelos.SelectedItem = dtgEquipos.CurrentRow.Cells[4].Value.ToString();
             txtSerie.Text = dtgEquipos.CurrentRow.Cells[5].Value.ToString();
             cboTipoRenta.SelectedItem = dtgEquipos.CurrentRow.Cells[6].Value.ToString();
-            txtPrecio.Text = dtgEquipos.CurrentRow.Cells[7].Value.ToString();
+            txtPrecio.Text = dtgEquipos.CurrentRow.Cells[7].Value.ToString().Replace("$", "");
             txtFechaPago.Text = dtgEquipos.CurrentRow.Cells[8].Value.ToString();
         }
 

@@ -36,9 +36,9 @@
             this.btnCerrar = new System.Windows.Forms.PictureBox();
             this.PanelMenu = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
-            this.btnFuzores = new System.Windows.Forms.Button();
             this.pEquipos = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.btnFuzores = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.panel6 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
@@ -156,25 +156,10 @@
             // panel7
             // 
             this.panel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
-            this.panel7.Location = new System.Drawing.Point(3, 488);
+            this.panel7.Location = new System.Drawing.Point(3, 490);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(10, 57);
             this.panel7.TabIndex = 7;
-            // 
-            // btnFuzores
-            // 
-            this.btnFuzores.FlatAppearance.BorderSize = 0;
-            this.btnFuzores.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
-            this.btnFuzores.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFuzores.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnFuzores.ForeColor = System.Drawing.Color.White;
-            this.btnFuzores.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnFuzores.Location = new System.Drawing.Point(9, 488);
-            this.btnFuzores.Name = "btnFuzores";
-            this.btnFuzores.Size = new System.Drawing.Size(199, 57);
-            this.btnFuzores.TabIndex = 10;
-            this.btnFuzores.Text = "Fuzores";
-            this.btnFuzores.UseVisualStyleBackColor = true;
             // 
             // pEquipos
             // 
@@ -183,7 +168,7 @@
             this.pEquipos.Controls.Add(this.button2);
             this.pEquipos.Controls.Add(this.panel6);
             this.pEquipos.Controls.Add(this.button1);
-            this.pEquipos.Location = new System.Drawing.Point(36, 478);
+            this.pEquipos.Location = new System.Drawing.Point(19, 490);
             this.pEquipos.Name = "pEquipos";
             this.pEquipos.Size = new System.Drawing.Size(202, 130);
             this.pEquipos.TabIndex = 9;
@@ -196,6 +181,23 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(10, 53);
             this.panel5.TabIndex = 8;
+            // 
+            // btnFuzores
+            // 
+            this.btnFuzores.FlatAppearance.BorderSize = 0;
+            this.btnFuzores.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            this.btnFuzores.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFuzores.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnFuzores.ForeColor = System.Drawing.Color.White;
+            this.btnFuzores.Image = ((System.Drawing.Image)(resources.GetObject("btnFuzores.Image")));
+            this.btnFuzores.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnFuzores.Location = new System.Drawing.Point(12, 490);
+            this.btnFuzores.Name = "btnFuzores";
+            this.btnFuzores.Size = new System.Drawing.Size(196, 57);
+            this.btnFuzores.TabIndex = 10;
+            this.btnFuzores.Text = "Fuzores";
+            this.btnFuzores.UseVisualStyleBackColor = true;
+            this.btnFuzores.Click += new System.EventHandler(this.btnFuzores_Click);
             // 
             // button2
             // 

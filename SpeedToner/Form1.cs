@@ -115,5 +115,10 @@ namespace SpeedToner
         {
             AbrirForm(new EquiposBodega());
         }
+
+        private void btnFuzores_Click(object sender, EventArgs e)
+        {
+            AbrirForm(new Fusores());
+        }
     }
 }
