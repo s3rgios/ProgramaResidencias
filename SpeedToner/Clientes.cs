@@ -25,11 +25,16 @@ namespace SpeedToner
         #region Inicio
         public void Inicio()
         {
-            btnEliminar.Enabled = false;
-            btnCancelar.Enabled = false;
-
+            DesactivarControles(false);
+            
             LlenarDtg();
             MostrarDatosClientes();
+        }
+
+        public void DesactivarControles(bool activado)
+        {
+            btnEliminar.Enabled = activado;
+            btnCancelar.Enabled = activado;
         }
 
         public void LlenarDtg()
@@ -53,6 +58,19 @@ namespace SpeedToner
             tabla = objetoCN.Mostrar("MostrarClientes");
             dtgClientes.DataSource = tabla;
         }
+
+        public bool ValidarCampos()
+        {
+            bool Validado = true;
+            erClientes.Clear();
+
+            if (txtEmpresa.Text == "")
+            {
+                erClientes.SetError(txtEmpresa, "Campo obligatorio");
+                Validado = false;
+            }
+            return Validado;
+        }
         #endregion
 
 
@@ -61,21 +79,23 @@ namespace SpeedToner
         {
             try
             {
-                string Empresa = txtEmpresa.Text;
-                if (Modificando)
+                if (ValidarCampos())
                 {
-                    objetoCN.ModificarCliente(Id, Empresa);
-                    MessageBox.Show("Se ha modificado el cliente correctamente");
-                }
-                else
-                {
-                    objetoCN.InsertarCliente(Empresa);
-                    MessageBox.Show("Se ha agregado correctamente");
-                }
+                    string Empresa = txtEmpresa.Text;
+                    if (Modificando)
+                    {
+                        objetoCN.ModificarCliente(Id, Empresa);
+                        MessageBox.Show("Se ha modificado el cliente correctamente");
+                    }
+                    else
+                    {
+                        objetoCN.InsertarCliente(Empresa);
+                        MessageBox.Show("Se ha agregado correctamente");
+                    }
 
-                LimpiarForm();
-                MostrarDatosClientes();
-
+                    LimpiarForm();
+                    MostrarDatosClientes();
+                }
             }
             catch (Exception ex)
             {
@@ -101,6 +121,7 @@ namespace SpeedToner
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
+            DesactivarControles(false);
             Modificando = true;
             LimpiarForm();
         }
@@ -122,9 +143,9 @@ namespace SpeedToner
         //Llenar campos dependiendo la fila que se eliga
         private void dtgClientes_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            btnCancelar.Enabled = true;
-            btnEliminar.Enabled = true;
+            DesactivarControles(true);
             Modificando = true;
+            erClientes.Clear();
 
             //Guardamos el Id en dado caso que se quiera modificar o eliminar
             Id = int.Parse(dtgClientes.CurrentRow.Cells[0].Value.ToString());

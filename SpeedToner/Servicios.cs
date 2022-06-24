@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace SpeedToner
 {
@@ -266,11 +267,26 @@ namespace SpeedToner
             }
         }
 
+        private static readonly Regex regex = new Regex("^[a-zA-Z0-9]*$");
+
+
         private void btnBuscar_Click(object sender, EventArgs e)
         {
+
             if (ValidarCampoBusqueda())
             {
-                SqlDataReader dr = objetoCN.BuscarServicio(txtBusqueda.Text);
+                string str = txtBusqueda.Text;
+                SqlDataReader dr;
+
+                //Comprobamos si se trata de numero de folio o un fusor
+                if (str.All(c => (c >= 48 && c <= 57)))
+                {
+                    dr = objetoCN.Buscar(txtBusqueda.Text, "BuscarServicioFolio");
+                }
+                else
+                {
+                    dr = objetoCN.Buscar(txtBusqueda.Text, "BuscarServicioFusor");
+                }
                 BuscandoFolio = true;
                 btnCancelar.Enabled = true;
 

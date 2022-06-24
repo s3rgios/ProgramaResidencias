@@ -28,47 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.components = new System.ComponentModel.Container();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtNombreCliente = new System.Windows.Forms.TextBox();
             this.txtEmpresa = new System.Windows.Forms.TextBox();
             this.dtgClientes = new System.Windows.Forms.DataGridView();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.grpDatosClientes = new System.Windows.Forms.GroupBox();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.erClientes = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dtgClientes)).BeginInit();
             this.grpDatosClientes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.erClientes)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 35);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 21);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Nombre:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 90);
+            this.label2.Location = new System.Drawing.Point(6, 38);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(81, 21);
             this.label2.TabIndex = 1;
             this.label2.Text = "Empresa:";
             // 
-            // txtNombreCliente
-            // 
-            this.txtNombreCliente.Location = new System.Drawing.Point(101, 32);
-            this.txtNombreCliente.Name = "txtNombreCliente";
-            this.txtNombreCliente.Size = new System.Drawing.Size(456, 27);
-            this.txtNombreCliente.TabIndex = 2;
-            // 
             // txtEmpresa
             // 
-            this.txtEmpresa.Location = new System.Drawing.Point(105, 84);
+            this.txtEmpresa.Location = new System.Drawing.Point(93, 32);
             this.txtEmpresa.Name = "txtEmpresa";
             this.txtEmpresa.Size = new System.Drawing.Size(452, 27);
             this.txtEmpresa.TabIndex = 3;
@@ -76,16 +61,16 @@
             // dtgClientes
             // 
             this.dtgClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgClientes.Location = new System.Drawing.Point(12, 194);
+            this.dtgClientes.Location = new System.Drawing.Point(12, 155);
             this.dtgClientes.Name = "dtgClientes";
             this.dtgClientes.RowTemplate.Height = 25;
-            this.dtgClientes.Size = new System.Drawing.Size(1141, 506);
+            this.dtgClientes.Size = new System.Drawing.Size(1141, 545);
             this.dtgClientes.TabIndex = 4;
             this.dtgClientes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgClientes_CellClick);
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(30, 141);
+            this.btnAgregar.Location = new System.Drawing.Point(12, 102);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(113, 47);
             this.btnAgregar.TabIndex = 5;
@@ -95,7 +80,7 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(149, 141);
+            this.btnEliminar.Location = new System.Drawing.Point(131, 102);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(113, 47);
             this.btnEliminar.TabIndex = 7;
@@ -105,26 +90,28 @@
             // 
             // grpDatosClientes
             // 
-            this.grpDatosClientes.Controls.Add(this.label1);
             this.grpDatosClientes.Controls.Add(this.label2);
-            this.grpDatosClientes.Controls.Add(this.txtNombreCliente);
             this.grpDatosClientes.Controls.Add(this.txtEmpresa);
-            this.grpDatosClientes.Location = new System.Drawing.Point(30, 12);
+            this.grpDatosClientes.Location = new System.Drawing.Point(12, 12);
             this.grpDatosClientes.Name = "grpDatosClientes";
-            this.grpDatosClientes.Size = new System.Drawing.Size(679, 123);
+            this.grpDatosClientes.Size = new System.Drawing.Size(679, 84);
             this.grpDatosClientes.TabIndex = 8;
             this.grpDatosClientes.TabStop = false;
             this.grpDatosClientes.Text = "Datos:";
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(268, 141);
+            this.btnCancelar.Location = new System.Drawing.Point(250, 102);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(113, 47);
             this.btnCancelar.TabIndex = 9;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
+            // erClientes
+            // 
+            this.erClientes.ContainerControl = this;
             // 
             // Clientes
             // 
@@ -144,20 +131,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.dtgClientes)).EndInit();
             this.grpDatosClientes.ResumeLayout(false);
             this.grpDatosClientes.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.erClientes)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private Label label1;
         private Label label2;
-        private TextBox txtNombreCliente;
         private TextBox txtEmpresa;
         private DataGridView dtgClientes;
         private Button btnAgregar;
         private Button btnEliminar;
         private GroupBox grpDatosClientes;
         private Button btnCancelar;
+        private ErrorProvider erClientes;
     }
 }

@@ -253,7 +253,7 @@ namespace SpeedToner
             dtgEquipos.Refresh();
             DataTable tabla = new DataTable();
             //Guardamos los registros dependiendo la consulta
-            tabla = objetoCN.OrdenarEquipos(cboBusqueda.SelectedItem.ToString());
+            tabla = objetoCN.OrdenarEquipos(cboBusqueda.SelectedItem.ToString(),TipoBusqueda);
             //Asignamos los registros que optuvimos al datagridview
             dtgEquipos.DataSource = tabla;
             cboMostrar.SelectedIndex = 0;

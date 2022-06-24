@@ -9,6 +9,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.Xml.Linq;
 using System.Diagnostics;
+using System.Drawing;
 
 
 
@@ -19,7 +20,7 @@ namespace SpeedToner
         private CD_Conexion conexion = new CD_Conexion();
         SqlCommand comando = new SqlCommand();
         SqlDataReader reporte;
-        
+
 
 
         //Metodo para mostrar los registros de los servicios, dependiendo el stop procedure que se envie, se mostrara informacion como la requiera el usuario
@@ -133,7 +134,7 @@ namespace SpeedToner
         }
 
         //METODO GLOBAL PARA ELIMINAR EN CUALQUIER TABLA
-        public void Eliminar(int Id,string sp)
+        public void Eliminar(int Id, string sp)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = sp;
@@ -151,7 +152,7 @@ namespace SpeedToner
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "BuscarServicio";
             comando.CommandType = CommandType.StoredProcedure;
-            comando.Parameters.AddWithValue("@NumeroFolio", NumeroFolio);
+            comando.Parameters.AddWithValue("@ParametroBusqueda", NumeroFolio);
             leer = comando.ExecuteReader();
             comando.Parameters.Clear();
 
@@ -164,7 +165,7 @@ namespace SpeedToner
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = sp;
             comando.CommandType = CommandType.StoredProcedure;
-            comando.Parameters.AddWithValue("@NumeroSerie", Serie);
+            comando.Parameters.AddWithValue("@ParametroBusqueda", Serie);
             leer = comando.ExecuteReader();
             comando.Parameters.Clear();
             return leer;
@@ -232,7 +233,7 @@ namespace SpeedToner
 
         #region Inventario
 
-        public void AñadirRegistroInventario(string cartucho, int Marca,string Oficina, string Bodega)
+        public void AñadirRegistroInventario(string cartucho, int Marca, string Oficina, string Bodega)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "AñadirInventario";
@@ -250,12 +251,12 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
-        public void ModificarRegistroInventario(int Id, string cartucho,int Marca, string Oficina, string Bodega)
+        public void ModificarRegistroInventario(int Id, string cartucho, int Marca, string Oficina, string Bodega)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "ModificarInventario";
             comando.CommandType = CommandType.StoredProcedure;
-            
+
             comando.Parameters.AddWithValue("@Id", Id);
             comando.Parameters.AddWithValue("@Modelo", cartucho);
             comando.Parameters.AddWithValue("@IdMarca", Marca);
@@ -280,7 +281,7 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
-        public string AgregarRegistroInventario(int Marca,int cartucho, string Salida, string Entrada, string Cliente, DateTime Fecha, string destino)
+        public string AgregarRegistroInventario(int Marca, int cartucho, string Salida, string Entrada, string Cliente, DateTime Fecha, string destino)
         {
             SqlDataReader leer;
             int valor = 0;
@@ -292,7 +293,7 @@ namespace SpeedToner
             comando.Parameters.AddWithValue("@CantidadSalida", int.Parse(Salida));
             comando.Parameters.AddWithValue("@CantidadEntrada", int.Parse(Entrada));
             comando.Parameters.AddWithValue("@DestinoEntrada", destino);
-            
+
 
             valor = comando.ExecuteNonQuery();
             comando.Parameters.Clear();
@@ -321,10 +322,10 @@ namespace SpeedToner
                 conexion.CerrarConexion();
                 return "No se ha agregado el registro. La cantidad excede la cantidad en existencia";
             }
-            
+
         }
 
-        public void ModificarRegistroInventario(int IdRegistro,int Marca, int IdCartucho, string Salida, string Entrada, string Cliente, DateTime Fecha)
+        public void ModificarRegistroInventario(int IdRegistro, int Marca, int IdCartucho, string Salida, string Entrada, string Cliente, DateTime Fecha)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "ModificarRegistroInventario";
@@ -394,14 +395,14 @@ namespace SpeedToner
                 conexion.CerrarConexion();
                 return "La cantidad excede la cantidad en la bodega";
             }
-            
+
         }
 
         #endregion
 
         #region Equipos
 
-        public void AgregarEquipo(int IdCliente, string Ubicacion,int Marca, int Modelo, string Serie, int IdRenta, int Precio, string Fecha_Pago)
+        public void AgregarEquipo(int IdCliente, string Ubicacion, int Marca, int Modelo, string Serie, int IdRenta, int Precio, string Fecha_Pago)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "AgregarEquipo";
@@ -422,7 +423,7 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
-        public void ModificarEquipo(int Id, int IdCliente, string Ubicacion,int Marca, int Modelo, string Serie, int IdRenta, int Precio, string Fecha_Pago)
+        public void ModificarEquipo(int Id, int IdCliente, string Ubicacion, int Marca, int Modelo, string Serie, int IdRenta, int Precio, string Fecha_Pago)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "ModificarEquipo";
@@ -456,7 +457,7 @@ namespace SpeedToner
         }
 
         //Muestra los equipos dependiendo lo que necesite el usuario
-        public DataTable OrdenarEquipos(string ParametroBusqueda)
+        public DataTable OrdenarEquipos(string ParametroBusqueda, string TipoBusqueda)
         {
             DataTable tabla = new DataTable();
             SqlDataReader leer;
@@ -468,6 +469,7 @@ namespace SpeedToner
             comando.Parameters.Clear();
             tabla.Load(leer);
             conexion.CerrarConexion();
+            GenerarReporteEquipos(leer, TipoBusqueda, ParametroBusqueda);
             return tabla;
         }
 
@@ -492,7 +494,7 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
-        public void ModificarBodega(int Id,int Marca, int Modelo, string Serie, string Ubicacion, string Estado, string Notas)
+        public void ModificarBodega(int Id, int Marca, int Modelo, string Serie, string Ubicacion, string Estado, string Notas)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "ModificarBodega";
@@ -541,7 +543,6 @@ namespace SpeedToner
             document.SetMargins(25f, 25f, 25f, 25f);
             //Colocamos el pdf en horizontal
             document.SetPageSize(iTextSharp.text.PageSize.LETTER.Rotate());
-
             PdfWriter pw = PdfWriter.GetInstance(document, fs);
 
             //Nos ayudara a controlar el numero de registros que seran mostrados
@@ -615,18 +616,20 @@ namespace SpeedToner
                 document.Add(tblCliente);
                 document.Add(new Paragraph(ParametroBusqueda, fontParapraghBold));
             }
-
+            bool PrimerRegistro = true;
             //Recorremos el arreglo que nos genero la consulta
             while (reporte.Read())
             {
                 //Codigo para despues de mostrar 4 registros haga saltos de pagina
                 contadorRegistros++;
-                if (contadorRegistros > 4)
-                {
-                    document.NewPage();
-                    contadorRegistros = 0;
-                    document.Add(new Paragraph("\n"));
-                }
+
+                //SE DEBERA DECIDIR SI DEJAR ESTA LINEA DE CODIGO O DEJAR LOS SALTOS AUTOMATICOS COMO NOS LO VA DANDO EL DOCUMENTO
+                //if (contadorRegistros > 4)
+                //{
+                //    document.NewPage();
+                //    contadorRegistros = 0;
+                //    document.Add(new Paragraph("\n"));
+                //}
                 //Si esta vacia que agregue la primer tabla con la serie, marca y modelo
                 if (!Series.Any())
                 {
@@ -638,7 +641,7 @@ namespace SpeedToner
                     //Mandamos los nombres de los titulos que tendran las columnas de la tabla
                     tblSerie = AgregarTablaSerie(Serie, Marca, Modelo);
                     document.Add(tblSerie);
-                    if(TipoBusqueda != "Cliente")
+                    if (TipoBusqueda != "Cliente")
                     {
                         document.Add(new Paragraph("Cliente: " + reporte[1].ToString(), fontParapraghBold));
                     }
@@ -657,6 +660,7 @@ namespace SpeedToner
                 }
                 if (nuevaSerie)
                 {
+                    document.Add(new Chunk());
                     PdfPTable tblSerie = new PdfPTable(3);
                     tblSerie.WidthPercentage = 80;
                     string Serie = reporte[4].ToString();
@@ -673,16 +677,31 @@ namespace SpeedToner
                 }
                 else
                 {
+                    if (PrimerRegistro)
+                    {
+                        PrimerRegistro = false;
+                    }
+                    else
+                    {
+                        iTextSharp.text.pdf.draw.LineSeparator lineSeparator = new iTextSharp.text.pdf.draw.LineSeparator();
+                        lineSeparator.Offset = 2f;
+                        document.Add(new Chunk(lineSeparator));
+                    }
+
                     //document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
                 }
                 //Colocamos los datos del servicio
                 DateTime Fecha = Convert.ToDateTime(reporte[6].ToString());
-                document.Add(new Paragraph("                                 Fecha Servicio:" + Fecha.ToString("dd/MM/yyyy") + "                      " + reporte[8].ToString().ToUpper() + "                     " + reporte[0].ToString(), fontParapragh));
+                document.Add(new Paragraph("                                 Fecha Servicio:" + Fecha.ToString("dd/MM/yyyy") + "                      " + reporte[7].ToString().ToUpper() + "                     " + reporte[0].ToString(), fontParapragh));
                 document.Add(new Paragraph("DIAGNOSTICO: " + reporte[11].ToString().ToUpper(), fontParapragh));
                 document.Add(new Paragraph("SERVICIO: " + reporte[10].ToString().ToUpper(), fontParapragh));
                 document.Add(new Paragraph("FUSOR: " + reporte[9].ToString().ToUpper(), fontParapragh));
                 document.Add(new Paragraph("CONTADOR: " + string.Format("{0:n0}", int.Parse(reporte[5].ToString())), fontParapragh));
-                document.Add(new Paragraph("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", fontParapragh));
+
+                //Agregamos una linea entre cada registro
+                //iTextSharp.text.pdf.draw.LineSeparator lineSeparator = new iTextSharp.text.pdf.draw.LineSeparator();
+                //lineSeparator.Offset = 2f;
+                //document.Add(new Chunk(lineSeparator));
 
                 //Agregamos la serie a la lista
                 Series.Add(reporte[4].ToString());
@@ -848,10 +867,84 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
+        public void GenerarReporteEquipos(SqlDataReader leer, string TipoBusqueda, string ParametroBusqueda)
+        {
+            string NombreArchivo = @"C:\Users\DELL PC\Documents\Base de datos\" + "ReporteEquipos" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            //Lista de las series para evitar que se repitan las series en algunas consultas
+            FileStream fs = new FileStream(NombreArchivo, FileMode.Create);
+            Document document = new Document(PageSize.LETTER);
+            document.SetMargins(25f, 25f, 25f, 25f);
+            //Colocamos el pdf en horizontal
+            document.SetPageSize(iTextSharp.text.PageSize.LETTER);
+            PdfWriter pw = PdfWriter.GetInstance(document, fs);
+
+            //var pe = new PageEventHelper();
+            //pw.PageEvent = pe;
+            document.Open();
+
+            //TIPO DE FUENTE
+            //Variable para definir tipo de fuente normal
+            iTextSharp.text.Font fontTitle = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 16, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+
+            iTextSharp.text.Font fontParapragh = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+            //Fuente para los parrafos en negritas
+            iTextSharp.text.Font fontParapraghBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 10, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+
+            iTextSharp.text.Font fontFecha = FontFactory.GetFont("arial", 9);
+
+            Paragraph titulo = new Paragraph("REPORTE EQUIPOS " + TipoBusqueda.ToUpper(), fontTitle);
+            titulo.Alignment = Element.ALIGN_CENTER;
+
+            Paragraph Fechas = new Paragraph(TipoBusqueda.ToUpper() + ": " + ParametroBusqueda, fontParapraghBold);
+            Fechas.Alignment = Element.ALIGN_CENTER;
+
+            document.Add(titulo);
+            document.Add(Fechas);
+
+            PdfPTable tblSerie = new PdfPTable(3);
+            tblSerie.WidthPercentage = 80;
+            while (leer.Read())
+            {
+                PdfPCell Cliente = new PdfPCell(new Phrase("Cliente: " + leer[2].ToString(), fontParapraghBold));
+                Cliente.BorderWidth = 0;
+
+                PdfPCell clUbicacion = new PdfPCell(new Phrase("Ubicación:" + leer[3].ToString(), fontParapraghBold));
+                clUbicacion.BorderWidth = 0;
+
+                PdfPCell clVacio = new PdfPCell(new Phrase("", fontParapraghBold));
+                clVacio.BorderWidth = 0;
+
+                tblSerie.AddCell(Cliente);
+                tblSerie.AddCell(clUbicacion);
+                tblSerie.AddCell(clVacio);
+
+                PdfPCell Marca = new PdfPCell(new Phrase("Marca: " + leer[3].ToString(), fontParapraghBold));
+                Marca.BorderWidth = 0;
+
+                PdfPCell clModelo = new PdfPCell(new Phrase("Modelo: " + leer[4].ToString(), fontParapraghBold));
+                clModelo.BorderWidth = 0;
+
+                PdfPCell clSerie= new PdfPCell(new Phrase("Serie: " +  leer[], fontParapraghBold));
+                clSerie.BorderWidth = 0;
+
+
+            }
+
+            document.Close();
+
+            //Abrimos el pdf 
+            var p = new Process();
+            p.StartInfo = new ProcessStartInfo(NombreArchivo)
+            {
+                UseShellExecute = true
+            };
+            p.Start();
+        }
+
         #endregion
 
         #region Fusores
-        public void AgregarFusor(string NumeroSerie, string NumeroSerieSp,string NumeroFactura, DateTime FechaFactura, string Costo, string Garantia, string Ubicacion, DateTime FechaInstalacion)
+        public void AgregarFusor(string NumeroSerie, string NumeroSerieSp, string NumeroFactura, DateTime FechaFactura, string Costo, string Garantia, string Ubicacion, DateTime FechaInstalacion)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "AgregarFusor";

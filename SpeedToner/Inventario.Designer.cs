@@ -70,6 +70,7 @@
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnImprimirInventario = new System.Windows.Forms.Button();
             this.erInventario = new System.Windows.Forms.ErrorProvider(this.components);
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtgCartuchos)).BeginInit();
             this.grpDatosInventario.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -457,14 +458,14 @@
             // 
             // txtBusqueda
             // 
-            this.txtBusqueda.Location = new System.Drawing.Point(420, 268);
+            this.txtBusqueda.Location = new System.Drawing.Point(423, 273);
             this.txtBusqueda.Name = "txtBusqueda";
             this.txtBusqueda.Size = new System.Drawing.Size(205, 27);
             this.txtBusqueda.TabIndex = 26;
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(631, 263);
+            this.btnBuscar.Location = new System.Drawing.Point(646, 263);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(100, 37);
             this.btnBuscar.TabIndex = 27;
@@ -486,11 +487,21 @@
             // 
             this.erInventario.ContainerControl = this;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(423, 249);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(150, 21);
+            this.label5.TabIndex = 35;
+            this.label5.Text = "Modelo cartucho:";
+            // 
             // Inventario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1172, 749);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.btnImprimirInventario);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.txtBusqueda);
@@ -562,5 +573,6 @@
         private Button btnImprimirInventario;
         private ErrorProvider erInventario;
         private Label label3;
+        private Label label5;
     }
 }

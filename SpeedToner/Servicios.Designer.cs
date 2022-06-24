@@ -289,7 +289,7 @@
             // btnMostrar
             // 
             this.btnMostrar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnMostrar.Location = new System.Drawing.Point(908, 315);
+            this.btnMostrar.Location = new System.Drawing.Point(927, 315);
             this.btnMostrar.Margin = new System.Windows.Forms.Padding(2);
             this.btnMostrar.Name = "btnMostrar";
             this.btnMostrar.Size = new System.Drawing.Size(112, 52);
@@ -314,7 +314,7 @@
             // 
             this.cboMostrar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cboMostrar.FormattingEnabled = true;
-            this.cboMostrar.Location = new System.Drawing.Point(728, 331);
+            this.cboMostrar.Location = new System.Drawing.Point(747, 330);
             this.cboMostrar.Margin = new System.Windows.Forms.Padding(2);
             this.cboMostrar.Name = "cboMostrar";
             this.cboMostrar.Size = new System.Drawing.Size(176, 29);
@@ -453,12 +453,12 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label12.Location = new System.Drawing.Point(386, 317);
+            this.label12.Location = new System.Drawing.Point(383, 314);
             this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(139, 21);
+            this.label12.Size = new System.Drawing.Size(196, 21);
             this.label12.TabIndex = 36;
-            this.label12.Text = "Número de Folio:";
+            this.label12.Text = "Número de Folio o Fusor:";
             // 
             // erServicios
             // 

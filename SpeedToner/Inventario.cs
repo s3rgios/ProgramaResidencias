@@ -159,6 +159,34 @@ namespace SpeedToner
             return Validado;
         }
 
+        private bool ValidarRegistros()
+        {
+            bool Validado = true;
+            erInventario.Clear();
+
+            if (txtCantidadEntrada.Text == "")
+            {
+                erInventario.SetError(txtCantidadEntrada, "Ingrese una cantidad");
+                Validado = false;
+            }
+            if (txtCantidadSalida.Text == "")
+            {
+                erInventario.SetError(txtCantidadSalida, "Ingrese una cantidad");
+                Validado = false;
+            }
+            if (cboModelos.Text == " ")
+            {
+                erInventario.SetError(cboModelos, "Seleccione un modelo");
+                Validado = false;
+            }
+            if (cboMarcas.Text == " ")
+            {
+                erInventario.SetError(cboMarcas, "Seleccione una marca");
+                Validado = false;
+            }
+            return Validado;
+        }
+
         private bool ValidarCantidad()
         {
             bool Validado = true;
@@ -167,6 +195,19 @@ namespace SpeedToner
             if (txtRestanteBodega.Text == "")
             {
                  erInventario.SetError(txtRestanteBodega, "Ingrese la cantidad a traspasar");
+                Validado = false;
+            }
+            return Validado;
+        }
+
+        private bool ValidarBusqueda()
+        {
+            bool Validado = true;
+            erInventario.Clear();
+
+            if (txtBusqueda.Text == "")
+            {
+                erInventario.SetError(txtBusqueda, "Ingrese la cantidad a traspasar");
                 Validado = false;
             }
             return Validado;
@@ -218,40 +259,42 @@ namespace SpeedToner
                 }
                 else//Estamos en los registros
                 {
-                    //string Cliente = cboClientes.SelectedItem.ToString();
-                    string destino = "";
-                    string Cliente = cboClientes.SelectedItem.ToString();
-                    int IdMarca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
-                    int IdCartucho = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdCartucho");
-                    string Salida = txtCantidadSalida.Text;
-                    string Entrada = txtCantidadEntrada.Text;
-                    DateTime Fecha = dtpFecha.Value;
-                    if (radBodega.Checked)
+                    if (ValidarRegistros())
                     {
-                        destino = "Bodega";
-                    }
-                    else
-                    {
-                        destino = "Oficina";
-                    }
-
-                    if (Modificando)
-                    {
-                        if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                        string destino = "";
+                        string Cliente = cboClientes.SelectedItem.ToString();
+                        int IdMarca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
+                        int IdCartucho = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdCartucho");
+                        string Salida = txtCantidadSalida.Text;
+                        string Entrada = txtCantidadEntrada.Text;
+                        DateTime Fecha = dtpFecha.Value;
+                        if (radBodega.Checked)
                         {
-                            MessageBox.Show("!!Modificación cancelada!!");
-                            LimpiarForm();
-                            return;
+                            destino = "Bodega";
                         }
-                        objetoCN.ModificarRegistroInventario(Id, IdMarca,IdCartucho, Salida, Entrada, Cliente, Fecha);
+                        else
+                        {
+                            destino = "Oficina";
+                        }
+
+                        if (Modificando)
+                        {
+                            if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                            {
+                                MessageBox.Show("!!Modificación cancelada!!");
+                                LimpiarForm();
+                                return;
+                            }
+                            objetoCN.ModificarRegistroInventario(Id, IdMarca, IdCartucho, Salida, Entrada, Cliente, Fecha);
+                        }
+                        else
+                        {
+                            string Mensaje = objetoCN.AgregarRegistroInventario(IdMarca, IdCartucho, Salida, Entrada, Cliente, Fecha, destino);
+                            MessageBox.Show(Mensaje);
+                        }
+                        Mostrar("VerRegistroInventario");
+                        LimpiarForm();
                     }
-                    else
-                    {
-                        string Mensaje = objetoCN.AgregarRegistroInventario(IdMarca,IdCartucho, Salida, Entrada, Cliente, Fecha, destino);
-                        MessageBox.Show(Mensaje);
-                    }
-                    Mostrar("VerRegistroInventario");
-                    LimpiarForm();
                 }
 
             }
@@ -316,21 +359,24 @@ namespace SpeedToner
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            int IdCartucho = objetoCN.BuscarId(txtBusqueda.Text, "ObtenerIdCartucho");
-
-            SqlDataReader dr = objetoCN.Buscar(IdCartucho);
-
-            while (dr.Read())
+            if (ValidarBusqueda())
             {
-                //Agregamos las opciones dependiendo los registros que nos devolvieron
-                txtModelo.Text = (dr[0].ToString());
-                cboMarca.SelectedItem = (dr[1].ToString());
-                txtOficina.Text = dr[2].ToString();
-                txtBodega.Text = (dr[3].ToString());
-                dtpFecha.Value = Convert.ToDateTime(dr[4].ToString());
+                int IdCartucho = objetoCN.BuscarId(txtBusqueda.Text, "ObtenerIdCartucho");
+
+                SqlDataReader dr = objetoCN.Buscar(IdCartucho);
+
+                while (dr.Read())
+                {
+                    //Agregamos las opciones dependiendo los registros que nos devolvieron
+                    txtModelo.Text = (dr[0].ToString());
+                    cboMarca.SelectedItem = (dr[1].ToString());
+                    txtOficina.Text = dr[2].ToString();
+                    txtBodega.Text = (dr[3].ToString());
+                    dtpFecha.Value = Convert.ToDateTime(dr[4].ToString());
+                }
+                dr.Close();
+                cn.CerrarConexion();
             }
-            dr.Close();
-            cn.CerrarConexion();
         }
 
         private void btnImprimirInventario_Click(object sender, EventArgs e)
@@ -376,6 +422,9 @@ namespace SpeedToner
             //Para poder decir al sistema que vamos a modificar y no agregar algo al inventario al dar clic a agregar
             Modificando = true;
 
+            //Quitamos los mensajes de error que podriamos tener
+            erInventario.Clear();
+
             //Asignacion a los controles
             if (inventario)//En caso de ser verdadero se asignaran a los datos para el inventario
             {
@@ -407,12 +456,14 @@ namespace SpeedToner
             {
                 Mostrar("MostrarInventario");
                 inventario = true;
+                btnImprimirInventario.Enabled = true;
             }
             else
             {
                 Mostrar("VerRegistroInventario");
                 inventario = false;
                 Modificando = false;
+                btnImprimirInventario.Enabled = false;
             }
         }
 
