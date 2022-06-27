@@ -466,10 +466,14 @@ namespace SpeedToner
             comando.CommandType = CommandType.StoredProcedure;
             comando.Parameters.AddWithValue("@ParametroBusqueda", ParametroBusqueda);
             leer = comando.ExecuteReader();
-            comando.Parameters.Clear();
-            tabla.Load(leer);
-            conexion.CerrarConexion();
+            
+
             GenerarReporteEquipos(leer, TipoBusqueda, ParametroBusqueda);
+            tabla.Load(leer);
+
+            comando.Parameters.Clear();
+            
+
             return tabla;
         }
 
@@ -799,26 +803,16 @@ namespace SpeedToner
             //tblInventario.WidthPercentage = 100;
             document.Add(new Paragraph("\n"));
             PdfPCell clModelo = new PdfPCell(new Phrase("MODELO", fontParapraghBold));
-            clModelo.BorderWidth = 0;
+            clModelo.BorderWidth = .5f;
             clModelo.Colspan = 1;
-            clModelo.BorderWidthLeft = .5f;
-            clModelo.BorderWidthTop = .5f;
-            clModelo.BorderWidthBottom = .5f;
 
             PdfPCell clCantidadOficina = new PdfPCell(new Phrase("CANTIDAD OFICINA", fontParapraghBold));
-            clCantidadOficina.BorderWidth = 0;
+            clCantidadOficina.BorderWidth = .5f;
             clCantidadOficina.Colspan = 1;
-            clCantidadOficina.BorderWidthLeft = .5f;
-            clCantidadOficina.BorderWidthRight = .5f;
-            clCantidadOficina.BorderWidthTop = .5f;
-            clCantidadOficina.BorderWidthBottom = .5f;
 
             PdfPCell clCantidadBodega = new PdfPCell(new Phrase("CANTIDAD BODEGA", fontParapraghBold));
-            clCantidadBodega.BorderWidth = 0;
+            clCantidadBodega.BorderWidth = .5f;
             clCantidadBodega.Colspan = 1;
-            clCantidadBodega.BorderWidthRight = .5f;
-            clCantidadBodega.BorderWidthTop = .5f;
-            clCantidadBodega.BorderWidthBottom = .5f;
 
             tblInventario.AddCell(clModelo);
             tblInventario.AddCell(clCantidadOficina);
@@ -827,26 +821,16 @@ namespace SpeedToner
             while (Inventario.Read())
             {
                 PdfPCell clModeloDato = new PdfPCell(new Phrase(Inventario[1].ToString() + " " + Inventario[2].ToString(), fontParapragh));
-                clModeloDato.BorderWidth = 0;
+                clModeloDato.BorderWidth = .5f;
                 clModeloDato.Colspan = 1;
-                clModeloDato.BorderWidthLeft = .5f;
-                clModeloDato.BorderWidthTop = .5f;
-                clModeloDato.BorderWidthBottom = .5f;
 
                 PdfPCell clCantidadOficinaDato = new PdfPCell(new Phrase(Inventario[3].ToString(), fontParapragh));
-                clCantidadOficinaDato.BorderWidth = 0;
+                clCantidadOficinaDato.BorderWidth = .5f;
                 clCantidadOficinaDato.Colspan = 1;
-                clCantidadOficinaDato.BorderWidthLeft = .5f;
-                clCantidadOficinaDato.BorderWidthRight = .5f;
-                clCantidadOficinaDato.BorderWidthTop = .5f;
-                clCantidadOficinaDato.BorderWidthBottom = .5f;
 
                 PdfPCell clCantidadBodegaDato = new PdfPCell(new Phrase(Inventario[4].ToString(), fontParapragh));
-                clCantidadBodegaDato.BorderWidth = 0;
+                clCantidadBodegaDato.BorderWidth = .5f;
                 clCantidadBodegaDato.Colspan = 1;
-                clCantidadBodegaDato.BorderWidthRight = .5f;
-                clCantidadBodegaDato.BorderWidthTop = .5f;
-                clCantidadBodegaDato.BorderWidthBottom = .5f;
 
                 tblInventario.AddCell(clModeloDato);
                 tblInventario.AddCell(clCantidadOficinaDato);
@@ -878,15 +862,15 @@ namespace SpeedToner
             document.SetPageSize(iTextSharp.text.PageSize.LETTER);
             PdfWriter pw = PdfWriter.GetInstance(document, fs);
 
-            //var pe = new PageEventHelper();
-            //pw.PageEvent = pe;
+            var pe = new PageEventHelper();
+            pw.PageEvent = pe;
             document.Open();
 
             //TIPO DE FUENTE
             //Variable para definir tipo de fuente normal
             iTextSharp.text.Font fontTitle = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 16, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
 
-            iTextSharp.text.Font fontParapragh = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+            iTextSharp.text.Font fontParapragh = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 12, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
             //Fuente para los parrafos en negritas
             iTextSharp.text.Font fontParapraghBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 10, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
 
@@ -905,30 +889,47 @@ namespace SpeedToner
             tblSerie.WidthPercentage = 80;
             while (leer.Read())
             {
-                PdfPCell Cliente = new PdfPCell(new Phrase("Cliente: " + leer[2].ToString(), fontParapraghBold));
+                PdfPCell Cliente = new PdfPCell(new Phrase("Cliente: " + leer[1].ToString(), fontParapragh));
                 Cliente.BorderWidth = 0;
+                Cliente.Colspan = 2;
 
-                PdfPCell clUbicacion = new PdfPCell(new Phrase("Ubicación:" + leer[3].ToString(), fontParapraghBold));
+                PdfPCell clUbicacion = new PdfPCell(new Phrase("Ubicación: " + leer[2].ToString(), fontParapragh));
                 clUbicacion.BorderWidth = 0;
-
-                PdfPCell clVacio = new PdfPCell(new Phrase("", fontParapraghBold));
-                clVacio.BorderWidth = 0;
+                clUbicacion.Colspan = 1;
 
                 tblSerie.AddCell(Cliente);
                 tblSerie.AddCell(clUbicacion);
-                tblSerie.AddCell(clVacio);
 
-                PdfPCell Marca = new PdfPCell(new Phrase("Marca: " + leer[3].ToString(), fontParapraghBold));
+                PdfPCell Marca = new PdfPCell(new Phrase("Marca: " + leer[3].ToString(), fontParapragh));
                 Marca.BorderWidth = 0;
 
-                PdfPCell clModelo = new PdfPCell(new Phrase("Modelo: " + leer[4].ToString(), fontParapraghBold));
+                PdfPCell clModelo = new PdfPCell(new Phrase("Modelo: " + leer[4].ToString(), fontParapragh));
                 clModelo.BorderWidth = 0;
 
-                PdfPCell clSerie= new PdfPCell(new Phrase("Serie: " +  leer[], fontParapraghBold));
+                PdfPCell clSerie = new PdfPCell(new Phrase("Serie: " + leer[5], fontParapragh));
                 clSerie.BorderWidth = 0;
 
+                tblSerie.AddCell(Marca);
+                tblSerie.AddCell(clModelo);
+                tblSerie.AddCell(clSerie);
 
+                PdfPCell TipoPago = new PdfPCell(new Phrase("Tipo Renta: " + leer[6].ToString(), fontParapragh));
+                TipoPago.BorderWidth = 0;
+                TipoPago.PaddingBottom = 15;
+
+                PdfPCell clCosto = new PdfPCell(new Phrase("Precio: $" + String.Format("{0:n0}", int.Parse(leer[7].ToString())), fontParapragh));
+                clCosto.BorderWidth = 0;
+                clCosto.PaddingBottom = 15;
+
+                PdfPCell clFechaPago = new PdfPCell(new Phrase("Fecha de pago: " + leer[8].ToString(), fontParapragh));
+                clFechaPago.BorderWidth = 0;
+                clFechaPago.PaddingBottom = 15;
+
+                tblSerie.AddCell(TipoPago);
+                tblSerie.AddCell(clCosto);
+                tblSerie.AddCell(clFechaPago);
             }
+            document.Add(tblSerie);
 
             document.Close();
 

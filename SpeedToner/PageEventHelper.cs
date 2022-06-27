@@ -98,29 +98,34 @@ namespace SpeedToner
 
             //Agregamos el logo izquierdo
             iTextSharp.text.Image Logo = iTextSharp.text.Image.GetInstance(Properties.Resources.LogoSpeedToner, System.Drawing.Imaging.ImageFormat.Png);
-            Logo.ScaleToFit(150, 80);
+            //Logo.ScaleToFit(150, 80);
+            Logo.ScaleToFit(100, 80);
             Logo.Alignment = iTextSharp.text.Image.UNDERLYING;
             Logo.SetAbsolutePosition(document.LeftMargin, document.Top - 50);
             cb.AddImage(Logo);
 
             //Agregamos el logo de la derecha
             iTextSharp.text.Image Logotipo = iTextSharp.text.Image.GetInstance(Properties.Resources.LogoSpeedToner, System.Drawing.Imaging.ImageFormat.Png);
-            Logotipo.ScaleToFit(150, 80);
+            //Logotipo.ScaleToFit(150, 80);
+            Logotipo.ScaleToFit(100, 80);
             Logotipo.Alignment = iTextSharp.text.Image.UNDERLYING;
-            Logotipo.SetAbsolutePosition(document.Right - 150, document.Top - 50);
+            //Logotipo.SetAbsolutePosition(document.Right - 150, document.Top - 50);
+            Logotipo.SetAbsolutePosition(document.Right - 100, document.Top - 50);
             cb.AddImage(Logotipo);
 
             Paragraph NombreEmpresa = new Paragraph("SPEDD TONER NUEVO LAREDO.", fontTitle);
             NombreEmpresa.Alignment = Element.ALIGN_CENTER;
             document.Add(NombreEmpresa);
 
+            Paragraph Telefono = new Paragraph("TEL.: (867) 712-0964 FAX:(867)712-2741", font);
+            Telefono.Alignment = Element.ALIGN_CENTER;
+            document.Add(Telefono);
+
             Paragraph Direccion = new Paragraph("BOLIVAR #1507 NUEVO LAREDO, TAMPS. C.P 88060", font);
             Direccion.Alignment = Element.ALIGN_CENTER;
             document.Add(Direccion);
 
-            Paragraph Telefono = new Paragraph("TEL.: (867) 712-0964 FAX:(867)712-2741", font);
-            Telefono.Alignment = Element.ALIGN_CENTER;
-            document.Add(Telefono);
+            
 
         }
 
