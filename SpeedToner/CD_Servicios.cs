@@ -20,7 +20,8 @@ namespace SpeedToner
         private CD_Conexion conexion = new CD_Conexion();
         SqlCommand comando = new SqlCommand();
         SqlDataReader reporte;
-
+        List<string> Parametros = new List<string>();
+        PdfPTable Equipos;
 
 
         //Metodo para mostrar los registros de los servicios, dependiendo el stop procedure que se envie, se mostrara informacion como la requiera el usuario
@@ -859,8 +860,16 @@ namespace SpeedToner
             Document document = new Document(PageSize.LETTER);
             document.SetMargins(25f, 25f, 25f, 25f);
             //Colocamos el pdf en horizontal
-            document.SetPageSize(iTextSharp.text.PageSize.LETTER);
+            document.SetPageSize(iTextSharp.text.PageSize.LETTER.Rotate());
             PdfWriter pw = PdfWriter.GetInstance(document, fs);
+            
+            //Variables para controlar las vistas del pdf 
+            bool pCliente = true;
+            bool pMarca = true;
+            bool pModelo = true;
+            bool NuevoParametro = false;
+            bool titulosListos = true;
+            int tamañoCeldaSerie = 0;
 
             var pe = new PageEventHelper();
             pw.PageEvent = pe;
@@ -872,64 +881,100 @@ namespace SpeedToner
 
             iTextSharp.text.Font fontParapragh = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 12, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
             //Fuente para los parrafos en negritas
-            iTextSharp.text.Font fontParapraghBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 10, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+            iTextSharp.text.Font fontParapraghBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 14, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
 
             iTextSharp.text.Font fontFecha = FontFactory.GetFont("arial", 9);
 
             Paragraph titulo = new Paragraph("REPORTE EQUIPOS " + TipoBusqueda.ToUpper(), fontTitle);
             titulo.Alignment = Element.ALIGN_CENTER;
 
-            Paragraph Fechas = new Paragraph(TipoBusqueda.ToUpper() + ": " + ParametroBusqueda, fontParapraghBold);
-            Fechas.Alignment = Element.ALIGN_CENTER;
+            //Paragraph Fechas = new Paragraph(TipoBusqueda.ToUpper() + ": " + ParametroBusqueda, fontParapraghBold);
+            //Fechas.Alignment = Element.ALIGN_CENTER;
 
             document.Add(titulo);
-            document.Add(Fechas);
+            //document.Add(Fechas);
 
-            PdfPTable tblSerie = new PdfPTable(3);
-            tblSerie.WidthPercentage = 80;
+            Equipos = new PdfPTable(5);
+            Equipos.WidthPercentage = 100;
+
+            //Titulos
+
+
+            switch (TipoBusqueda)
+            {
+                case "Cliente":pCliente = false; ;break;
+                case "Marca":; pMarca = false; break;
+                case "Modelo":; pModelo = false; tamañoCeldaSerie = 2; break;
+            }
+            Paragraph Busqueda = new Paragraph(TipoBusqueda.ToUpper() + ": " + ParametroBusqueda, fontParapraghBold);
+            Busqueda.Alignment = Element.ALIGN_CENTER;
+            document.Add(Busqueda);
+
+            iTextSharp.text.pdf.draw.LineSeparator lineSeparator = new iTextSharp.text.pdf.draw.LineSeparator();
+            lineSeparator.Offset = 1f;
+            document.Add(new Chunk(lineSeparator));
+
             while (leer.Read())
             {
-                PdfPCell Cliente = new PdfPCell(new Phrase("Cliente: " + leer[1].ToString(), fontParapragh));
-                Cliente.BorderWidth = 0;
-                Cliente.Colspan = 2;
+                if (pCliente)
+                {
+                    AñadirLista(TipoBusqueda, leer[1].ToString(), fontParapragh);
+                    
+                }
 
-                PdfPCell clUbicacion = new PdfPCell(new Phrase("Ubicación: " + leer[2].ToString(), fontParapragh));
-                clUbicacion.BorderWidth = 0;
-                clUbicacion.Colspan = 1;
-
-                tblSerie.AddCell(Cliente);
-                tblSerie.AddCell(clUbicacion);
-
-                PdfPCell Marca = new PdfPCell(new Phrase("Marca: " + leer[3].ToString(), fontParapragh));
-                Marca.BorderWidth = 0;
-
-                PdfPCell clModelo = new PdfPCell(new Phrase("Modelo: " + leer[4].ToString(), fontParapragh));
-                clModelo.BorderWidth = 0;
+                if (pMarca)
+                {
+                    AñadirLista(TipoBusqueda, leer[3].ToString(), fontParapragh);
+                }
 
                 PdfPCell clSerie = new PdfPCell(new Phrase("Serie: " + leer[5], fontParapragh));
-                clSerie.BorderWidth = 0;
+                clSerie.BorderWidth = .5f;
+                clSerie.Padding = 2;
 
-                tblSerie.AddCell(Marca);
-                tblSerie.AddCell(clModelo);
-                tblSerie.AddCell(clSerie);
+                PdfPCell clModelo;
 
-                PdfPCell TipoPago = new PdfPCell(new Phrase("Tipo Renta: " + leer[6].ToString(), fontParapragh));
-                TipoPago.BorderWidth = 0;
-                TipoPago.PaddingBottom = 15;
+                
+                if (pModelo)
+                {
+                    if (titulosListos)
+                    {
+                        ColocarTitulosTablaEquipos(tamañoCeldaSerie,fontParapraghBold);
+                        titulosListos = false;
+                    }
+                    clModelo = new PdfPCell(new Phrase(leer[4].ToString(), fontParapragh));
+                    clModelo.BorderWidth = .5f;
+                    clModelo.Padding = 2;
+                    Equipos.AddCell(clModelo); 
+                }
+                else
+                {
+                    clSerie.Colspan = 2;
+                    if (titulosListos)
+                    {
+                        ColocarTitulosTablaEquipos(tamañoCeldaSerie, fontParapraghBold);
+                        titulosListos = false;
+                    }
+                }
+                
+                Equipos.AddCell(clSerie);
 
-                PdfPCell clCosto = new PdfPCell(new Phrase("Precio: $" + String.Format("{0:n0}", int.Parse(leer[7].ToString())), fontParapragh));
-                clCosto.BorderWidth = 0;
-                clCosto.PaddingBottom = 15;
+                PdfPCell TipoPago = new PdfPCell(new Phrase(leer[6].ToString(), fontParapragh));
+                TipoPago.BorderWidth = .5f;
+                TipoPago.Padding = 2;
 
-                PdfPCell clFechaPago = new PdfPCell(new Phrase("Fecha de pago: " + leer[8].ToString(), fontParapragh));
-                clFechaPago.BorderWidth = 0;
-                clFechaPago.PaddingBottom = 15;
+                PdfPCell clCosto = new PdfPCell(new Phrase(String.Format("{0:n0}", int.Parse(leer[7].ToString())), fontParapragh));
+                clCosto.BorderWidth = .5f;
+                clCosto.Padding = 2;
 
-                tblSerie.AddCell(TipoPago);
-                tblSerie.AddCell(clCosto);
-                tblSerie.AddCell(clFechaPago);
+                PdfPCell clFechaPago = new PdfPCell(new Phrase(leer[8].ToString(), fontParapragh));
+                clFechaPago.BorderWidth = .5f;
+                clFechaPago.Padding = 2;
+
+                Equipos.AddCell(TipoPago);
+                Equipos.AddCell(clCosto);
+                Equipos.AddCell(clFechaPago);
             }
-            document.Add(tblSerie);
+            document.Add(Equipos);
 
             document.Close();
 
@@ -940,6 +985,90 @@ namespace SpeedToner
                 UseShellExecute = true
             };
             p.Start();
+        }
+
+        public void AñadirLista(string TipoBusqueda, string Parametro, iTextSharp.text.Font fontParapragh)
+        {
+            bool NuevoParametro = false;
+            string titulo = "";
+            PdfPCell nuevaCelda;
+            //Para saber que titulo tendra cada registro por si es cliente o marca
+            switch (TipoBusqueda)
+            {
+                case "Cliente": titulo = "Marca: "; break;
+                case "Marca": titulo = "Cliente: ";  break;
+            }
+            //Comprobamos que sea el primer registro
+            if (!Parametros.Any())
+            {
+                nuevaCelda = new PdfPCell(new Phrase(titulo + Parametro, fontParapragh));
+                nuevaCelda.BorderWidth = 0;
+                nuevaCelda.Colspan = 5;
+                //Agregamos en este caso al cliente a la lista
+                Parametros.Add(Parametro);
+                Equipos.AddCell(nuevaCelda);
+
+            }
+            else
+            {
+               //Si no, buscaremos si ya esta en la lista o no
+                foreach (string parametro in Parametros)
+                {
+                    if (parametro != Parametro)
+                    {
+                        NuevoParametro = true;
+                    }
+                    else
+                    {
+                        NuevoParametro = false;
+                    }
+                }
+
+                //En dado caso de que no este, lo agregaremos, colocando la variable en true para poder añadirlo
+                if (NuevoParametro)
+                {
+                    nuevaCelda = new PdfPCell(new Phrase(titulo + Parametro, fontParapragh));
+                    nuevaCelda.BorderWidth = 0;
+                    nuevaCelda.Colspan = 5;
+                    //Agregamos en este caso al cliente a la lista
+                    Parametros.Add(Parametro);
+                    Equipos.AddCell(nuevaCelda);
+                }
+            }
+
+        }
+
+        public void ColocarTitulosTablaEquipos(int cspan,iTextSharp.text.Font fontParapragh)
+        {
+            if(cspan == 0)
+            {
+                PdfPCell Modelo = new PdfPCell(new Phrase("Modelo", fontParapragh));
+                Modelo.BorderWidth = .5f;
+                Modelo.Padding = 2;
+                Equipos.AddCell(Modelo);
+            }
+            PdfPCell cltSerie = new PdfPCell(new Phrase("Serie", fontParapragh));
+            cltSerie.BorderWidth = .5f;
+            cltSerie.Padding = 2;
+            cltSerie.Colspan = cspan;
+
+            PdfPCell cltTipoRenta = new PdfPCell(new Phrase("Tipo Renta", fontParapragh));
+            cltTipoRenta.BorderWidth = .5f;
+            cltTipoRenta.Padding = 2;
+
+            PdfPCell cltCosto = new PdfPCell(new Phrase("Precio", fontParapragh));
+            cltCosto.BorderWidth = .5f;
+            cltCosto.Padding = 2;
+
+            PdfPCell clFechaRenta = new PdfPCell(new Phrase("Fecha Renta", fontParapragh));
+            clFechaRenta.BorderWidth = .5f;
+            clFechaRenta.Padding = 2;
+
+            
+            Equipos.AddCell(cltSerie);
+            Equipos.AddCell(cltTipoRenta);
+            Equipos.AddCell(cltCosto);
+            Equipos.AddCell(clFechaRenta);
         }
 
         #endregion
