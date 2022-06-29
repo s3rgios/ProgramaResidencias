@@ -535,6 +535,37 @@ namespace SpeedToner
             GenerarPdf(TipoBusqueda, ParametroBusqueda, FechaInicio, FechaFinal);
         }
 
+        public void ColocarFormatosSuperiores(Document document, iTextSharp.text.Font fontTitle)
+        {
+            //Agregamos el logo de la izquierda
+            iTextSharp.text.Image Logo = iTextSharp.text.Image.GetInstance(Properties.Resources.LogoSpeedToner, System.Drawing.Imaging.ImageFormat.Png);
+            Logo.ScaleToFit(150, 80);
+            //Logo.ScaleToFit(100, 80);
+            Logo.Alignment = iTextSharp.text.Image.UNDERLYING;
+            Logo.SetAbsolutePosition(document.LeftMargin, document.Top - 50);
+            document.Add(Logo);
+
+            //Agregamos el logo de la derecha
+            iTextSharp.text.Image Logotipo = iTextSharp.text.Image.GetInstance(Properties.Resources.LogoSpeedToner, System.Drawing.Imaging.ImageFormat.Png);
+            Logotipo.ScaleToFit(150, 80);
+            //Logotipo.ScaleToFit(100, 80);
+            Logotipo.Alignment = iTextSharp.text.Image.UNDERLYING;
+            Logotipo.SetAbsolutePosition(document.Right - 150, document.Top - 50);
+            //Logotipo.SetAbsolutePosition(document.Right - 100, document.Top - 50);
+            document.Add(Logotipo);
+
+            Paragraph NombreEmpresa = new Paragraph("SPEED TONER NUEVO LAREDO.", fontTitle);
+            NombreEmpresa.Alignment = Element.ALIGN_CENTER;
+            document.Add(NombreEmpresa);
+
+            Paragraph Telefono = new Paragraph("TEL.: (867) 712-0964 FAX:(867)712-2741", fontTitle);
+            Telefono.Alignment = Element.ALIGN_CENTER;
+            document.Add(Telefono);
+
+            Paragraph Direccion = new Paragraph("BOLIVAR #1507 NUEVO LAREDO, TAMPS. C.P 88060", fontTitle);
+            Direccion.Alignment = Element.ALIGN_CENTER;
+            document.Add(Direccion);
+        }
 
         public void GenerarPdf(string TipoBusqueda, string ParametroBusqueda, DateTime FechaInicio, DateTime FechaFinal)
         {
@@ -702,12 +733,6 @@ namespace SpeedToner
                 document.Add(new Paragraph("SERVICIO: " + reporte[10].ToString().ToUpper(), fontParapragh));
                 document.Add(new Paragraph("FUSOR: " + reporte[9].ToString().ToUpper(), fontParapragh));
                 document.Add(new Paragraph("CONTADOR: " + string.Format("{0:n0}", int.Parse(reporte[5].ToString())), fontParapragh));
-
-                //Agregamos una linea entre cada registro
-                //iTextSharp.text.pdf.draw.LineSeparator lineSeparator = new iTextSharp.text.pdf.draw.LineSeparator();
-                //lineSeparator.Offset = 2f;
-                //document.Add(new Chunk(lineSeparator));
-
                 //Agregamos la serie a la lista
                 Series.Add(reporte[4].ToString());
 
@@ -867,17 +892,19 @@ namespace SpeedToner
             bool pCliente = true;
             bool pMarca = true;
             bool pModelo = true;
-            bool NuevoParametro = false;
+            //Nos ayudara a verificar si lo titulos ya fueron colocados una sola vez
             bool titulosListos = true;
+            //Variable para controlar cuando se eligan modelos, y no s equiera colocar su columna en las tablas, por lo que la serie abarcara lo de 2 celdas
             int tamañoCeldaSerie = 0;
 
-            var pe = new PageEventHelper();
+            var pe = new PageEventHelperEquipos();
             pw.PageEvent = pe;
+
             document.Open();
 
             //TIPO DE FUENTE
             //Variable para definir tipo de fuente normal
-            iTextSharp.text.Font fontTitle = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 16, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+            iTextSharp.text.Font fontTitulo = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 12, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
 
             iTextSharp.text.Font fontParapragh = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 12, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
             //Fuente para los parrafos en negritas
@@ -885,26 +912,21 @@ namespace SpeedToner
 
             iTextSharp.text.Font fontFecha = FontFactory.GetFont("arial", 9);
 
-            Paragraph titulo = new Paragraph("REPORTE EQUIPOS " + TipoBusqueda.ToUpper(), fontTitle);
+            ColocarFormatosSuperiores(document, fontTitulo);
+
+            Paragraph titulo = new Paragraph("REPORTE EQUIPOS " + TipoBusqueda.ToUpper(), fontTitulo);
             titulo.Alignment = Element.ALIGN_CENTER;
 
-            //Paragraph Fechas = new Paragraph(TipoBusqueda.ToUpper() + ": " + ParametroBusqueda, fontParapraghBold);
-            //Fechas.Alignment = Element.ALIGN_CENTER;
-
             document.Add(titulo);
-            //document.Add(Fechas);
 
             Equipos = new PdfPTable(5);
             Equipos.WidthPercentage = 100;
 
-            //Titulos
-
-
             switch (TipoBusqueda)
             {
-                case "Cliente":pCliente = false; ;break;
-                case "Marca":; pMarca = false; break;
-                case "Modelo":; pModelo = false; tamañoCeldaSerie = 2; break;
+                case "Cliente":pCliente = false; ;break;//Para no mostrar los clientes en el reporte
+                case "Marca":; pMarca = false; break;//Para no mostrar las marcas
+                case "Modelo":; pModelo = false; pMarca = false; tamañoCeldaSerie = 2; break;//No mostraremos los modelos, ni las marcas y la serie abarcara 2 celdas
             }
             Paragraph Busqueda = new Paragraph(TipoBusqueda.ToUpper() + ": " + ParametroBusqueda, fontParapraghBold);
             Busqueda.Alignment = Element.ALIGN_CENTER;
@@ -919,7 +941,6 @@ namespace SpeedToner
                 if (pCliente)
                 {
                     AñadirLista(TipoBusqueda, leer[1].ToString(), fontParapragh);
-                    
                 }
 
                 if (pMarca)
@@ -927,13 +948,11 @@ namespace SpeedToner
                     AñadirLista(TipoBusqueda, leer[3].ToString(), fontParapragh);
                 }
 
-                PdfPCell clSerie = new PdfPCell(new Phrase("Serie: " + leer[5], fontParapragh));
+                PdfPCell clSerie = new PdfPCell(new Phrase(leer[5].ToString(), fontParapragh));
                 clSerie.BorderWidth = .5f;
                 clSerie.Padding = 2;
 
                 PdfPCell clModelo;
-
-                
                 if (pModelo)
                 {
                     if (titulosListos)
@@ -962,7 +981,7 @@ namespace SpeedToner
                 TipoPago.BorderWidth = .5f;
                 TipoPago.Padding = 2;
 
-                PdfPCell clCosto = new PdfPCell(new Phrase(String.Format("{0:n0}", int.Parse(leer[7].ToString())), fontParapragh));
+                PdfPCell clCosto = new PdfPCell(new Phrase(String.Format("{0:n0}", "$"+int.Parse(leer[7].ToString())), fontParapragh));
                 clCosto.BorderWidth = .5f;
                 clCosto.Padding = 2;
 
@@ -1021,6 +1040,7 @@ namespace SpeedToner
                     else
                     {
                         NuevoParametro = false;
+                        return;
                     }
                 }
 
