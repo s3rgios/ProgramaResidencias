@@ -111,6 +111,7 @@
             this.dtgFusores.RowTemplate.Height = 25;
             this.dtgFusores.Size = new System.Drawing.Size(1144, 434);
             this.dtgFusores.TabIndex = 8;
+            this.dtgFusores.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgFusores_CellClick);
             // 
             // label5
             // 
@@ -178,6 +179,7 @@
             this.btnEliminar.TabIndex = 16;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnCancelar
             // 
@@ -187,6 +189,7 @@
             this.btnCancelar.TabIndex = 17;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // label7
             // 
@@ -210,9 +213,6 @@
             "Habilitada",
             "Inhabilitada"});
             this.cboGarantia.FormattingEnabled = true;
-            this.cboGarantia.Items.AddRange(new object[] {
-            "Habilitado",
-            "Inhabilitado"});
             this.cboGarantia.Location = new System.Drawing.Point(632, 46);
             this.cboGarantia.Name = "cboGarantia";
             this.cboGarantia.Size = new System.Drawing.Size(257, 29);

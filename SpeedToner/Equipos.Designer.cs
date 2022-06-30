@@ -30,17 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.grpDatos = new System.Windows.Forms.GroupBox();
-            this.cboBusqueda = new System.Windows.Forms.ComboBox();
-            this.btnBuscar = new System.Windows.Forms.Button();
-            this.txtSerieBusqueda = new System.Windows.Forms.TextBox();
-            this.btnMostrar = new System.Windows.Forms.Button();
             this.cboMarcas = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.cboModelos = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.cboMostrar = new System.Windows.Forms.ComboBox();
             this.txtReferencia = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.cboTipoRenta = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -53,6 +46,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.cboBusqueda = new System.Windows.Forms.ComboBox();
+            this.btnBuscar = new System.Windows.Forms.Button();
+            this.txtSerieBusqueda = new System.Windows.Forms.TextBox();
+            this.btnMostrar = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cboMostrar = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.dtgEquipos = new System.Windows.Forms.DataGridView();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
@@ -90,44 +90,6 @@
             this.grpDatos.TabStop = false;
             this.grpDatos.Text = "Datos:";
             // 
-            // cboBusqueda
-            // 
-            this.cboBusqueda.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboBusqueda.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboBusqueda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboBusqueda.FormattingEnabled = true;
-            this.cboBusqueda.Location = new System.Drawing.Point(379, 240);
-            this.cboBusqueda.Name = "cboBusqueda";
-            this.cboBusqueda.Size = new System.Drawing.Size(442, 29);
-            this.cboBusqueda.TabIndex = 17;
-            // 
-            // btnBuscar
-            // 
-            this.btnBuscar.Location = new System.Drawing.Point(570, 275);
-            this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(92, 29);
-            this.btnBuscar.TabIndex = 5;
-            this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.UseVisualStyleBackColor = true;
-            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
-            // 
-            // txtSerieBusqueda
-            // 
-            this.txtSerieBusqueda.Location = new System.Drawing.Point(379, 275);
-            this.txtSerieBusqueda.Name = "txtSerieBusqueda";
-            this.txtSerieBusqueda.Size = new System.Drawing.Size(185, 27);
-            this.txtSerieBusqueda.TabIndex = 6;
-            // 
-            // btnMostrar
-            // 
-            this.btnMostrar.Location = new System.Drawing.Point(827, 240);
-            this.btnMostrar.Name = "btnMostrar";
-            this.btnMostrar.Size = new System.Drawing.Size(92, 32);
-            this.btnMostrar.TabIndex = 10;
-            this.btnMostrar.Text = "Mostrar";
-            this.btnMostrar.UseVisualStyleBackColor = true;
-            this.btnMostrar.Click += new System.EventHandler(this.btnMostrar_Click);
-            // 
             // cboMarcas
             // 
             this.cboMarcas.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
@@ -160,44 +122,12 @@
             this.cboModelos.Size = new System.Drawing.Size(482, 29);
             this.cboModelos.TabIndex = 14;
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(323, 278);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(50, 21);
-            this.label9.TabIndex = 7;
-            this.label9.Text = "Serie:";
-            // 
-            // cboMostrar
-            // 
-            this.cboMostrar.FormattingEnabled = true;
-            this.cboMostrar.Items.AddRange(new object[] {
-            "",
-            "Cliente",
-            "Marca",
-            "Modelo"});
-            this.cboMostrar.Location = new System.Drawing.Point(129, 240);
-            this.cboMostrar.Name = "cboMostrar";
-            this.cboMostrar.Size = new System.Drawing.Size(244, 29);
-            this.cboMostrar.TabIndex = 9;
-            this.cboMostrar.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
             // txtReferencia
             // 
             this.txtReferencia.Location = new System.Drawing.Point(111, 71);
             this.txtReferencia.Name = "txtReferencia";
             this.txtReferencia.Size = new System.Drawing.Size(457, 27);
             this.txtReferencia.TabIndex = 2;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(20, 240);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(103, 21);
-            this.label10.TabIndex = 8;
-            this.label10.Text = "Mostrar por:";
             // 
             // label7
             // 
@@ -301,6 +231,76 @@
             this.label1.Size = new System.Drawing.Size(70, 21);
             this.label1.TabIndex = 0;
             this.label1.Text = "Cliente:";
+            // 
+            // cboBusqueda
+            // 
+            this.cboBusqueda.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboBusqueda.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboBusqueda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboBusqueda.FormattingEnabled = true;
+            this.cboBusqueda.Location = new System.Drawing.Point(379, 240);
+            this.cboBusqueda.Name = "cboBusqueda";
+            this.cboBusqueda.Size = new System.Drawing.Size(442, 29);
+            this.cboBusqueda.TabIndex = 17;
+            // 
+            // btnBuscar
+            // 
+            this.btnBuscar.Location = new System.Drawing.Point(623, 320);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(92, 29);
+            this.btnBuscar.TabIndex = 5;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // txtSerieBusqueda
+            // 
+            this.txtSerieBusqueda.Location = new System.Drawing.Point(435, 322);
+            this.txtSerieBusqueda.Name = "txtSerieBusqueda";
+            this.txtSerieBusqueda.Size = new System.Drawing.Size(185, 27);
+            this.txtSerieBusqueda.TabIndex = 6;
+            // 
+            // btnMostrar
+            // 
+            this.btnMostrar.Location = new System.Drawing.Point(827, 240);
+            this.btnMostrar.Name = "btnMostrar";
+            this.btnMostrar.Size = new System.Drawing.Size(109, 55);
+            this.btnMostrar.TabIndex = 10;
+            this.btnMostrar.Text = "Mostrar Reporte";
+            this.btnMostrar.UseVisualStyleBackColor = true;
+            this.btnMostrar.Click += new System.EventHandler(this.btnMostrar_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(379, 325);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(50, 21);
+            this.label9.TabIndex = 7;
+            this.label9.Text = "Serie:";
+            // 
+            // cboMostrar
+            // 
+            this.cboMostrar.FormattingEnabled = true;
+            this.cboMostrar.Items.AddRange(new object[] {
+            "",
+            "Cliente",
+            "Marca",
+            "Modelo"});
+            this.cboMostrar.Location = new System.Drawing.Point(129, 240);
+            this.cboMostrar.Name = "cboMostrar";
+            this.cboMostrar.Size = new System.Drawing.Size(244, 29);
+            this.cboMostrar.TabIndex = 9;
+            this.cboMostrar.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(14, 243);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(109, 21);
+            this.label10.TabIndex = 8;
+            this.label10.Text = "Generar por:";
             // 
             // dtgEquipos
             // 

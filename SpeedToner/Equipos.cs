@@ -249,13 +249,13 @@ namespace SpeedToner
         private void btnMostrar_Click(object sender, EventArgs e)
         {
             //Limpiamos los datos del datagridview
-            dtgEquipos.DataSource = null;
-            dtgEquipos.Refresh();
+            //dtgEquipos.DataSource = null;
+            //dtgEquipos.Refresh();
             DataTable tabla = new DataTable();
             //Guardamos los registros dependiendo la consulta
             tabla = objetoCN.OrdenarEquipos(cboBusqueda.SelectedItem.ToString(),TipoBusqueda);
             //Asignamos los registros que optuvimos al datagridview
-            dtgEquipos.DataSource = tabla;
+            //dtgEquipos.DataSource = tabla;
             cboMostrar.SelectedIndex = 0;
             cboBusqueda.SelectedIndex = 0;
         }

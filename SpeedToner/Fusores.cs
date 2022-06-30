@@ -22,6 +22,7 @@ namespace SpeedToner
         CD_Conexion cn = new CD_Conexion();
 
         bool Modificando = false;
+        int Id;
 
         #region Inicio
         public void Inicio()
@@ -29,6 +30,8 @@ namespace SpeedToner
             ControlesDesactivadosInicialmente(false);
             PropiedadesDtgServicios();
             MostrarDatosFusores();
+            cboGarantia.Items.Add("Habilitado");
+            cboGarantia.Items.Add("Deshabilitada");
         }
 
         private void ControlesDesactivadosInicialmente(bool activado)
@@ -52,6 +55,7 @@ namespace SpeedToner
             dtgFusores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             //dtgServicios.AutoResizeColumns(DataGridViewAutoSizeColumnsMo‌​de.Fill);
             dtgFusores.AutoResizeColumns();
+            
         }
 
         public void MostrarDatosFusores()
@@ -69,6 +73,7 @@ namespace SpeedToner
         public bool ValidarCampos()
         {
             bool Validado = true;
+            erFusores.Clear();
             foreach (Control c in this.Controls)
             {
                 if (c is TextBox || c is ComboBox)
@@ -107,18 +112,27 @@ namespace SpeedToner
                     string SerieSp = txtSerieSp.Text;
                     string NumeroFactura = txtFactura.Text;
                     DateTime FechaFactura = dtpFechaFactura.Value;
-                    string Costo = txtCosto.Text;
+                    string Costo = txtCosto.Text.Replace(",", "");
                     string Garantia = cboGarantia.SelectedItem.ToString();
                     string Ubicacion = txtUbicacion.Text;
                     DateTime FechaInstalacion = dtpFechaInstalacion.Value;
                     if (Modificando)
                     {
-
+                        if (MessageBox.Show("Desea modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                        {
+                            MessageBox.Show("Modificacion cancelada!!");
+                            LimpiarForm();
+                            return;
+                        }
+                        objetoCN.ModificarFusor(Id,Serie, SerieSp, NumeroFactura, FechaFactura, Costo, Garantia, Ubicacion, FechaInstalacion);
+                        MessageBox.Show("Fusor modificado correctamente");
+                        MostrarDatosFusores();
                     }
                     else
                     {
                         objetoCN.AgregarFusor(Serie, SerieSp, NumeroFactura, FechaFactura, Costo, Garantia, Ubicacion, FechaInstalacion);
                         MessageBox.Show("Fusor agregado correctamente");
+                        MostrarDatosFusores();
                     }
                     LimpiarForm();
                 }
@@ -128,6 +142,42 @@ namespace SpeedToner
                 MessageBox.Show(ex.Message);
             }
             
+        }
+
+        private void dtgFusores_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ControlesDesactivadosInicialmente(true);
+            //LimpiarForm();
+            Modificando = true;
+            Id = int.Parse(dtgFusores.CurrentRow.Cells[0].Value.ToString());
+            txtSerie.Text = dtgFusores.CurrentRow.Cells[1].Value.ToString();
+            txtSerieSp.Text = dtgFusores.CurrentRow.Cells[2].Value.ToString();
+            txtFactura.Text = dtgFusores.CurrentRow.Cells[3].Value.ToString();
+            dtpFechaFactura.Value = Convert.ToDateTime(dtgFusores.CurrentRow.Cells[4].Value.ToString());
+            txtUbicacion.Text = dtgFusores.CurrentRow.Cells[8].Value.ToString();
+            txtCosto.Text = dtgFusores.CurrentRow.Cells[6].Value.ToString().Replace("$", "");
+            dtpFechaInstalacion.Value = Convert.ToDateTime(dtgFusores.CurrentRow.Cells[9].Value.ToString());
+            cboGarantia.SelectedItem = dtgFusores.CurrentRow.Cells[7].Value.ToString();
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Modificando = true;
+            LimpiarForm();
+            txtSerie.Focus();
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Desea eliminar el registro?", "CONFIRME LA ELIMINACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                MessageBox.Show("Eliminación cancelada!!");
+                LimpiarForm();
+                return;
+            }
+            objetoCN.Eliminar(Id, "EliminarFusor");
+            MessageBox.Show("Fusor eliminado correctamente");
+            MostrarDatosFusores();
         }
     }
 }

@@ -585,7 +585,7 @@ namespace SpeedToner
             int contadorRegistros = 0;
             bool nuevaSerie = true;
             //Instanciamos la clase para la paginacion
-            var pe = new PageEventHelper();
+            var pe = new PageEventHelperEquipos();
             pw.PageEvent = pe;
             document.Open();
 
@@ -595,7 +595,7 @@ namespace SpeedToner
 
             //TIPO DE FUENTE
             //Variable para definir tipo de fuente normal
-            iTextSharp.text.Font fontTitle = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 20, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+            iTextSharp.text.Font fontTitulo = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
 
             iTextSharp.text.Font fontParapragh = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
             //Fuente para los parrafos en negritas
@@ -603,11 +603,11 @@ namespace SpeedToner
 
             iTextSharp.text.Font fontFecha = FontFactory.GetFont("arial", 9);
 
-            Paragraph titulo = new Paragraph("REPORTE SERVICIO TECNICO " + TipoBusqueda.ToUpper(), fontTitle);
-            titulo.Alignment = Element.ALIGN_CENTER;
+            ColocarFormatosSuperiores(document, fontTitulo);
 
-            Paragraph Fechas = new Paragraph("FECHA DE INICIO: " + FechaInicio.ToString("dd/MM/yyyy") + "       FECHA FINAL: " + FechaFinal.ToString("dd/MM/yyyy"), fontFecha);
-            Fechas.Alignment = Element.ALIGN_CENTER;
+            Paragraph titulo = new Paragraph("REPORTE SERVICIO TECNICO " + TipoBusqueda.ToUpper(), fontTitulo) { Alignment = Element.ALIGN_CENTER};
+
+            Paragraph Fechas = new Paragraph("FECHA DE INICIO: " + FechaInicio.ToString("dd/MM/yyyy") + "       FECHA FINAL: " + FechaFinal.ToString("dd/MM/yyyy"), fontFecha) { Alignment = Element.ALIGN_CENTER};
 
             document.Add(titulo);
             document.Add(Fechas);
@@ -904,7 +904,7 @@ namespace SpeedToner
 
             //TIPO DE FUENTE
             //Variable para definir tipo de fuente normal
-            iTextSharp.text.Font fontTitulo = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 12, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+            iTextSharp.text.Font fontTitulo = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
 
             iTextSharp.text.Font fontParapragh = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 12, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
             //Fuente para los parrafos en negritas
@@ -981,7 +981,7 @@ namespace SpeedToner
                 TipoPago.BorderWidth = .5f;
                 TipoPago.Padding = 2;
 
-                PdfPCell clCosto = new PdfPCell(new Phrase(String.Format("{0:n0}", "$"+int.Parse(leer[7].ToString())), fontParapragh));
+                PdfPCell clCosto = new PdfPCell(new Phrase("$"+String.Format("{0:n0}", int.Parse(leer[7].ToString())), fontParapragh));
                 clCosto.BorderWidth = .5f;
                 clCosto.Padding = 2;
 
@@ -996,6 +996,7 @@ namespace SpeedToner
             document.Add(Equipos);
 
             document.Close();
+            Parametros.Clear();
 
             //Abrimos el pdf 
             var p = new Process();
@@ -1104,7 +1105,7 @@ namespace SpeedToner
             comando.Parameters.AddWithValue("@NumeroSerieS", NumeroSerieSp);
             comando.Parameters.AddWithValue("@NumeroFactura", NumeroFactura);
             comando.Parameters.AddWithValue("@FechaFactura", FechaFactura);
-            comando.Parameters.AddWithValue("@Costo", int.Parse(Costo));
+            comando.Parameters.AddWithValue("@Costo", double.Parse(Costo));
             comando.Parameters.AddWithValue("@Garantia", Garantia);
             comando.Parameters.AddWithValue("@Ubicacion", Ubicacion);
             comando.Parameters.AddWithValue("@FechaInstalacion", FechaInstalacion);
@@ -1114,6 +1115,29 @@ namespace SpeedToner
             comando.Parameters.Clear();
             conexion.CerrarConexion();
         }
+
+        public void ModificarFusor(int Id,string NumeroSerie, string NumeroSerieSp, string NumeroFactura, DateTime FechaFactura, string Costo, string Garantia, string Ubicacion, DateTime FechaInstalacion)
+        {
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "ModificarFusor";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@Id", Id);
+            comando.Parameters.AddWithValue("@NumeroSerieO", NumeroSerie);
+            comando.Parameters.AddWithValue("@NumeroSerieS", NumeroSerieSp);
+            comando.Parameters.AddWithValue("@NumeroFactura", NumeroFactura);
+            comando.Parameters.AddWithValue("@FechaFactura", FechaFactura);
+            comando.Parameters.AddWithValue("@Costo", double.Parse(Costo));
+            comando.Parameters.AddWithValue("@Garantia", Garantia);
+            comando.Parameters.AddWithValue("@Ubicacion", Ubicacion);
+            comando.Parameters.AddWithValue("@FechaInstalacion", FechaInstalacion);
+
+            comando.ExecuteNonQuery();
+
+            comando.Parameters.Clear();
+            conexion.CerrarConexion();
+        }
+
         #endregion
     }
 }
