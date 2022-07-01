@@ -1092,6 +1092,139 @@ namespace SpeedToner
             Equipos.AddCell(clFechaRenta);
         }
 
+        public void ReporteFusores(string Parametro,DateTime FechaInicio, DateTime FechaFinal, string Serie)
+        {
+            SqlDataReader leer;
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "ReporteFusores";
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@Garantia", Parametro);
+            comando.Parameters.AddWithValue("@FechaInicio", FechaInicio);
+            comando.Parameters.AddWithValue("@FechaFinal", FechaFinal);
+            comando.Parameters.AddWithValue("@Serie", Serie);
+            leer = comando.ExecuteReader();
+            GenerarReporteFusores(leer,Parametro,FechaInicio,FechaFinal,Serie);
+            comando.Parameters.Clear();
+        }
+
+        public void GenerarReporteFusores(SqlDataReader leer, string Parametro, DateTime FechaInicio, DateTime FechaFinal,string Serie)
+        {
+            string NombreArchivo = @"C:\Users\DELL PC\Documents\Base de datos\" + "ReporteFusores" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            //Lista de las series para evitar que se repitan las series en algunas consultas
+            FileStream fs = new FileStream(NombreArchivo, FileMode.Create);
+            Document document = new Document(PageSize.LETTER);
+            document.SetMargins(25f, 25f, 25f, 25f);
+            //Colocamos el pdf en horizontal
+            document.SetPageSize(iTextSharp.text.PageSize.LETTER.Rotate());
+            PdfWriter pw = PdfWriter.GetInstance(document, fs);
+
+            int colspanSerie = 1;
+
+            var pe = new PageEventHelperEquipos();
+            pw.PageEvent = pe;
+
+            document.Open();
+
+            //TIPO DE FUENTE
+            //Variable para definir tipo de fuente normal
+            iTextSharp.text.Font fontTitulo = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+
+            iTextSharp.text.Font fontParapragh = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 12, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+            //Fuente para los parrafos en negritas
+            iTextSharp.text.Font fontParapraghBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 12, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+
+            iTextSharp.text.Font fontFecha = FontFactory.GetFont("arial", 11);
+
+            ColocarFormatosSuperiores(document, fontTitulo);
+
+            Paragraph titulo = new Paragraph("REPORTE FUSORES GARANTIA " + Parametro.ToUpper() +" "+ Serie.ToUpper(), fontTitulo);
+            titulo.Alignment = Element.ALIGN_CENTER;
+            document.Add(titulo);
+
+            document.Add(new Chunk());
+            switch (Parametro)
+            {
+                case "Habilitado":
+                    colspanSerie = 1
+                        ; break;
+                case "Deshabilitada": colspanSerie = 2; break;
+                case "Rango Fecha":
+                    Paragraph RangoFechas = new Paragraph("Fecha Inicial: " + string.Format("{0:d}", FechaInicio) + "    Fecha Final: " + string.Format("{0:d}", FechaFinal), fontFecha) { Alignment = Element.ALIGN_CENTER};
+                    document.Add(RangoFechas);
+                    document.Add(new Chunk());
+                    ; break;
+                case "Serie": colspanSerie = 2; break;
+            }
+
+            PdfPTable Fusores = new PdfPTable(7);
+            Fusores.WidthPercentage = 100;
+
+            PdfPCell cltSerie = new PdfPCell(new Phrase("Serie", fontParapraghBold)) { BorderWidth = .5f, Colspan =colspanSerie};
+            Fusores.AddCell(cltSerie);
+            if (Parametro != "Serie")
+            {
+                PdfPCell cltSerieSp = new PdfPCell(new Phrase("Serie Sp", fontParapraghBold)) { BorderWidth = .5f, Colspan = 1 };
+                Fusores.AddCell(cltSerieSp);
+            }
+            PdfPCell cltFactura = new PdfPCell(new Phrase("#Factura", fontParapraghBold)) { BorderWidth = .5f, Colspan = 1 };
+            PdfPCell cltFechaFactura = new PdfPCell(new Phrase("FechaFactura", fontParapraghBold)) { BorderWidth = .5f, Colspan = 1 };
+            PdfPCell cltPrecio = new PdfPCell(new Phrase("Precio", fontParapraghBold)) { BorderWidth = .5f, Colspan = 1 };
+            
+            
+            Fusores.AddCell(cltFactura);
+            Fusores.AddCell(cltFechaFactura);
+            Fusores.AddCell(cltPrecio);
+            if (Parametro != "Deshabilitada")
+            {
+                PdfPCell cltDiasRestantes = new PdfPCell(new Phrase("Dias Restantes", fontParapraghBold)) { BorderWidth = .5f, Colspan = 1 };
+                Fusores.AddCell(cltDiasRestantes);
+            }
+            PdfPCell cltUbicacion = new PdfPCell(new Phrase("Ubicacion", fontParapraghBold)) { BorderWidth = .5f, Colspan = 1 };
+
+            
+            
+            Fusores.AddCell(cltUbicacion);
+            while (leer.Read())
+            {
+                PdfPCell clSerie = new PdfPCell(new Phrase(leer[1].ToString(), fontParapragh)) { BorderWidth = .5f ,Colspan = colspanSerie};
+                Fusores.AddCell(clSerie);
+                if(Parametro != "Serie")
+                {
+                    PdfPCell clSerieSp = new PdfPCell(new Phrase(leer[2].ToString(), fontParapragh)) { BorderWidth = .5f, Colspan = 1 };
+                    Fusores.AddCell(clSerieSp);
+                }
+                
+                PdfPCell clFactura = new PdfPCell(new Phrase(leer[3].ToString(), fontParapragh)) { BorderWidth = .5f, Colspan = 1};
+                PdfPCell clFechaFactura = new PdfPCell(new Phrase(string.Format("{0:d}", leer[4]), fontParapragh)) { BorderWidth = .5f, Colspan = 1 };
+                PdfPCell clPrecio = new PdfPCell(new Phrase(leer[6].ToString(), fontParapragh)) { BorderWidth = .5f , Colspan = 1};
+                
+                Fusores.AddCell(clFactura);
+                Fusores.AddCell(clFechaFactura);
+                Fusores.AddCell(clPrecio);
+                if (Parametro != "Deshabilitada")
+                {
+                    PdfPCell clDiasRestantes = new PdfPCell(new Phrase(leer[5].ToString(), fontParapragh)) { BorderWidth = .5f };
+                    Fusores.AddCell(clDiasRestantes);
+                }
+                
+                PdfPCell clUbicacion = new PdfPCell(new Phrase(leer[8].ToString(), fontParapragh)) { BorderWidth = .5f };
+
+                
+                
+                Fusores.AddCell(clUbicacion);
+            }
+            document.Add(Fusores);
+            leer.Close();
+            document.Close();
+            //Abrimos el pdf 
+            var p = new Process();
+            p.StartInfo = new ProcessStartInfo(NombreArchivo)
+            {
+                UseShellExecute = true
+            };
+            p.Start();
+        }
+
         #endregion
 
         #region Fusores

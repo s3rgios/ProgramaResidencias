@@ -32,6 +32,12 @@ namespace SpeedToner
             MostrarDatosFusores();
             cboGarantia.Items.Add("Habilitado");
             cboGarantia.Items.Add("Deshabilitada");
+
+            cboBusqueda.Items.Add("Habilitado");
+            cboBusqueda.Items.Add("Deshabilitada");
+            cboBusqueda.Items.Add("Rango Fecha");
+            cboBusqueda.Items.Add("Serie");
+            cboBusqueda.Items.Add("Todos");
         }
 
         private void ControlesDesactivadosInicialmente(bool activado)
@@ -99,6 +105,8 @@ namespace SpeedToner
                     c.Text = "";
                 }
             }
+            dtpFechaFactura.Value = DateTime.Now;
+            dtpFechaInstalacion.Value = DateTime.Now;
             txtSerie.Focus();
         }
 
@@ -178,6 +186,44 @@ namespace SpeedToner
             objetoCN.Eliminar(Id, "EliminarFusor");
             MessageBox.Show("Fusor eliminado correctamente");
             MostrarDatosFusores();
+        }
+
+        private void btnGenerarReporte_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string Parametro = cboBusqueda.SelectedItem.ToString();
+                string Serie = txtSerieBusqueda.Text;
+                DateTime FechaInicio = dtpFechaInicio.Value;
+                DateTime FechaFinal = dtpFechaFinal.Value;
+                objetoCN.ReporteFusores(Parametro,FechaInicio,FechaFinal,Serie);
+            }catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
+        }
+
+        private void cboBusqueda_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string Parametro = cboBusqueda.SelectedItem.ToString();
+            switch (Parametro)
+            {
+                case "Habilitado":MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
+                case "Deshabilitada":MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
+                case "Rango Fecha":MostrarFechas(true); txtSerieBusqueda.Visible = false; break;
+                case "Serie":MostrarFechas(false); txtSerieBusqueda.Visible = true; break;
+                case "Todo":MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
+            }
+
+        }
+
+        public void MostrarFechas(bool Mostrar)
+        {
+            lblFechaFinal.Visible = Mostrar;
+            lblFechaInicio.Visible = Mostrar;
+            dtpFechaInicio.Visible = Mostrar;
+            dtpFechaFinal.Visible = Mostrar;
         }
     }
 }

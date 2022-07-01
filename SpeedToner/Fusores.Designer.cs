@@ -51,6 +51,13 @@
             this.label8 = new System.Windows.Forms.Label();
             this.btnGenerarReporte = new System.Windows.Forms.Button();
             this.erFusores = new System.Windows.Forms.ErrorProvider(this.components);
+            this.cboBusqueda = new System.Windows.Forms.ComboBox();
+            this.dtpFechaInicio = new System.Windows.Forms.DateTimePicker();
+            this.lblFechaInicio = new System.Windows.Forms.Label();
+            this.lblFechaFinal = new System.Windows.Forms.Label();
+            this.dtpFechaFinal = new System.Windows.Forms.DateTimePicker();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtSerieBusqueda = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dtgFusores)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.erFusores)).BeginInit();
             this.SuspendLayout();
@@ -106,7 +113,7 @@
             // dtgFusores
             // 
             this.dtgFusores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgFusores.Location = new System.Drawing.Point(16, 303);
+            this.dtgFusores.Location = new System.Drawing.Point(12, 303);
             this.dtgFusores.Name = "dtgFusores";
             this.dtgFusores.RowTemplate.Height = 25;
             this.dtgFusores.Size = new System.Drawing.Size(1144, 434);
@@ -202,7 +209,7 @@
             // 
             // dtpFechaInstalacion
             // 
-            this.dtpFechaInstalacion.Location = new System.Drawing.Point(697, 13);
+            this.dtpFechaInstalacion.Location = new System.Drawing.Point(697, 12);
             this.dtpFechaInstalacion.Name = "dtpFechaInstalacion";
             this.dtpFechaInstalacion.Size = new System.Drawing.Size(365, 27);
             this.dtpFechaInstalacion.TabIndex = 19;
@@ -229,22 +236,92 @@
             // 
             // btnGenerarReporte
             // 
-            this.btnGenerarReporte.Location = new System.Drawing.Point(540, 239);
+            this.btnGenerarReporte.Location = new System.Drawing.Point(777, 225);
             this.btnGenerarReporte.Name = "btnGenerarReporte";
             this.btnGenerarReporte.Size = new System.Drawing.Size(134, 58);
             this.btnGenerarReporte.TabIndex = 22;
             this.btnGenerarReporte.Text = "Generar Reporte";
             this.btnGenerarReporte.UseVisualStyleBackColor = true;
+            this.btnGenerarReporte.Click += new System.EventHandler(this.btnGenerarReporte_Click);
             // 
             // erFusores
             // 
             this.erFusores.ContainerControl = this;
+            // 
+            // cboBusqueda
+            // 
+            this.cboBusqueda.FormattingEnabled = true;
+            this.cboBusqueda.Location = new System.Drawing.Point(553, 131);
+            this.cboBusqueda.Name = "cboBusqueda";
+            this.cboBusqueda.Size = new System.Drawing.Size(218, 29);
+            this.cboBusqueda.TabIndex = 23;
+            this.cboBusqueda.SelectedIndexChanged += new System.EventHandler(this.cboBusqueda_SelectedIndexChanged);
+            // 
+            // dtpFechaInicio
+            // 
+            this.dtpFechaInicio.Location = new System.Drawing.Point(777, 109);
+            this.dtpFechaInicio.Name = "dtpFechaInicio";
+            this.dtpFechaInicio.Size = new System.Drawing.Size(365, 27);
+            this.dtpFechaInicio.TabIndex = 24;
+            this.dtpFechaInicio.Visible = false;
+            // 
+            // lblFechaInicio
+            // 
+            this.lblFechaInicio.AutoSize = true;
+            this.lblFechaInicio.Location = new System.Drawing.Point(777, 85);
+            this.lblFechaInicio.Name = "lblFechaInicio";
+            this.lblFechaInicio.Size = new System.Drawing.Size(108, 21);
+            this.lblFechaInicio.TabIndex = 25;
+            this.lblFechaInicio.Text = "Fecha Inicial";
+            this.lblFechaInicio.Visible = false;
+            // 
+            // lblFechaFinal
+            // 
+            this.lblFechaFinal.AutoSize = true;
+            this.lblFechaFinal.Location = new System.Drawing.Point(777, 143);
+            this.lblFechaFinal.Name = "lblFechaFinal";
+            this.lblFechaFinal.Size = new System.Drawing.Size(98, 21);
+            this.lblFechaFinal.TabIndex = 26;
+            this.lblFechaFinal.Text = "Fecha Final";
+            this.lblFechaFinal.Visible = false;
+            // 
+            // dtpFechaFinal
+            // 
+            this.dtpFechaFinal.Location = new System.Drawing.Point(777, 170);
+            this.dtpFechaFinal.Name = "dtpFechaFinal";
+            this.dtpFechaFinal.Size = new System.Drawing.Size(365, 27);
+            this.dtpFechaFinal.TabIndex = 27;
+            this.dtpFechaFinal.Visible = false;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(553, 94);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(116, 21);
+            this.label11.TabIndex = 28;
+            this.label11.Text = "Buqueda por:";
+            // 
+            // txtSerieBusqueda
+            // 
+            this.txtSerieBusqueda.Location = new System.Drawing.Point(553, 166);
+            this.txtSerieBusqueda.Name = "txtSerieBusqueda";
+            this.txtSerieBusqueda.Size = new System.Drawing.Size(218, 27);
+            this.txtSerieBusqueda.TabIndex = 29;
+            this.txtSerieBusqueda.Visible = false;
             // 
             // Fusores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1172, 749);
+            this.Controls.Add(this.txtSerieBusqueda);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.dtpFechaFinal);
+            this.Controls.Add(this.lblFechaFinal);
+            this.Controls.Add(this.lblFechaInicio);
+            this.Controls.Add(this.dtpFechaInicio);
+            this.Controls.Add(this.cboBusqueda);
             this.Controls.Add(this.btnGenerarReporte);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.cboGarantia);
@@ -302,5 +379,12 @@
         private Label label8;
         private Button btnGenerarReporte;
         private ErrorProvider erFusores;
+        private ComboBox cboBusqueda;
+        private Label label11;
+        private DateTimePicker dtpFechaFinal;
+        private Label lblFechaFinal;
+        private Label lblFechaInicio;
+        private DateTimePicker dtpFechaInicio;
+        private TextBox txtSerieBusqueda;
     }
 }
