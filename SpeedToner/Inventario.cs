@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data;
 using System.Data.SqlClient;
 
 namespace SpeedToner
@@ -21,6 +20,7 @@ namespace SpeedToner
 
         //Sabremos si estamos modificando o agregando
         private bool Modificando = false;
+        //Variable que nos ayudara a saber cuando estemos buscando algun modelo en espefico
         private bool Buscando = false;
 
         //Variable para guadar el id ya sea de un cartucho en el inventario o de algun regristro que se seleccione
@@ -131,6 +131,9 @@ namespace SpeedToner
             cn.CerrarConexion();
         }
 
+        #endregion
+
+        #region Validaciones
         private bool ValidarCamposInventario()
         {
             bool Validado = true;
@@ -151,7 +154,7 @@ namespace SpeedToner
                 erInventario.SetError(txtBodega, "Ingrese cantidad en bodega");
                 Validado = false;
             }
-            if(cboMarca.Text == " ")
+            if (cboMarca.Text == " ")
             {
                 erInventario.SetError(cboMarca, "Seleccione una marca");
                 Validado = false;
@@ -194,7 +197,7 @@ namespace SpeedToner
 
             if (txtRestanteBodega.Text == "")
             {
-                 erInventario.SetError(txtRestanteBodega, "Ingrese la cantidad a traspasar");
+                erInventario.SetError(txtRestanteBodega, "Ingrese la cantidad a traspasar");
                 Validado = false;
             }
             return Validado;
@@ -212,7 +215,6 @@ namespace SpeedToner
             }
             return Validado;
         }
-
         #endregion
 
         #region Botones
@@ -250,7 +252,16 @@ namespace SpeedToner
                         }
                         else
                         {
-                            objetoCN.AñadirRegistroInventario(Modelo, Marca, CantidadOficina, CantidadBodega);
+                            bool ModeloDuplicado = objetoCN.VerificarDuplicadosInventario(Modelo);
+                            if (ModeloDuplicado)
+                            {
+                                MessageBox.Show("El modelo del cartucho ya existe!!. Ingrese un modelo distinto");
+                            }
+                            else
+                            {
+                                objetoCN.AñadirRegistroInventario(Modelo, Marca, CantidadOficina, CantidadBodega);
+                            }
+                            
                         }
                     }
                     

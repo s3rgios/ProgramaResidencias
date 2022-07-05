@@ -80,33 +80,78 @@ namespace SpeedToner
         {
             bool Validado = true;
             erFusores.Clear();
-            foreach (Control c in this.Controls)
+            if (txtSerie.Text == "")
             {
-                if (c is TextBox || c is ComboBox)
-                {
-                    if(c.Text == "")
-                    {
-                        erFusores.SetError(c, "Campo obligatorio");
-                        Validado = false;
-                    }
-                }
+                erFusores.SetError(txtSerie, "Campo obligatorio");
+                Validado = false;
+            }
+            if (txtSerieSp.Text == "")
+            {
+                erFusores.SetError(txtSerieSp, "Campo obligatorio");
+                Validado = false;
+            }
+            if (txtFactura.Text == "")
+            {
+                erFusores.SetError(txtFactura, "Campo obligatorio");
+                Validado = false;
+            }
+            if ( txtCosto.Text == "")
+            {
+                erFusores.SetError(txtCosto, "Campo obligatorio");
+                Validado = false;
+            }
+            if (cboGarantia.Items.Count <= 0)
+            {
+                erFusores.SetError(cboGarantia, "Campo obligatorio");
+                Validado = false;
             }
             return Validado;
         }
         #endregion
 
+        public bool ValidarCamposReporte()
+        {
+            bool Validado = true;
+            erFusores.Clear();
+            if (cboBusqueda.SelectedItem == null)
+            {
+                erFusores.SetError(cboBusqueda, "Campo obligatorio");
+                Validado = false;
+            }
+            else
+            {
+                string Parametro = cboBusqueda.SelectedItem.ToString();
+                switch (Parametro)
+                {
+                    case "Serie":
+                        if (txtSerieBusqueda.Text == "")
+                        {
+                            erFusores.SetError(txtSerieBusqueda, "Campo obligatorio");
+                            Validado = false;
+                        };
+                        break;
+                }
+            }
+            
+            return Validado;
+        }
 
         public void LimpiarForm()
         {
             foreach(Control c in this.Controls)
             {
-                if(c is TextBox || c is ComboBox)
+                if(c is TextBox)
                 {
                     c.Text = "";
                 }
             }
             dtpFechaFactura.Value = DateTime.Now;
             dtpFechaInstalacion.Value = DateTime.Now;
+            dtpFechaInicio.Value = DateTime.Now;
+            dtpFechaFinal.Value = DateTime.Now;
+            MostrarFechas(false); 
+            txtSerieBusqueda.Visible = false;
+            cboBusqueda.Text = "";
             txtSerie.Focus();
         }
 
@@ -170,7 +215,7 @@ namespace SpeedToner
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            Modificando = true;
+            Modificando = false;
             LimpiarForm();
             txtSerie.Focus();
         }
@@ -192,11 +237,16 @@ namespace SpeedToner
         {
             try
             {
-                string Parametro = cboBusqueda.SelectedItem.ToString();
-                string Serie = txtSerieBusqueda.Text;
-                DateTime FechaInicio = dtpFechaInicio.Value;
-                DateTime FechaFinal = dtpFechaFinal.Value;
-                objetoCN.ReporteFusores(Parametro,FechaInicio,FechaFinal,Serie);
+                if (ValidarCamposReporte())
+                {
+                    string Parametro = cboBusqueda.SelectedItem.ToString();
+                    string Serie = txtSerieBusqueda.Text;
+                    DateTime FechaInicio = dtpFechaInicio.Value;
+                    DateTime FechaFinal = dtpFechaFinal.Value;
+                    objetoCN.ReporteFusores(Parametro, FechaInicio, FechaFinal, Serie);
+                    LimpiarForm();
+                }
+                
             }catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
@@ -213,7 +263,7 @@ namespace SpeedToner
                 case "Deshabilitada":MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
                 case "Rango Fecha":MostrarFechas(true); txtSerieBusqueda.Visible = false; break;
                 case "Serie":MostrarFechas(false); txtSerieBusqueda.Visible = true; break;
-                case "Todo":MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
+                case "Todos":MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
             }
 
         }

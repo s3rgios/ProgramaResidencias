@@ -16,8 +16,6 @@ namespace SpeedToner
         CD_Servicios objetoCN = new CD_Servicios();
         CD_Conexion cn = new CD_Conexion();
         //Variable para saber si realizaremos acciones en resgistros o en inventario
-        private bool inventario = true;
-
         //Sabremos si estamos modificando o agregando
         private bool Modificando = false;
         //Ayudara a saber si estamos buscando algun registro
@@ -153,10 +151,32 @@ namespace SpeedToner
             return Validado;
         }
 
-        #endregion
+        public bool ValidarCamposReporte()
+        {
+            bool Validado = true;
+            erEquipos.Clear();
+            if (cboMostrar.SelectedItem == null)
+            {
+                erEquipos.SetError(cboMostrar, "Campo obligatorio");
+                Validado = false;
+            }
+            else
+            {
+                if (cboBusqueda.SelectedItem == " ")
+                {
+                    erEquipos.SetError(cboBusqueda, "Campo obligatorio");
+                    Validado = false;
+                }
+            }
+            return Validado;
+        }
+        
+            
 
-        #region Botones
-        private void btnGuardar_Click(object sender, EventArgs e)
+            #endregion
+
+            #region Botones
+            private void btnGuardar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -253,11 +273,16 @@ namespace SpeedToner
             //dtgEquipos.Refresh();
             DataTable tabla = new DataTable();
             //Guardamos los registros dependiendo la consulta
-            tabla = objetoCN.OrdenarEquipos(cboBusqueda.SelectedItem.ToString(),TipoBusqueda);
+            if (ValidarCamposReporte())
+            {
+                objetoCN.OrdenarEquipos(cboBusqueda.SelectedItem.ToString(), TipoBusqueda);
+                cboMostrar.ResetText();
+                cboBusqueda.SelectedIndex = 0;
+            }
+            
             //Asignamos los registros que optuvimos al datagridview
             //dtgEquipos.DataSource = tabla;
-            cboMostrar.SelectedIndex = 0;
-            cboBusqueda.SelectedIndex = 0;
+            
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)

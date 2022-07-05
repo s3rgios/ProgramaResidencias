@@ -155,7 +155,7 @@ namespace SpeedToner
 
             if (txtBusqueda.Text == "")
             {
-                erServicios.SetError(txtBusqueda, "Ingrese número de folio");
+                erServicios.SetError(txtBusqueda, "Campo obligatorio");
                 Validado = false;
             }
             return Validado;
@@ -200,10 +200,30 @@ namespace SpeedToner
                     }
                     else
                     {
-                        objetoCN.InsertarServicio(NumeroFolio, IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Tecnico, Usuario, Fusor, Servicio, Falla);
-                        MessageBox.Show("Registro agregado correctamente");
+                        bool FolioRepetido = objetoCN.VerificarDuplicados(NumeroFolio);
+                        if(FolioRepetido)
+                        {
+                            MessageBox.Show("El numero de folio ya existe!!");
+                        }
+                        //for (int fila = 0; fila < dtgServicios.Rows.Count - 1; fila++)
+                        //{
+                        //    string Folio = dtgServicios.Rows[fila].Cells[0].Value.ToString();
+                        //    if(NumeroFolio == Folio)
+                        //    {
+                        //        FolioRepetido = true;
+                        //    }
+                        //}
+                        //if (FolioRepetido)
+                        //{
+                        //    MessageBox.Show("El numero de folio ya existe!!");
+                        //}
+                        else
+                        {
+                            objetoCN.InsertarServicio(NumeroFolio, IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Tecnico, Usuario, Fusor, Servicio, Falla);
+                            MessageBox.Show("Registro agregado correctamente");
+                        }
+                        
                     }
-
                     LimpiarForm();
                     MostrarDatosServicios();
                 }
@@ -228,8 +248,6 @@ namespace SpeedToner
         private void btnMostrar_Click(object sender, EventArgs e)
         {
             DataTable tabla = new DataTable();
-            
-
             //Dependiendo la opcion se enviaran diferentes stop procedures al metodo mostrar
             switch (cboMostrar.SelectedItem.ToString())
             {
