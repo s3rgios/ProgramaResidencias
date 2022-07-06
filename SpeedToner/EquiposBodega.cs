@@ -203,6 +203,7 @@ namespace SpeedToner
 
             cboMarcas.SelectedIndex = 0;
             cboModelos.SelectedIndex = 0;
+            cboEstado.SelectedIndex = -1;
             LlenarComboBox(cboModelos, "SeleccionarModelos", 0);
         }
 
@@ -235,8 +236,12 @@ namespace SpeedToner
             cboEstado.SelectedItem = dtgEquipos.CurrentRow.Cells[5].Value.ToString();
             rtxtNotas.Text = dtgEquipos.CurrentRow.Cells[6].Value.ToString();
         }
+
         #endregion
 
-
+        private void txtSerie_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
     }
 }

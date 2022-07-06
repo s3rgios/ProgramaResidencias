@@ -133,6 +133,7 @@
             this.txtDato.Size = new System.Drawing.Size(316, 27);
             this.txtDato.TabIndex = 8;
             this.txtDato.Visible = false;
+            this.txtDato.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDato_KeyPress);
             // 
             // cboClientes
             // 

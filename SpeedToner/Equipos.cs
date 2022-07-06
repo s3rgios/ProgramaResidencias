@@ -52,6 +52,7 @@ namespace SpeedToner
             //Deshabilitamos escritura en combobox
             cboClientes.DropDownStyle = ComboBoxStyle.DropDownList;
             cboTipoRenta.DropDownStyle = ComboBoxStyle.DropDownList;
+            
         }
 
         public void ControlesDesactivados(bool Desactivado)
@@ -118,6 +119,10 @@ namespace SpeedToner
             dtgEquipos.DataSource = tabla;
         }
 
+        #endregion
+
+        #region Validaciones
+
         public bool ValidarCampos()
         {
             bool Validado = true;
@@ -170,13 +175,29 @@ namespace SpeedToner
             }
             return Validado;
         }
-        
-            
+        private void txtSerie_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
 
-            #endregion
+        private void txtPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloNumeros(e);
+        }
 
-            #region Botones
-            private void btnGuardar_Click(object sender, EventArgs e)
+        private void txtFechaPago_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
+
+        private void txtSerieBusqueda_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
+        #endregion
+
+        #region Botones
+        private void btnGuardar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -209,7 +230,7 @@ namespace SpeedToner
                     Mostrar("MostrarEquipos");
                     LimpiarForm();
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -223,12 +244,12 @@ namespace SpeedToner
             {
                 if (MessageBox.Show("¿Esta seguro de eliminar el registro?", "CONFIRME LA ELIMINACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 {
-                    MessageBox.Show("!!Eliminacion cancelada!!");
+                    MessageBox.Show("!!Eliminacion cancelada!!", "CANCELADO", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     LimpiarForm();
                     return;
                 }
                 objetoCN.Eliminar(Id, "EliminarEquipo");
-                MessageBox.Show("Se ha eliminado el registro correctamente");
+                MessageBox.Show("Se ha eliminado el registro correctamente", "ELIMINACION CONFIRMADA", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 Mostrar("MostrarEquipos");
                 LimpiarForm();
             }
@@ -240,31 +261,40 @@ namespace SpeedToner
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            SqlDataReader dr = objetoCN.Buscar(txtSerieBusqueda.Text, "BuscarSerie");
-            Buscando = true;
-            //Comprobamos si la consulta nos devuelve informacion
-            if (dr.Read())
+            SqlDataReader dr;
+            erEquipos.Clear();
+            if (txtSerieBusqueda.Text != "")
             {
-                //Cargamos la infomacion en el formulario
-                cboClientes.SelectedItem = (dr[1].ToString());
-                txtReferencia.Text = (dr[2].ToString());
-                cboMarcas.SelectedItem = (dr[3].ToString());
-                cboModelos.SelectedItem = (dr[4].ToString());
-                txtSerie.Text = (dr[5].ToString());
-                cboTipoRenta.SelectedItem = (dr[6].ToString());
-                txtPrecio.Text = (dr[7].ToString());
-                txtFechaPago.Text = (dr[8].ToString());
-                //Agregamos las opciones dependiendo los registros que nos devolvieron
+                dr = objetoCN.Buscar(txtSerieBusqueda.Text, "BuscarSerie");
+                Buscando = true;
+                //Comprobamos si la consulta nos devuelve informacion
+                if (dr.Read())
+                {
+                    //Cargamos la infomacion en el formulario
+                    cboClientes.SelectedItem = (dr[1].ToString());
+                    txtReferencia.Text = (dr[2].ToString());
+                    cboMarcas.SelectedItem = (dr[3].ToString());
+                    cboModelos.SelectedItem = (dr[4].ToString());
+                    txtSerie.Text = (dr[5].ToString());
+                    cboTipoRenta.SelectedItem = (dr[6].ToString());
+                    txtPrecio.Text = (dr[7].ToString());
+                    txtFechaPago.Text = (dr[8].ToString());
+                    //Agregamos las opciones dependiendo los registros que nos devolvieron
+                }
+                else
+                {
+                    MessageBox.Show("Ingrese otro numero de serie", "Serie no existente en la base de datos", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+
+                dr.Close();
+                cn.CerrarConexion();
+                txtSerieBusqueda.Text = "";
+                Buscando = false;
             }
             else
             {
-                MessageBox.Show("El número de folio no esta registrado en la base de datos");
+                erEquipos.SetError(txtSerieBusqueda, "Ingrese una serie");
             }
-
-            dr.Close();
-            cn.CerrarConexion();
-            txtSerieBusqueda.Text = "";
-            Buscando = false;
         }
         private void btnMostrar_Click(object sender, EventArgs e)
         {
@@ -279,10 +309,10 @@ namespace SpeedToner
                 cboMostrar.ResetText();
                 cboBusqueda.SelectedIndex = 0;
             }
-            
+
             //Asignamos los registros que optuvimos al datagridview
             //dtgEquipos.DataSource = tabla;
-            
+
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -366,6 +396,5 @@ namespace SpeedToner
             LlenarComboBox(cboTipoRenta, "SeleccionarTipoRenta", 0);
             LlenarComboBox(cboMarcas, "SeleccionarMarca", 0);
         }
-
     }
 }

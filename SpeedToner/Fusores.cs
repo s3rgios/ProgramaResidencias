@@ -275,5 +275,30 @@ namespace SpeedToner
             dtpFechaInicio.Visible = Mostrar;
             dtpFechaFinal.Visible = Mostrar;
         }
+
+        private void txtSerie_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
+
+        private void txtSerieSp_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
+
+        private void txtFactura_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
+
+        private void txtCosto_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloNumeros(e);
+        }
+
+        private void txtSerieBusqueda_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
     }
 }

@@ -111,6 +111,7 @@
             this.txtNumeroFolio.Name = "txtNumeroFolio";
             this.txtNumeroFolio.Size = new System.Drawing.Size(258, 27);
             this.txtNumeroFolio.TabIndex = 1;
+            this.txtNumeroFolio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumeroFolio_KeyPress);
             // 
             // label3
             // 
@@ -149,6 +150,7 @@
             this.txtSerie.Name = "txtSerie";
             this.txtSerie.Size = new System.Drawing.Size(341, 27);
             this.txtSerie.TabIndex = 5;
+            this.txtSerie.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSerie_KeyPress);
             // 
             // label5
             // 
@@ -167,6 +169,7 @@
             this.txtContador.Name = "txtContador";
             this.txtContador.Size = new System.Drawing.Size(328, 27);
             this.txtContador.TabIndex = 6;
+            this.txtContador.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtContador_KeyPress);
             // 
             // label6
             // 
@@ -204,6 +207,7 @@
             this.txtTecnico.Name = "txtTecnico";
             this.txtTecnico.Size = new System.Drawing.Size(299, 27);
             this.txtTecnico.TabIndex = 8;
+            this.txtTecnico.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTecnico_KeyPress);
             // 
             // dtgServicios
             // 
@@ -338,6 +342,7 @@
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(370, 27);
             this.txtUsuario.TabIndex = 9;
+            this.txtUsuario.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUsuario_KeyPress);
             // 
             // label11
             // 
@@ -366,6 +371,7 @@
             this.txtFusor.Name = "txtFusor";
             this.txtFusor.Size = new System.Drawing.Size(370, 27);
             this.txtFusor.TabIndex = 10;
+            this.txtFusor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFusor_KeyPress);
             // 
             // grpDatos
             // 

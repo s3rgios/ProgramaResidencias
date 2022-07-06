@@ -94,7 +94,7 @@
             this.dtpFecha.Location = new System.Drawing.Point(561, 27);
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(385, 27);
-            this.dtpFecha.TabIndex = 4;
+            this.dtpFecha.TabIndex = 5;
             // 
             // label2
             // 
@@ -110,7 +110,8 @@
             this.txtOficina.Location = new System.Drawing.Point(169, 104);
             this.txtOficina.Name = "txtOficina";
             this.txtOficina.Size = new System.Drawing.Size(294, 27);
-            this.txtOficina.TabIndex = 2;
+            this.txtOficina.TabIndex = 3;
+            this.txtOficina.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtOficina_KeyPress);
             // 
             // btnGuardar
             // 
@@ -184,7 +185,7 @@
             this.cboMarca.Name = "cboMarca";
             this.cboMarca.Size = new System.Drawing.Size(294, 29);
             this.cboMarca.Sorted = true;
-            this.cboMarca.TabIndex = 33;
+            this.cboMarca.TabIndex = 1;
             // 
             // lblRestarBodega
             // 
@@ -213,20 +214,24 @@
             this.txtRestanteBodega.Size = new System.Drawing.Size(220, 27);
             this.txtRestanteBodega.TabIndex = 29;
             this.txtRestanteBodega.Visible = false;
+            this.txtRestanteBodega.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtRestanteBodega_KeyPress);
             // 
             // txtModelo
             // 
             this.txtModelo.Location = new System.Drawing.Point(169, 64);
             this.txtModelo.Name = "txtModelo";
             this.txtModelo.Size = new System.Drawing.Size(294, 27);
-            this.txtModelo.TabIndex = 1;
+            this.txtModelo.TabIndex = 2;
+            this.txtModelo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtModelo_KeyPress);
             // 
             // txtBodega
             // 
             this.txtBodega.Location = new System.Drawing.Point(170, 137);
             this.txtBodega.Name = "txtBodega";
             this.txtBodega.Size = new System.Drawing.Size(293, 27);
-            this.txtBodega.TabIndex = 3;
+            this.txtBodega.TabIndex = 4;
+            this.txtBodega.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBodega_KeyDown);
+            this.txtBodega.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBodega_KeyPress);
             // 
             // lblBodega
             // 
@@ -281,10 +286,10 @@
             // Registro
             // 
             this.Registro.Controls.Add(this.grpDatosRegistro);
-            this.Registro.Location = new System.Drawing.Point(4, 24);
+            this.Registro.Location = new System.Drawing.Point(4, 30);
             this.Registro.Name = "Registro";
             this.Registro.Padding = new System.Windows.Forms.Padding(3);
-            this.Registro.Size = new System.Drawing.Size(1062, 211);
+            this.Registro.Size = new System.Drawing.Size(1062, 205);
             this.Registro.TabIndex = 1;
             this.Registro.Text = "Registros";
             this.Registro.UseVisualStyleBackColor = true;
@@ -323,7 +328,7 @@
             this.cboMarcas.Name = "cboMarcas";
             this.cboMarcas.Size = new System.Drawing.Size(375, 29);
             this.cboMarcas.Sorted = true;
-            this.cboMarcas.TabIndex = 28;
+            this.cboMarcas.TabIndex = 2;
             this.cboMarcas.SelectedIndexChanged += new System.EventHandler(this.cboMarcas_SelectedIndexChanged);
             // 
             // label4
@@ -340,7 +345,8 @@
             this.txtCantidadEntrada.Location = new System.Drawing.Point(662, 63);
             this.txtCantidadEntrada.Name = "txtCantidadEntrada";
             this.txtCantidadEntrada.Size = new System.Drawing.Size(293, 27);
-            this.txtCantidadEntrada.TabIndex = 26;
+            this.txtCantidadEntrada.TabIndex = 6;
+            this.txtCantidadEntrada.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCantidadEntrada_KeyPress);
             // 
             // label7
             // 
@@ -399,7 +405,7 @@
             this.cboModelos.Name = "cboModelos";
             this.cboModelos.Size = new System.Drawing.Size(375, 29);
             this.cboModelos.Sorted = true;
-            this.cboModelos.TabIndex = 17;
+            this.cboModelos.TabIndex = 3;
             // 
             // label9
             // 
@@ -438,14 +444,15 @@
             this.cboClientes.Name = "cboClientes";
             this.cboClientes.Size = new System.Drawing.Size(455, 29);
             this.cboClientes.Sorted = true;
-            this.cboClientes.TabIndex = 8;
+            this.cboClientes.TabIndex = 5;
             // 
             // txtCantidadSalida
             // 
             this.txtCantidadSalida.Location = new System.Drawing.Point(154, 137);
             this.txtCantidadSalida.Name = "txtCantidadSalida";
             this.txtCantidadSalida.Size = new System.Drawing.Size(309, 27);
-            this.txtCantidadSalida.TabIndex = 10;
+            this.txtCantidadSalida.TabIndex = 4;
+            this.txtCantidadSalida.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCantidadSalida_KeyPress);
             // 
             // label12
             // 

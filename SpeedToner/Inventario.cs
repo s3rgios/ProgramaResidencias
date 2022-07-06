@@ -244,7 +244,7 @@ namespace SpeedToner
                             //Modificar stop procedure de modificar, para que se pueda cambiar la fecha
                             if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                             {
-                                MessageBox.Show("!!Modificación cancelada!!");
+                                MessageBox.Show("!!Modificación cancelada!!", "CANCELADO", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                                 LimpiarForm();
                                 return;
                             }
@@ -255,7 +255,7 @@ namespace SpeedToner
                             bool ModeloDuplicado = objetoCN.VerificarDuplicadosInventario(Modelo);
                             if (ModeloDuplicado)
                             {
-                                MessageBox.Show("El modelo del cartucho ya existe!!. Ingrese un modelo distinto");
+                                MessageBox.Show("Ingrese un modelo distinto", "EL MODELO YA EXISTE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else
                             {
@@ -292,7 +292,7 @@ namespace SpeedToner
                         {
                             if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                             {
-                                MessageBox.Show("!!Modificación cancelada!!");
+                                MessageBox.Show("!!Modificación cancelada!!", "CANCELADO", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                                 LimpiarForm();
                                 return;
                             }
@@ -301,7 +301,7 @@ namespace SpeedToner
                         else
                         {
                             string Mensaje = objetoCN.AgregarRegistroInventario(IdMarca, IdCartucho, Salida, Entrada, Cliente, Fecha, destino);
-                            MessageBox.Show(Mensaje);
+                            MessageBox.Show(Mensaje, "REGISTRO INVENTARIO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         Mostrar("VerRegistroInventario");
                         LimpiarForm();
@@ -489,5 +489,39 @@ namespace SpeedToner
         }
         #endregion
 
+        private void txtModelo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
+
+        private void txtOficina_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloNumeros(e);
+        }
+
+        private void txtBodega_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void txtBodega_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloNumeros(e);
+        }
+
+        private void txtRestanteBodega_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloNumeros(e);
+        }
+
+        private void txtCantidadSalida_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloNumeros(e);
+        }
+
+        private void txtCantidadEntrada_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloNumeros(e);
+        }
     }
 }

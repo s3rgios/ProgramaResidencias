@@ -94,21 +94,23 @@
             this.txtSerie.Location = new System.Drawing.Point(80, 15);
             this.txtSerie.Name = "txtSerie";
             this.txtSerie.Size = new System.Drawing.Size(454, 27);
-            this.txtSerie.TabIndex = 4;
+            this.txtSerie.TabIndex = 1;
+            this.txtSerie.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSerie_KeyPress);
             // 
             // txtFactura
             // 
             this.txtFactura.Location = new System.Drawing.Point(106, 94);
             this.txtFactura.Name = "txtFactura";
             this.txtFactura.Size = new System.Drawing.Size(428, 27);
-            this.txtFactura.TabIndex = 5;
+            this.txtFactura.TabIndex = 3;
+            this.txtFactura.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFactura_KeyPress);
             // 
             // dtpFechaFactura
             // 
             this.dtpFechaFactura.Location = new System.Drawing.Point(169, 134);
             this.dtpFechaFactura.Name = "dtpFechaFactura";
             this.dtpFechaFactura.Size = new System.Drawing.Size(365, 27);
-            this.dtpFechaFactura.TabIndex = 7;
+            this.dtpFechaFactura.TabIndex = 4;
             // 
             // dtgFusores
             // 
@@ -143,21 +145,23 @@
             this.txtUbicacion.Location = new System.Drawing.Point(106, 170);
             this.txtUbicacion.Name = "txtUbicacion";
             this.txtUbicacion.Size = new System.Drawing.Size(428, 27);
-            this.txtUbicacion.TabIndex = 11;
+            this.txtUbicacion.TabIndex = 5;
             // 
             // txtCosto
             // 
             this.txtCosto.Location = new System.Drawing.Point(106, 203);
             this.txtCosto.Name = "txtCosto";
             this.txtCosto.Size = new System.Drawing.Size(92, 27);
-            this.txtCosto.TabIndex = 12;
+            this.txtCosto.TabIndex = 6;
+            this.txtCosto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCosto_KeyPress);
             // 
             // txtSerieSp
             // 
             this.txtSerieSp.Location = new System.Drawing.Point(101, 51);
             this.txtSerieSp.Name = "txtSerieSp";
             this.txtSerieSp.Size = new System.Drawing.Size(433, 27);
-            this.txtSerieSp.TabIndex = 14;
+            this.txtSerieSp.TabIndex = 2;
+            this.txtSerieSp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSerieSp_KeyPress);
             // 
             // label4
             // 
@@ -212,7 +216,7 @@
             this.dtpFechaInstalacion.Location = new System.Drawing.Point(697, 12);
             this.dtpFechaInstalacion.Name = "dtpFechaInstalacion";
             this.dtpFechaInstalacion.Size = new System.Drawing.Size(365, 27);
-            this.dtpFechaInstalacion.TabIndex = 19;
+            this.dtpFechaInstalacion.TabIndex = 7;
             // 
             // cboGarantia
             // 
@@ -220,10 +224,11 @@
             "Habilitada",
             "Inhabilitada"});
             this.cboGarantia.FormattingEnabled = true;
+            this.cboGarantia.ItemHeight = 21;
             this.cboGarantia.Location = new System.Drawing.Point(632, 46);
             this.cboGarantia.Name = "cboGarantia";
             this.cboGarantia.Size = new System.Drawing.Size(257, 29);
-            this.cboGarantia.TabIndex = 20;
+            this.cboGarantia.TabIndex = 8;
             // 
             // label8
             // 
@@ -309,6 +314,7 @@
             this.txtSerieBusqueda.Size = new System.Drawing.Size(218, 27);
             this.txtSerieBusqueda.TabIndex = 29;
             this.txtSerieBusqueda.Visible = false;
+            this.txtSerieBusqueda.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSerieBusqueda_KeyPress);
             // 
             // Fusores
             // 

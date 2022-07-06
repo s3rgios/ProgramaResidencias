@@ -63,7 +63,7 @@
             this.cboMarcas.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.cboMarcas.Name = "cboMarcas";
             this.cboMarcas.Size = new System.Drawing.Size(342, 29);
-            this.cboMarcas.TabIndex = 22;
+            this.cboMarcas.TabIndex = 1;
             this.cboMarcas.SelectedIndexChanged += new System.EventHandler(this.cboMarcas_SelectedIndexChanged);
             // 
             // label8
@@ -88,7 +88,7 @@
             this.cboModelos.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.cboModelos.Name = "cboModelos";
             this.cboModelos.Size = new System.Drawing.Size(342, 29);
-            this.cboModelos.TabIndex = 20;
+            this.cboModelos.TabIndex = 2;
             // 
             // txtSerie
             // 
@@ -97,7 +97,8 @@
             this.txtSerie.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.txtSerie.Name = "txtSerie";
             this.txtSerie.Size = new System.Drawing.Size(358, 27);
-            this.txtSerie.TabIndex = 19;
+            this.txtSerie.TabIndex = 3;
+            this.txtSerie.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSerie_KeyPress);
             // 
             // label3
             // 
@@ -147,7 +148,7 @@
             this.rtxtNotas.Location = new System.Drawing.Point(482, 58);
             this.rtxtNotas.Name = "rtxtNotas";
             this.rtxtNotas.Size = new System.Drawing.Size(639, 152);
-            this.rtxtNotas.TabIndex = 28;
+            this.rtxtNotas.TabIndex = 6;
             this.rtxtNotas.Text = "";
             // 
             // label4
@@ -175,7 +176,7 @@
             this.cboEstado.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.cboEstado.Name = "cboEstado";
             this.cboEstado.Size = new System.Drawing.Size(335, 29);
-            this.cboEstado.TabIndex = 26;
+            this.cboEstado.TabIndex = 5;
             // 
             // lbl
             // 
@@ -206,7 +207,7 @@
             this.txtUbicacion.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.txtUbicacion.Name = "txtUbicacion";
             this.txtUbicacion.Size = new System.Drawing.Size(315, 27);
-            this.txtUbicacion.TabIndex = 24;
+            this.txtUbicacion.TabIndex = 4;
             // 
             // dtgEquipos
             // 

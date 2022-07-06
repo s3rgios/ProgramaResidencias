@@ -104,6 +104,11 @@ namespace SpeedToner
             dtgServicios.DataSource = tabla;
         }
 
+
+
+        #endregion
+
+        #region Validaciones
         public bool ValidarCamposVacios()
         {
             bool Validado = true;
@@ -161,9 +166,38 @@ namespace SpeedToner
             return Validado;
         }
 
+        //Validamos que en los diferentes campos solo se introduzcan letras, numeros o en ciertos casos ambos
+        private void txtNumeroFolio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
+
+        private void txtSerie_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
+
+        private void txtContador_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloNumeros(e);
+        }
+
+        private void txtTecnico_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetras(e);
+        }
+
+        private void txtUsuario_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetras(e);
+        }
+
+        private void txtFusor_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
         #endregion
 
-        
         #region Botones
         private void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -191,7 +225,7 @@ namespace SpeedToner
                     {
                         if (MessageBox.Show("Desea modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                         {
-                            MessageBox.Show("Modificacion cancelada!!");
+                            MessageBox.Show("Modificacion cancelada!!","CANCELADO",MessageBoxButtons.OK,MessageBoxIcon.Information);
                             LimpiarForm();
                             return;
                         }
@@ -266,7 +300,7 @@ namespace SpeedToner
             //Preguntamos si se esta seguro de eliminar el registro 
             if (MessageBox.Show("Desea eliminar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
-                MessageBox.Show("Elimacion cancelada!!");
+                MessageBox.Show("Elimacion cancelada!!", "CANCELADO", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 LimpiarForm();
                 return;
             }
@@ -473,7 +507,8 @@ namespace SpeedToner
 
         }
         #endregion
-       
+
+        
     }
 
     

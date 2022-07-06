@@ -216,5 +216,10 @@ namespace SpeedToner
         }
 
         #endregion
+
+        private void txtDato_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
     }
 }

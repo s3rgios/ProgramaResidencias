@@ -484,12 +484,11 @@ namespace SpeedToner
             comando.Parameters.AddWithValue("@ParametroBusqueda", ParametroBusqueda);
             leer = comando.ExecuteReader();
 
-
             GenerarReporteEquipos(leer, TipoBusqueda, ParametroBusqueda);
             tabla.Load(leer);
 
             comando.Parameters.Clear();
-
+            leer.Close();
 
             return tabla;
         }
