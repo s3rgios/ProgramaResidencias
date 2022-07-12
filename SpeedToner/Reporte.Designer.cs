@@ -95,6 +95,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label2.Location = new System.Drawing.Point(16, 131);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(110, 21);
@@ -104,6 +105,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.SystemColors.HighlightText;
             this.label3.Location = new System.Drawing.Point(24, 166);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(102, 21);
@@ -120,6 +122,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.label4.Location = new System.Drawing.Point(17, 49);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(109, 21);
@@ -242,6 +245,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(57)))), ((int)(((byte)(80)))));
             this.ClientSize = new System.Drawing.Size(493, 271);
             this.Controls.Add(this.txtIdCliente);
             this.Controls.Add(this.BarraSuperior);

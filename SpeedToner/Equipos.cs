@@ -315,7 +315,7 @@ namespace SpeedToner
 
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
+        private void btnCancelar_Click_1(object sender, EventArgs e)
         {
             ControlesDesactivados(false);
             LimpiarForm();
@@ -396,5 +396,6 @@ namespace SpeedToner
             LlenarComboBox(cboTipoRenta, "SeleccionarTipoRenta", 0);
             LlenarComboBox(cboMarcas, "SeleccionarMarca", 0);
         }
+
     }
 }

@@ -62,7 +62,6 @@ namespace SpeedToner
         {
             btnCancelar.Enabled = activado;
             btnEliminar.Enabled = activado;
-            btnMostrar.Enabled = activado;
         }
 
         //Opciones combobox Mostrar
@@ -230,31 +229,19 @@ namespace SpeedToner
                             return;
                         }
                         objetoCN.ModificarServicio(NumeroFolio, IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Tecnico, Usuario, Fusor, Servicio, Falla);
-                        MessageBox.Show("Registro modificado correctamente");
+                        MessageBox.Show("Registro modificado correctamente", "MODIFICANDO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
                         bool FolioRepetido = objetoCN.VerificarDuplicados(NumeroFolio);
-                        if(FolioRepetido)
+                        if (FolioRepetido)
                         {
-                            MessageBox.Show("El numero de folio ya existe!!");
+                            MessageBox.Show("El numero de folio ya existe!!", "DUPLICADO", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                        //for (int fila = 0; fila < dtgServicios.Rows.Count - 1; fila++)
-                        //{
-                        //    string Folio = dtgServicios.Rows[fila].Cells[0].Value.ToString();
-                        //    if(NumeroFolio == Folio)
-                        //    {
-                        //        FolioRepetido = true;
-                        //    }
-                        //}
-                        //if (FolioRepetido)
-                        //{
-                        //    MessageBox.Show("El numero de folio ya existe!!");
-                        //}
                         else
                         {
                             objetoCN.InsertarServicio(NumeroFolio, IdCliente, IdMarca, Modelo, Serie, Contador, Fecha, Tecnico, Usuario, Fusor, Servicio, Falla);
-                            MessageBox.Show("Registro agregado correctamente");
+                            MessageBox.Show("Registro agregado correctamente", "REGISTRO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         
                     }
@@ -277,22 +264,6 @@ namespace SpeedToner
             btnGuardar.Enabled = true;
             LimpiarForm();
             Modificar = false;
-        }
-
-        private void btnMostrar_Click(object sender, EventArgs e)
-        {
-            DataTable tabla = new DataTable();
-            //Dependiendo la opcion se enviaran diferentes stop procedures al metodo mostrar
-            switch (cboMostrar.SelectedItem.ToString())
-            {
-                case "Ultima Semana": tabla = objetoCN.Mostrar("MostrarUltimaSemana"); break;
-                case "Mes pasado": tabla = objetoCN.Mostrar("MostrarMesPasado"); break;
-                case "Ultimo Mes": tabla = objetoCN.Mostrar("MostrarUltimoMes"); break;
-                case "Este año": tabla = objetoCN.Mostrar("MostrarAñoActual"); break;
-                case "Todos": tabla = objetoCN.Mostrar("SeleccionarTodosLosServicios"); break;
-            }
-            //Asignamos los registros a nuestro datagridview
-            dtgServicios.DataSource = tabla;
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -491,8 +462,18 @@ namespace SpeedToner
 
         private void cboMostrar_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Habilitamos el boton para poder mostrarlo
-            btnMostrar.Enabled = true;
+            DataTable tabla = new DataTable();
+            //Dependiendo la opcion se enviaran diferentes stop procedures al metodo mostrar
+            switch (cboMostrar.SelectedItem.ToString())
+            {
+                case "Ultima Semana": tabla = objetoCN.Mostrar("MostrarUltimaSemana"); break;
+                case "Mes pasado": tabla = objetoCN.Mostrar("MostrarMesPasado"); break;
+                case "Ultimo Mes": tabla = objetoCN.Mostrar("MostrarUltimoMes"); break;
+                case "Este año": tabla = objetoCN.Mostrar("MostrarAñoActual"); break;
+                case "Todos": tabla = objetoCN.Mostrar("SeleccionarTodosLosServicios"); break;
+            }
+            //Asignamos los registros a nuestro datagridview
+            dtgServicios.DataSource = tabla;
         }
 
         //Se llenara el combo box modelos dependiendo la marca que se seleccione

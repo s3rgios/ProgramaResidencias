@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Inventario));
             this.label1 = new System.Windows.Forms.Label();
             this.dtpFecha = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
@@ -115,36 +116,40 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(17, 257);
+            this.btnGuardar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
+            this.btnGuardar.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardar.Image")));
+            this.btnGuardar.Location = new System.Drawing.Point(21, 257);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(114, 43);
+            this.btnGuardar.Size = new System.Drawing.Size(69, 43);
             this.btnGuardar.TabIndex = 14;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnGuardar.UseVisualStyleBackColor = false;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(137, 257);
+            this.btnEliminar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(51)))));
+            this.btnEliminar.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminar.Image")));
+            this.btnEliminar.Location = new System.Drawing.Point(96, 257);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(114, 43);
+            this.btnEliminar.Size = new System.Drawing.Size(69, 43);
             this.btnEliminar.TabIndex = 16;
-            this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.UseVisualStyleBackColor = false;
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // dtgCartuchos
             // 
             this.dtgCartuchos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgCartuchos.Location = new System.Drawing.Point(17, 306);
+            this.dtgCartuchos.Location = new System.Drawing.Point(12, 314);
             this.dtgCartuchos.Name = "dtgCartuchos";
             this.dtgCartuchos.RowTemplate.Height = 25;
-            this.dtgCartuchos.Size = new System.Drawing.Size(1148, 326);
+            this.dtgCartuchos.Size = new System.Drawing.Size(1148, 423);
             this.dtgCartuchos.TabIndex = 18;
             this.dtgCartuchos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgCartuchos_CellClick);
             // 
             // grpDatosInventario
             // 
+            this.grpDatosInventario.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(57)))), ((int)(((byte)(80)))));
             this.grpDatosInventario.Controls.Add(this.label3);
             this.grpDatosInventario.Controls.Add(this.cboMarca);
             this.grpDatosInventario.Controls.Add(this.lblRestarBodega);
@@ -158,7 +163,8 @@
             this.grpDatosInventario.Controls.Add(this.label1);
             this.grpDatosInventario.Controls.Add(this.label2);
             this.grpDatosInventario.Controls.Add(this.txtOficina);
-            this.grpDatosInventario.Location = new System.Drawing.Point(9, 16);
+            this.grpDatosInventario.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.grpDatosInventario.Location = new System.Drawing.Point(6, 6);
             this.grpDatosInventario.Name = "grpDatosInventario";
             this.grpDatosInventario.Size = new System.Drawing.Size(1050, 183);
             this.grpDatosInventario.TabIndex = 19;
@@ -198,6 +204,7 @@
             // 
             // btnRestar
             // 
+            this.btnRestar.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnRestar.Location = new System.Drawing.Point(722, 97);
             this.btnRestar.Name = "btnRestar";
             this.btnRestar.Size = new System.Drawing.Size(120, 28);
@@ -253,11 +260,11 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(257, 257);
+            this.btnCancelar.Image = ((System.Drawing.Image)(resources.GetObject("btnCancelar.Image")));
+            this.btnCancelar.Location = new System.Drawing.Point(171, 257);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(114, 43);
+            this.btnCancelar.Size = new System.Drawing.Size(69, 43);
             this.btnCancelar.TabIndex = 20;
-            this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
@@ -265,34 +272,35 @@
             // 
             this.tabControl1.Controls.Add(this.tab_Inventario);
             this.tabControl1.Controls.Add(this.Registro);
-            this.tabControl1.Location = new System.Drawing.Point(17, 12);
+            this.tabControl1.Location = new System.Drawing.Point(21, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1070, 239);
+            this.tabControl1.Size = new System.Drawing.Size(1070, 228);
             this.tabControl1.TabIndex = 25;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tab_Inventario
             // 
+            this.tab_Inventario.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(57)))), ((int)(((byte)(80)))));
             this.tab_Inventario.Controls.Add(this.grpDatosInventario);
             this.tab_Inventario.Location = new System.Drawing.Point(4, 30);
             this.tab_Inventario.Name = "tab_Inventario";
             this.tab_Inventario.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Inventario.Size = new System.Drawing.Size(1062, 205);
+            this.tab_Inventario.Size = new System.Drawing.Size(1062, 194);
             this.tab_Inventario.TabIndex = 0;
             this.tab_Inventario.Text = "Inventario";
-            this.tab_Inventario.UseVisualStyleBackColor = true;
             // 
             // Registro
             // 
+            this.Registro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(57)))), ((int)(((byte)(80)))));
             this.Registro.Controls.Add(this.grpDatosRegistro);
-            this.Registro.Location = new System.Drawing.Point(4, 30);
+            this.Registro.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.Registro.Location = new System.Drawing.Point(4, 24);
             this.Registro.Name = "Registro";
             this.Registro.Padding = new System.Windows.Forms.Padding(3);
-            this.Registro.Size = new System.Drawing.Size(1062, 205);
+            this.Registro.Size = new System.Drawing.Size(1062, 200);
             this.Registro.TabIndex = 1;
             this.Registro.Text = "Registros";
-            this.Registro.UseVisualStyleBackColor = true;
             // 
             // grpDatosRegistro
             // 
@@ -311,12 +319,14 @@
             this.grpDatosRegistro.Controls.Add(this.cboClientes);
             this.grpDatosRegistro.Controls.Add(this.txtCantidadSalida);
             this.grpDatosRegistro.Controls.Add(this.label12);
-            this.grpDatosRegistro.Location = new System.Drawing.Point(9, 25);
+            this.grpDatosRegistro.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.grpDatosRegistro.Location = new System.Drawing.Point(6, 6);
             this.grpDatosRegistro.Name = "grpDatosRegistro";
             this.grpDatosRegistro.Size = new System.Drawing.Size(1050, 177);
             this.grpDatosRegistro.TabIndex = 26;
             this.grpDatosRegistro.TabStop = false;
             this.grpDatosRegistro.Text = "Datos";
+            this.grpDatosRegistro.Enter += new System.EventHandler(this.grpDatosRegistro_Enter);
             // 
             // cboMarcas
             // 
@@ -465,29 +475,31 @@
             // 
             // txtBusqueda
             // 
-            this.txtBusqueda.Location = new System.Drawing.Point(423, 273);
+            this.txtBusqueda.Location = new System.Drawing.Point(435, 281);
             this.txtBusqueda.Name = "txtBusqueda";
             this.txtBusqueda.Size = new System.Drawing.Size(205, 27);
             this.txtBusqueda.TabIndex = 26;
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(646, 263);
+            this.btnBuscar.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscar.Image")));
+            this.btnBuscar.Location = new System.Drawing.Point(670, 277);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(100, 37);
+            this.btnBuscar.Size = new System.Drawing.Size(53, 29);
             this.btnBuscar.TabIndex = 27;
-            this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // btnImprimirInventario
             // 
-            this.btnImprimirInventario.Location = new System.Drawing.Point(876, 263);
+            this.btnImprimirInventario.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
+            this.btnImprimirInventario.Image = ((System.Drawing.Image)(resources.GetObject("btnImprimirInventario.Image")));
+            this.btnImprimirInventario.Location = new System.Drawing.Point(301, 251);
             this.btnImprimirInventario.Name = "btnImprimirInventario";
-            this.btnImprimirInventario.Size = new System.Drawing.Size(100, 37);
+            this.btnImprimirInventario.Size = new System.Drawing.Size(58, 49);
             this.btnImprimirInventario.TabIndex = 28;
-            this.btnImprimirInventario.Text = "Imprimir";
-            this.btnImprimirInventario.UseVisualStyleBackColor = true;
+            this.btnImprimirInventario.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnImprimirInventario.UseVisualStyleBackColor = false;
             this.btnImprimirInventario.Click += new System.EventHandler(this.btnImprimirInventario_Click);
             // 
             // erInventario
@@ -497,7 +509,8 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(423, 249);
+            this.label5.ForeColor = System.Drawing.SystemColors.Control;
+            this.label5.Location = new System.Drawing.Point(435, 257);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(150, 21);
             this.label5.TabIndex = 35;
@@ -507,6 +520,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(57)))), ((int)(((byte)(80)))));
             this.ClientSize = new System.Drawing.Size(1172, 749);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnImprimirInventario);

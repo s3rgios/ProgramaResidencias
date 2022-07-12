@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace SpeedToner
 {
@@ -61,7 +62,7 @@ namespace SpeedToner
             dtgFusores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             //dtgServicios.AutoResizeColumns(DataGridViewAutoSizeColumnsMo‌​de.Fill);
             dtgFusores.AutoResizeColumns();
-            
+
         }
 
         public void MostrarDatosFusores()
@@ -75,6 +76,11 @@ namespace SpeedToner
             //Asignamos los registros que optuvimos al datagridview
             dtgFusores.DataSource = tabla;
         }
+
+
+
+        #endregion
+        #region Validaciones 
 
         public bool ValidarCampos()
         {
@@ -95,7 +101,7 @@ namespace SpeedToner
                 erFusores.SetError(txtFactura, "Campo obligatorio");
                 Validado = false;
             }
-            if ( txtCosto.Text == "")
+            if (txtCosto.Text == "")
             {
                 erFusores.SetError(txtCosto, "Campo obligatorio");
                 Validado = false;
@@ -107,7 +113,19 @@ namespace SpeedToner
             }
             return Validado;
         }
-        #endregion
+
+        public bool ValidarCampoBusqueda()
+        {
+            bool Validado = true;
+            erFusores.Clear();
+            if (txtBusqueda.Text == "")
+            {
+                erFusores.SetError(txtBusqueda, "Ingrese un numero de serie");
+                Validado = false;
+            }
+            
+            return Validado;
+        }
 
         public bool ValidarCamposReporte()
         {
@@ -128,19 +146,45 @@ namespace SpeedToner
                         {
                             erFusores.SetError(txtSerieBusqueda, "Campo obligatorio");
                             Validado = false;
-                        };
-                        break;
+                        };break;
                 }
             }
-            
             return Validado;
+
         }
+
+        private void txtSerie_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
+
+        private void txtSerieSp_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
+
+        private void txtFactura_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
+
+        private void txtCosto_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloNumeros(e);
+        }
+
+        private void txtSerieBusqueda_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
+        #endregion
+
 
         public void LimpiarForm()
         {
-            foreach(Control c in this.Controls)
+            foreach (Control c in this.Controls)
             {
-                if(c is TextBox)
+                if (c is TextBox)
                 {
                     c.Text = "";
                 }
@@ -149,7 +193,7 @@ namespace SpeedToner
             dtpFechaInstalacion.Value = DateTime.Now;
             dtpFechaInicio.Value = DateTime.Now;
             dtpFechaFinal.Value = DateTime.Now;
-            MostrarFechas(false); 
+            MostrarFechas(false);
             txtSerieBusqueda.Visible = false;
             cboBusqueda.Text = "";
             txtSerie.Focus();
@@ -173,11 +217,11 @@ namespace SpeedToner
                     {
                         if (MessageBox.Show("Desea modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                         {
-                            MessageBox.Show("Modificacion cancelada!!");
+                            MessageBox.Show("Modificacion cancelada!!", "CANCELADO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             LimpiarForm();
                             return;
                         }
-                        objetoCN.ModificarFusor(Id,Serie, SerieSp, NumeroFactura, FechaFactura, Costo, Garantia, Ubicacion, FechaInstalacion);
+                        objetoCN.ModificarFusor(Id, Serie, SerieSp, NumeroFactura, FechaFactura, Costo, Garantia, Ubicacion, FechaInstalacion);
                         MessageBox.Show("Fusor modificado correctamente");
                         MostrarDatosFusores();
                     }
@@ -190,11 +234,11 @@ namespace SpeedToner
                     LimpiarForm();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
 
         private void dtgFusores_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -246,12 +290,13 @@ namespace SpeedToner
                     objetoCN.ReporteFusores(Parametro, FechaInicio, FechaFinal, Serie);
                     LimpiarForm();
                 }
-                
-            }catch (Exception ex)
+
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
 
         private void cboBusqueda_SelectedIndexChanged(object sender, EventArgs e)
@@ -259,11 +304,11 @@ namespace SpeedToner
             string Parametro = cboBusqueda.SelectedItem.ToString();
             switch (Parametro)
             {
-                case "Habilitado":MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
-                case "Deshabilitada":MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
-                case "Rango Fecha":MostrarFechas(true); txtSerieBusqueda.Visible = false; break;
-                case "Serie":MostrarFechas(false); txtSerieBusqueda.Visible = true; break;
-                case "Todos":MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
+                case "Habilitado": MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
+                case "Deshabilitada": MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
+                case "Rango Fecha": MostrarFechas(true); txtSerieBusqueda.Visible = false; break;
+                case "Serie": MostrarFechas(false); txtSerieBusqueda.Visible = true; break;
+                case "Todos": MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
             }
 
         }
@@ -276,29 +321,40 @@ namespace SpeedToner
             dtpFechaFinal.Visible = Mostrar;
         }
 
-        private void txtSerie_KeyPress(object sender, KeyPressEventArgs e)
+        private void btnBuscar_Click(object sender, EventArgs e)
         {
-            Validacion.SoloLetrasYNumeros(e);
-        }
+            if (ValidarCampoBusqueda())
+            {
+                string str = txtBusqueda.Text;
+                SqlDataReader dr;
 
-        private void txtSerieSp_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validacion.SoloLetrasYNumeros(e);
-        }
 
-        private void txtFactura_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validacion.SoloLetrasYNumeros(e);
-        }
+                dr = objetoCN.Buscar(txtBusqueda.Text, "BuscarSerieSp");
+                //BuscandoFolio = true;
+                btnCancelar.Enabled = true;
 
-        private void txtCosto_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validacion.SoloNumeros(e);
-        }
+                if (dr.Read())
+                {
+                    Id = int.Parse(dr[0].ToString());
+                    txtSerie.Text = (dr[1].ToString());
+                    txtSerieSp.Text = (dr[2].ToString());
+                    txtFactura.Text = (dr[3].ToString());
+                    txtCosto.Text = dr[4].ToString().Replace("$", "");
+                    dtpFechaInstalacion.Value = Convert.ToDateTime(dr[9].ToString());
+                    cboGarantia.SelectedItem = dr[7].ToString();
+                    txtUbicacion.Text = dr[6].ToString();
+                    //Agregamos las opciones dependiendo los registros que nos devolvieron
+                }
+                else
+                {
+                    MessageBox.Show("El número de serie no esta registrado en la base de datos", "REGISTRO NO ENCONTRADO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
-        private void txtSerieBusqueda_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validacion.SoloLetrasYNumeros(e);
+                dr.Close();
+                cn.CerrarConexion();
+                txtBusqueda.Text = "";
+                //BuscandoFolio = false;
+            }
         }
     }
 }

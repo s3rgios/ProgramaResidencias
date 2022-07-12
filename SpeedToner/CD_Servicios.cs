@@ -172,13 +172,16 @@ namespace SpeedToner
 
             leer = comando.ExecuteReader();
             comando.Parameters.Clear();
+            
             //Nos ayuda a comprobar si el inventario fue modificado(Dependiendo si se haya modificado algo o no)
             if (leer.Read())
             {
+                leer.Close();
                 return FolioRepetido = true;
             }
             else
             {
+                leer.Close();
                 return FolioRepetido;
             }
         }
@@ -625,7 +628,7 @@ namespace SpeedToner
             document.Add(Fechas);
 
             //Tabla para cuando se requiera hacer reporte por cliente
-            PdfPTable tblCliente = new PdfPTable(4) { WidthPercentage = 80 };
+            PdfPTable tblCliente = new PdfPTable(5) { WidthPercentage = 80 };
 
             document.Add(new Paragraph("\n"));
 
@@ -635,11 +638,13 @@ namespace SpeedToner
                 PdfPCell clCliente = new PdfPCell(new Phrase(TipoBusqueda, fontParapraghBold)) { BorderWidth = .5f };
                 PdfPCell clSerie = new PdfPCell(new Phrase("Serie", fontParapraghBold)) { BorderWidth = .5f };
                 PdfPCell clFecha = new PdfPCell(new Phrase("Fecha Servicio", fontParapraghBold)) { BorderWidth = .5f };
+                PdfPCell clTecnico = new PdfPCell(new Phrase("Técnico", fontParapraghBold)) { BorderWidth = .5f };
                 PdfPCell clFolio = new PdfPCell(new Phrase("Numero Folio", fontParapraghBold)) { BorderWidth = .5f };
 
                 tblCliente.AddCell(clCliente);
                 tblCliente.AddCell(clSerie);
                 tblCliente.AddCell(clFecha);
+                tblCliente.AddCell(clTecnico);
                 tblCliente.AddCell(clFolio);
 
                 tblCliente.HorizontalAlignment = Element.ALIGN_LEFT;
@@ -709,7 +714,7 @@ namespace SpeedToner
 
                 //Colocamos los datos del servicio
                 DateTime Fecha = Convert.ToDateTime(reporte[6].ToString());
-                document.Add(new Paragraph("                                 Fecha Servicio:" + Fecha.ToString("dd/MM/yyyy") + "                      " + reporte[7].ToString().ToUpper() + "                     " + reporte[0].ToString(), fontParapragh));
+                document.Add(new Paragraph("                                                                                                   " + Fecha.ToString("dd/MM/yyyy") + "                          " + reporte[7].ToString().ToUpper() + "                               " + reporte[0].ToString(), fontParapragh));
                 document.Add(new Paragraph("DIAGNOSTICO: " + reporte[11].ToString().ToUpper(), fontParapragh));
                 document.Add(new Paragraph("SERVICIO: " + reporte[10].ToString().ToUpper(), fontParapragh));
                 document.Add(new Paragraph("FUSOR: " + reporte[9].ToString().ToUpper(), fontParapragh));
@@ -734,9 +739,9 @@ namespace SpeedToner
         {
             iTextSharp.text.Font fontParapraghBold = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 11, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
 
-            PdfPTable tblSerie = new PdfPTable(3) { HorizontalAlignment = Element.ALIGN_LEFT, WidthPercentage = 80 };
+            PdfPTable tblSerie = new PdfPTable(3) { HorizontalAlignment = Element.ALIGN_LEFT, WidthPercentage = 80,PaddingTop = 10f };
 
-            PdfPCell clSerie = new PdfPCell(new Phrase("SERIE:" + Serie, fontParapraghBold)) { BorderWidth = .5f };
+            PdfPCell clSerie = new PdfPCell(new Phrase(Serie, fontParapraghBold)) { BorderWidth = .5f };
 
             PdfPCell clMarca = new PdfPCell(new Phrase(Marca, fontParapraghBold)) { BorderWidth = .5f };
 

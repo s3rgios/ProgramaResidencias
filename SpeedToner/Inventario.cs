@@ -210,7 +210,7 @@ namespace SpeedToner
 
             if (txtBusqueda.Text == "")
             {
-                erInventario.SetError(txtBusqueda, "Ingrese la cantidad a traspasar");
+                erInventario.SetError(txtBusqueda, "Ingrese modelo");
                 Validado = false;
             }
             return Validado;
@@ -319,7 +319,7 @@ namespace SpeedToner
         {
             if (MessageBox.Show("¿Esta seguro de elminar el registro?", "CONFIRME LA ELIMINACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
-                MessageBox.Show("!!Eliminación cancelada!!");
+                MessageBox.Show("!!Eliminación cancelada!!", "CANCELADO", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 LimpiarForm();
                 return;
             }
@@ -356,7 +356,7 @@ namespace SpeedToner
                         return;
                     }
                     string Mensaje = objetoCN.EnviarOficina(txtRestanteBodega.Text, Id);
-                    MessageBox.Show(Mensaje);
+                    MessageBox.Show(Mensaje, "TRASPASO INVENTARIO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Mostrar("MostrarInventario");
                     LimpiarForm();
                 }
@@ -522,6 +522,11 @@ namespace SpeedToner
         private void txtCantidadEntrada_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validacion.SoloNumeros(e);
+        }
+
+        private void grpDatosRegistro_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

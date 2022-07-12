@@ -77,6 +77,7 @@ namespace SpeedToner
         #region Botones
         private void btnAgregar_Click(object sender, EventArgs e)
         {
+            
             try
             {
                 if (ValidarCampos())
@@ -84,6 +85,13 @@ namespace SpeedToner
                     string Empresa = txtEmpresa.Text;
                     if (Modificando)
                     {
+                        if (MessageBox.Show("¿Desea modificar el cliente?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                        {
+                            MessageBox.Show("Modificacion cancelada!!", "CANCELADO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                             
+                            LimpiarForm();
+                            return;
+                        }
                         objetoCN.ModificarCliente(Id, Empresa);
                         MessageBox.Show("Se ha modificado el cliente correctamente");
                     }
