@@ -31,14 +31,15 @@ namespace SpeedToner
             ControlesDesactivadosInicialmente(false);
             PropiedadesDtgServicios();
             MostrarDatosFusores();
-            cboGarantia.Items.Add("Habilitado");
-            cboGarantia.Items.Add("Deshabilitada");
 
             cboBusqueda.Items.Add("Habilitado");
             cboBusqueda.Items.Add("Deshabilitada");
             cboBusqueda.Items.Add("Rango Fecha");
             cboBusqueda.Items.Add("Serie");
             cboBusqueda.Items.Add("Todos");
+
+            cboDiasGarantía.Items.Add("90");
+            cboDiasGarantía.Items.Add("180");
         }
 
         private void ControlesDesactivadosInicialmente(bool activado)
@@ -80,6 +81,7 @@ namespace SpeedToner
 
 
         #endregion
+
         #region Validaciones 
 
         public bool ValidarCampos()
@@ -106,9 +108,9 @@ namespace SpeedToner
                 erFusores.SetError(txtCosto, "Campo obligatorio");
                 Validado = false;
             }
-            if (cboGarantia.Items.Count <= 0)
+            if (cboDiasGarantía.SelectedItem == null)
             {
-                erFusores.SetError(cboGarantia, "Campo obligatorio");
+                erFusores.SetError(cboDiasGarantía, "Campo obligatorio");
                 Validado = false;
             }
             return Validado;
@@ -171,10 +173,14 @@ namespace SpeedToner
         private void txtCosto_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validacion.SoloNumeros(e);
+            if ((e.KeyChar == '.') && (!txtCosto.Text.Contains(".")))
+            {
+                e.Handled = false;
+            }
         }
 
         private void txtSerieBusqueda_KeyPress(object sender, KeyPressEventArgs e)
-        {
+       {
             Validacion.SoloLetrasYNumeros(e);
         }
         #endregion
@@ -197,6 +203,7 @@ namespace SpeedToner
             txtSerieBusqueda.Visible = false;
             cboBusqueda.Text = "";
             txtSerie.Focus();
+            
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -210,7 +217,8 @@ namespace SpeedToner
                     string NumeroFactura = txtFactura.Text;
                     DateTime FechaFactura = dtpFechaFactura.Value;
                     string Costo = txtCosto.Text.Replace(",", "");
-                    string Garantia = cboGarantia.SelectedItem.ToString();
+                    //string Garantia = cboGarantia.SelectedItem.ToString();
+                    string DiasGarantia = cboDiasGarantía.SelectedItem.ToString();
                     string Ubicacion = txtUbicacion.Text;
                     DateTime FechaInstalacion = dtpFechaInstalacion.Value;
                     if (Modificando)
@@ -221,14 +229,14 @@ namespace SpeedToner
                             LimpiarForm();
                             return;
                         }
-                        objetoCN.ModificarFusor(Id, Serie, SerieSp, NumeroFactura, FechaFactura, Costo, Garantia, Ubicacion, FechaInstalacion);
-                        MessageBox.Show("Fusor modificado correctamente");
+                        objetoCN.ModificarFusor(Id, Serie, SerieSp, NumeroFactura, FechaFactura, Costo, DiasGarantia, Ubicacion, FechaInstalacion);
+                        MessageBox.Show("Fusor modificado correctamente","OPERACION EXITOSA", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         MostrarDatosFusores();
                     }
                     else
                     {
-                        objetoCN.AgregarFusor(Serie, SerieSp, NumeroFactura, FechaFactura, Costo, Garantia, Ubicacion, FechaInstalacion);
-                        MessageBox.Show("Fusor agregado correctamente");
+                        objetoCN.AgregarFusor(Serie, SerieSp, NumeroFactura, FechaFactura, Costo, DiasGarantia, Ubicacion, FechaInstalacion);
+                        MessageBox.Show("Fusor agregado correctamente", "OPERACION EXITOSA", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         MostrarDatosFusores();
                     }
                     LimpiarForm();
@@ -251,10 +259,10 @@ namespace SpeedToner
             txtSerieSp.Text = dtgFusores.CurrentRow.Cells[2].Value.ToString();
             txtFactura.Text = dtgFusores.CurrentRow.Cells[3].Value.ToString();
             dtpFechaFactura.Value = Convert.ToDateTime(dtgFusores.CurrentRow.Cells[4].Value.ToString());
-            txtUbicacion.Text = dtgFusores.CurrentRow.Cells[8].Value.ToString();
+            txtUbicacion.Text = dtgFusores.CurrentRow.Cells[9].Value.ToString();
             txtCosto.Text = dtgFusores.CurrentRow.Cells[6].Value.ToString().Replace("$", "");
-            dtpFechaInstalacion.Value = Convert.ToDateTime(dtgFusores.CurrentRow.Cells[9].Value.ToString());
-            cboGarantia.SelectedItem = dtgFusores.CurrentRow.Cells[7].Value.ToString();
+            dtpFechaInstalacion.Value = Convert.ToDateTime(dtgFusores.CurrentRow.Cells[10].Value.ToString());
+            cboDiasGarantía.SelectedItem = dtgFusores.CurrentRow.Cells[7].Value.ToString();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -262,18 +270,19 @@ namespace SpeedToner
             Modificando = false;
             LimpiarForm();
             txtSerie.Focus();
+            ControlesDesactivadosInicialmente(false);
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Desea eliminar el registro?", "CONFIRME LA ELIMINACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
-                MessageBox.Show("Eliminación cancelada!!");
+                MessageBox.Show("Eliminación cancelada!!", "OPERACION CANCELADA", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LimpiarForm();
                 return;
             }
             objetoCN.Eliminar(Id, "EliminarFusor");
-            MessageBox.Show("Fusor eliminado correctamente");
+            MessageBox.Show("Fusor eliminado correctamente", "OPERACION EXITOSA", MessageBoxButtons.OK, MessageBoxIcon.Information);
             MostrarDatosFusores();
         }
 
@@ -285,12 +294,21 @@ namespace SpeedToner
                 {
                     string Parametro = cboBusqueda.SelectedItem.ToString();
                     string Serie = txtSerieBusqueda.Text;
+                    if(Serie != "")
+                    {
+                        SqlDataReader dr = objetoCN.Buscar(txtSerieBusqueda.Text, "BuscarSerieSp");
+                        //Si no nos regresa un registro quiere decir que no existe en nuestra base de datos
+                        if (!dr.Read())
+                        {
+                            MessageBox.Show("Serie no encontrada", "SERIE NO VALIDA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                    }
                     DateTime FechaInicio = dtpFechaInicio.Value;
                     DateTime FechaFinal = dtpFechaFinal.Value;
                     objetoCN.ReporteFusores(Parametro, FechaInicio, FechaFinal, Serie);
                     LimpiarForm();
                 }
-
             }
             catch (Exception ex)
             {
@@ -328,7 +346,6 @@ namespace SpeedToner
                 string str = txtBusqueda.Text;
                 SqlDataReader dr;
 
-
                 dr = objetoCN.Buscar(txtBusqueda.Text, "BuscarSerieSp");
                 //BuscandoFolio = true;
                 btnCancelar.Enabled = true;
@@ -339,10 +356,11 @@ namespace SpeedToner
                     txtSerie.Text = (dr[1].ToString());
                     txtSerieSp.Text = (dr[2].ToString());
                     txtFactura.Text = (dr[3].ToString());
-                    txtCosto.Text = dr[4].ToString().Replace("$", "");
+                    txtCosto.Text = dr[6].ToString().Replace("$", "");
+                    dtpFechaFactura.Value = Convert.ToDateTime(dr[4].ToString());
+                    cboDiasGarantía.SelectedItem = dr[7].ToString();
+                    txtUbicacion.Text = dr[8].ToString();
                     dtpFechaInstalacion.Value = Convert.ToDateTime(dr[9].ToString());
-                    cboGarantia.SelectedItem = dr[7].ToString();
-                    txtUbicacion.Text = dr[6].ToString();
                     //Agregamos las opciones dependiendo los registros que nos devolvieron
                 }
                 else

@@ -280,13 +280,13 @@ namespace SpeedToner
             {
                 int NumeroFolio = int.Parse(txtNumeroFolio.Text);
                 objetoCN.Eliminar(NumeroFolio,"EliminarServicio");
-                MessageBox.Show("Se elimino el registro");
+                MessageBox.Show("Se elimino el registro", "OPERACION EXITOSA", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarDatosServicios();
                 LimpiarForm();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("No se pudo eliminar el registro: " + ex);
+                MessageBox.Show("No se pudo eliminar el registro: " + ex, "OCURRIO UN PROBLEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -332,7 +332,7 @@ namespace SpeedToner
                 }
                 else
                 {
-                    MessageBox.Show("El número de folio no esta registrado en la base de datos");
+                    MessageBox.Show("El número de folio no esta registrado en la base de datos", "REGISTRO NO ENCONTRADO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
 
                 dr.Close();

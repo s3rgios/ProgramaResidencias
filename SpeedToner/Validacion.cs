@@ -49,6 +49,16 @@ namespace SpeedToner
 			}
 		}
 
+		public static void SoloNumerosDecimales(KeyPressEventArgs V)
+        {
+			if (Char.IsNumber(V.KeyChar))
+			{
+				V.Handled = false;
+			}
+			
+
+		}
+
 		public static void SoloLetrasYNumeros(KeyPressEventArgs V)
 		{
 			if (Char.IsLetter(V.KeyChar))

@@ -20,6 +20,7 @@ namespace SpeedToner
         private CD_Conexion conexion = new CD_Conexion();
         SqlCommand comando = new SqlCommand();
         SqlDataReader reporte;
+        //Lista para evitar duplicados de los clientes y de las series, para que solo se muestren una sola vez en el pdf
         List<string> Parametros = new List<string>();
         PdfPTable Equipos;
 
@@ -48,6 +49,7 @@ namespace SpeedToner
             return leer;
         }
 
+        //Metodo que hara una consulta a la base de datos en base a la marca que se haya seleccionado, seleccionando solamente los modelos de dicha marca
         public SqlDataReader LlenarComboBoxModelos(string sp, int Marca)
         {
             SqlDataReader leer;
@@ -144,19 +146,6 @@ namespace SpeedToner
             comando.Parameters.Clear();
 
             conexion.CerrarConexion();
-        }
-
-        public SqlDataReader BuscarServicio(string NumeroFolio)
-        {
-            SqlDataReader leer;
-            comando.Connection = conexion.AbrirConexion();
-            comando.CommandText = "BuscarServicio";
-            comando.CommandType = CommandType.StoredProcedure;
-            comando.Parameters.AddWithValue("@ParametroBusqueda", NumeroFolio);
-            leer = comando.ExecuteReader();
-            comando.Parameters.Clear();
-
-            return leer;
         }
 
         public bool VerificarDuplicados(string NumeroFolio)
@@ -387,20 +376,6 @@ namespace SpeedToner
             comando.Parameters.Clear();
             conexion.CerrarConexion();
         }
-
-        public SqlDataReader Buscar(int IdCartucho)
-        {
-            SqlDataReader leer;
-            comando.Connection = conexion.AbrirConexion();
-            comando.CommandText = "BuscarCartucho";
-            comando.CommandType = CommandType.StoredProcedure;
-            comando.Parameters.AddWithValue("@IdCartucho", IdCartucho);
-            leer = comando.ExecuteReader();
-            comando.Parameters.Clear();
-
-            return leer;
-        }
-
         public string EnviarOficina(string Cantidad, int Id)
         {
             SqlDataReader leer;
@@ -1149,7 +1124,7 @@ namespace SpeedToner
         #endregion
 
         #region Fusores
-        public void AgregarFusor(string NumeroSerie, string NumeroSerieSp, string NumeroFactura, DateTime FechaFactura, string Costo, string Garantia, string Ubicacion, DateTime FechaInstalacion)
+        public void AgregarFusor(string NumeroSerie, string NumeroSerieSp, string NumeroFactura, DateTime FechaFactura, string Costo, string DiasGarantia, string Ubicacion, DateTime FechaInstalacion)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "AgregarFusor";
@@ -1160,7 +1135,7 @@ namespace SpeedToner
             comando.Parameters.AddWithValue("@NumeroFactura", NumeroFactura);
             comando.Parameters.AddWithValue("@FechaFactura", FechaFactura);
             comando.Parameters.AddWithValue("@Costo", double.Parse(Costo));
-            comando.Parameters.AddWithValue("@Garantia", Garantia);
+            comando.Parameters.AddWithValue("@DiasGarantia", DiasGarantia);
             comando.Parameters.AddWithValue("@Ubicacion", Ubicacion);
             comando.Parameters.AddWithValue("@FechaInstalacion", FechaInstalacion);
 
@@ -1170,7 +1145,7 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
-        public void ModificarFusor(int Id, string NumeroSerie, string NumeroSerieSp, string NumeroFactura, DateTime FechaFactura, string Costo, string Garantia, string Ubicacion, DateTime FechaInstalacion)
+        public void ModificarFusor(int Id, string NumeroSerie, string NumeroSerieSp, string NumeroFactura, DateTime FechaFactura, string Costo, string DiasGarantia, string Ubicacion, DateTime FechaInstalacion)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "ModificarFusor";
@@ -1182,7 +1157,7 @@ namespace SpeedToner
             comando.Parameters.AddWithValue("@NumeroFactura", NumeroFactura);
             comando.Parameters.AddWithValue("@FechaFactura", FechaFactura);
             comando.Parameters.AddWithValue("@Costo", double.Parse(Costo));
-            comando.Parameters.AddWithValue("@Garantia", Garantia);
+            comando.Parameters.AddWithValue("@DiasGarantia", DiasGarantia);
             comando.Parameters.AddWithValue("@Ubicacion", Ubicacion);
             comando.Parameters.AddWithValue("@FechaInstalacion", FechaInstalacion);
 

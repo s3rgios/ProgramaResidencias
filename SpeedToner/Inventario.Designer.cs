@@ -72,6 +72,7 @@
             this.btnImprimirInventario = new System.Windows.Forms.Button();
             this.erInventario = new System.Windows.Forms.ErrorProvider(this.components);
             this.label5 = new System.Windows.Forms.Label();
+            this.btnBorrador = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtgCartuchos)).BeginInit();
             this.grpDatosInventario.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -477,15 +478,15 @@
             // 
             this.txtBusqueda.Location = new System.Drawing.Point(435, 281);
             this.txtBusqueda.Name = "txtBusqueda";
-            this.txtBusqueda.Size = new System.Drawing.Size(205, 27);
+            this.txtBusqueda.Size = new System.Drawing.Size(210, 27);
             this.txtBusqueda.TabIndex = 26;
             // 
             // btnBuscar
             // 
             this.btnBuscar.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscar.Image")));
-            this.btnBuscar.Location = new System.Drawing.Point(670, 277);
+            this.btnBuscar.Location = new System.Drawing.Point(670, 271);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(53, 29);
+            this.btnBuscar.Size = new System.Drawing.Size(53, 37);
             this.btnBuscar.TabIndex = 27;
             this.btnBuscar.UseVisualStyleBackColor = true;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
@@ -516,12 +517,25 @@
             this.label5.TabIndex = 35;
             this.label5.Text = "Modelo cartucho:";
             // 
+            // btnBorrador
+            // 
+            this.btnBorrador.BackColor = System.Drawing.Color.Thistle;
+            this.btnBorrador.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnBorrador.Image = ((System.Drawing.Image)(resources.GetObject("btnBorrador.Image")));
+            this.btnBorrador.Location = new System.Drawing.Point(729, 272);
+            this.btnBorrador.Name = "btnBorrador";
+            this.btnBorrador.Size = new System.Drawing.Size(53, 36);
+            this.btnBorrador.TabIndex = 36;
+            this.btnBorrador.UseVisualStyleBackColor = false;
+            this.btnBorrador.Click += new System.EventHandler(this.btnBorrador_Click);
+            // 
             // Inventario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(57)))), ((int)(((byte)(80)))));
             this.ClientSize = new System.Drawing.Size(1172, 749);
+            this.Controls.Add(this.btnBorrador);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnImprimirInventario);
             this.Controls.Add(this.btnBuscar);
@@ -595,5 +609,6 @@
         private ErrorProvider erInventario;
         private Label label3;
         private Label label5;
+        private Button btnBorrador;
     }
 }

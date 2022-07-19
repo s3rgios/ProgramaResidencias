@@ -48,8 +48,6 @@
             this.btnCancelar = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.dtpFechaInstalacion = new System.Windows.Forms.DateTimePicker();
-            this.cboGarantia = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.btnGenerarReporte = new System.Windows.Forms.Button();
             this.erFusores = new System.Windows.Forms.ErrorProvider(this.components);
             this.cboBusqueda = new System.Windows.Forms.ComboBox();
@@ -61,6 +59,8 @@
             this.txtSerieBusqueda = new System.Windows.Forms.TextBox();
             this.txtBusqueda = new System.Windows.Forms.TextBox();
             this.btnBuscar = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cboDiasGarantía = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dtgFusores)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.erFusores)).BeginInit();
             this.SuspendLayout();
@@ -230,28 +230,6 @@
             this.dtpFechaInstalacion.Size = new System.Drawing.Size(365, 27);
             this.dtpFechaInstalacion.TabIndex = 7;
             // 
-            // cboGarantia
-            // 
-            this.cboGarantia.AutoCompleteCustomSource.AddRange(new string[] {
-            "Habilitada",
-            "Inhabilitada"});
-            this.cboGarantia.FormattingEnabled = true;
-            this.cboGarantia.ItemHeight = 21;
-            this.cboGarantia.Location = new System.Drawing.Point(632, 46);
-            this.cboGarantia.Name = "cboGarantia";
-            this.cboGarantia.Size = new System.Drawing.Size(257, 29);
-            this.cboGarantia.TabIndex = 8;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.ForeColor = System.Drawing.SystemColors.Control;
-            this.label8.Location = new System.Drawing.Point(540, 51);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(86, 21);
-            this.label8.TabIndex = 21;
-            this.label8.Text = "Garantia:";
-            // 
             // btnGenerarReporte
             // 
             this.btnGenerarReporte.Location = new System.Drawing.Point(777, 225);
@@ -269,7 +247,7 @@
             // cboBusqueda
             // 
             this.cboBusqueda.FormattingEnabled = true;
-            this.cboBusqueda.Location = new System.Drawing.Point(553, 111);
+            this.cboBusqueda.Location = new System.Drawing.Point(553, 80);
             this.cboBusqueda.Name = "cboBusqueda";
             this.cboBusqueda.Size = new System.Drawing.Size(218, 29);
             this.cboBusqueda.TabIndex = 23;
@@ -277,7 +255,7 @@
             // 
             // dtpFechaInicio
             // 
-            this.dtpFechaInicio.Location = new System.Drawing.Point(777, 109);
+            this.dtpFechaInicio.Location = new System.Drawing.Point(777, 78);
             this.dtpFechaInicio.Name = "dtpFechaInicio";
             this.dtpFechaInicio.Size = new System.Drawing.Size(365, 27);
             this.dtpFechaInicio.TabIndex = 24;
@@ -287,7 +265,7 @@
             // 
             this.lblFechaInicio.AutoSize = true;
             this.lblFechaInicio.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblFechaInicio.Location = new System.Drawing.Point(777, 85);
+            this.lblFechaInicio.Location = new System.Drawing.Point(777, 54);
             this.lblFechaInicio.Name = "lblFechaInicio";
             this.lblFechaInicio.Size = new System.Drawing.Size(108, 21);
             this.lblFechaInicio.TabIndex = 25;
@@ -298,7 +276,7 @@
             // 
             this.lblFechaFinal.AutoSize = true;
             this.lblFechaFinal.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblFechaFinal.Location = new System.Drawing.Point(777, 143);
+            this.lblFechaFinal.Location = new System.Drawing.Point(777, 112);
             this.lblFechaFinal.Name = "lblFechaFinal";
             this.lblFechaFinal.Size = new System.Drawing.Size(98, 21);
             this.lblFechaFinal.TabIndex = 26;
@@ -307,7 +285,7 @@
             // 
             // dtpFechaFinal
             // 
-            this.dtpFechaFinal.Location = new System.Drawing.Point(777, 170);
+            this.dtpFechaFinal.Location = new System.Drawing.Point(777, 139);
             this.dtpFechaFinal.Name = "dtpFechaFinal";
             this.dtpFechaFinal.Size = new System.Drawing.Size(365, 27);
             this.dtpFechaFinal.TabIndex = 27;
@@ -317,7 +295,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.ForeColor = System.Drawing.SystemColors.Control;
-            this.label11.Location = new System.Drawing.Point(553, 85);
+            this.label11.Location = new System.Drawing.Point(553, 54);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(116, 21);
             this.label11.TabIndex = 28;
@@ -325,7 +303,7 @@
             // 
             // txtSerieBusqueda
             // 
-            this.txtSerieBusqueda.Location = new System.Drawing.Point(553, 146);
+            this.txtSerieBusqueda.Location = new System.Drawing.Point(553, 115);
             this.txtSerieBusqueda.Name = "txtSerieBusqueda";
             this.txtSerieBusqueda.Size = new System.Drawing.Size(218, 27);
             this.txtSerieBusqueda.TabIndex = 29;
@@ -351,12 +329,36 @@
             this.btnBuscar.UseVisualStyleBackColor = false;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.ForeColor = System.Drawing.SystemColors.Control;
+            this.label9.Location = new System.Drawing.Point(292, 207);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(144, 21);
+            this.label9.TabIndex = 33;
+            this.label9.Text = "Dias de garantía:";
+            // 
+            // cboDiasGarantía
+            // 
+            this.cboDiasGarantía.AutoCompleteCustomSource.AddRange(new string[] {
+            "Habilitada",
+            "Inhabilitada"});
+            this.cboDiasGarantía.FormattingEnabled = true;
+            this.cboDiasGarantía.ItemHeight = 21;
+            this.cboDiasGarantía.Location = new System.Drawing.Point(442, 203);
+            this.cboDiasGarantía.Name = "cboDiasGarantía";
+            this.cboDiasGarantía.Size = new System.Drawing.Size(92, 29);
+            this.cboDiasGarantía.TabIndex = 34;
+            // 
             // Fusores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(57)))), ((int)(((byte)(80)))));
             this.ClientSize = new System.Drawing.Size(1172, 749);
+            this.Controls.Add(this.cboDiasGarantía);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.txtBusqueda);
             this.Controls.Add(this.txtSerieBusqueda);
@@ -367,8 +369,6 @@
             this.Controls.Add(this.dtpFechaInicio);
             this.Controls.Add(this.cboBusqueda);
             this.Controls.Add(this.btnGenerarReporte);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.cboGarantia);
             this.Controls.Add(this.dtpFechaInstalacion);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.btnCancelar);
@@ -419,8 +419,6 @@
         private Button btnCancelar;
         private Label label7;
         private DateTimePicker dtpFechaInstalacion;
-        private ComboBox cboGarantia;
-        private Label label8;
         private Button btnGenerarReporte;
         private ErrorProvider erFusores;
         private ComboBox cboBusqueda;
@@ -432,5 +430,7 @@
         private TextBox txtSerieBusqueda;
         private TextBox txtBusqueda;
         private Button btnBuscar;
+        private ComboBox cboDiasGarantía;
+        private Label label9;
     }
 }

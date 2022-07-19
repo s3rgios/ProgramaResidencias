@@ -215,6 +215,41 @@ namespace SpeedToner
             }
             return Validado;
         }
+
+        private void txtModelo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
+
+        private void txtOficina_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloNumeros(e);
+        }
+
+        private void txtBodega_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void txtBodega_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloNumeros(e);
+        }
+
+        private void txtRestanteBodega_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloNumeros(e);
+        }
+
+        private void txtCantidadSalida_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloNumeros(e);
+        }
+
+        private void txtCantidadEntrada_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloNumeros(e);
+        }
         #endregion
 
         #region Botones
@@ -372,11 +407,11 @@ namespace SpeedToner
         {
             if (ValidarBusqueda())
             {
-                int IdCartucho = objetoCN.BuscarId(txtBusqueda.Text, "ObtenerIdCartucho");
+                LimpiarForm();
+                //Enviamos el modelo para buscarlo en la base de datos
+                SqlDataReader dr = objetoCN.Buscar(txtBusqueda.Text,"BuscarCartucho");
 
-                SqlDataReader dr = objetoCN.Buscar(IdCartucho);
-
-                while (dr.Read())
+                if (dr.Read())
                 {
                     //Agregamos las opciones dependiendo los registros que nos devolvieron
                     txtModelo.Text = (dr[0].ToString());
@@ -385,6 +420,11 @@ namespace SpeedToner
                     txtBodega.Text = (dr[3].ToString());
                     dtpFecha.Value = Convert.ToDateTime(dr[4].ToString());
                 }
+                else
+                {
+                    MessageBox.Show("Ingrese otro modelo", "Modelo no encontrado", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+                txtBusqueda.Text = "";
                 dr.Close();
                 cn.CerrarConexion();
             }
@@ -489,44 +529,19 @@ namespace SpeedToner
         }
         #endregion
 
-        private void txtModelo_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validacion.SoloLetrasYNumeros(e);
-        }
-
-        private void txtOficina_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validacion.SoloNumeros(e);
-        }
-
-        private void txtBodega_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
-
-        private void txtBodega_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validacion.SoloNumeros(e);
-        }
-
-        private void txtRestanteBodega_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validacion.SoloNumeros(e);
-        }
-
-        private void txtCantidadSalida_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validacion.SoloNumeros(e);
-        }
-
-        private void txtCantidadEntrada_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validacion.SoloNumeros(e);
-        }
+        
 
         private void grpDatosRegistro_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnBorrador_Click(object sender, EventArgs e)
+        {
+            LimpiarForm();
+            erInventario.Clear();
+            ControlesDesactivados(false,true);
+            Modificando = true;
         }
     }
 }

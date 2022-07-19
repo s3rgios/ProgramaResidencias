@@ -183,6 +183,10 @@ namespace SpeedToner
         private void txtPrecio_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validacion.SoloNumeros(e);
+            if ((e.KeyChar == '.') && (!txtPrecio.Text.Contains(".")))
+            {
+                e.Handled = false;
+            }
         }
 
         private void txtFechaPago_KeyPress(object sender, KeyPressEventArgs e)
