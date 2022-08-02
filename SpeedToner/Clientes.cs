@@ -115,6 +115,13 @@ namespace SpeedToner
         {
             try
             {
+                if (MessageBox.Show("¿Desea eliminar el cliente?", "CONFIRME LA ELIMINACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    MessageBox.Show("Eliminacion cancelada!!", "CANCELADO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    LimpiarForm();
+                    return;
+                }
                 string Empresa = txtEmpresa.Text;
                 objetoCN.Eliminar(Id, "EliminarCliente");
                 LimpiarForm();

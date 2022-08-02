@@ -70,18 +70,24 @@ namespace SpeedToner
         {
             AbrirForm(new Servicios());
             pEquipos.Visible = false;
+            btnFuzores.Visible = true;
+            PanelEquiposAbierto = false;
         }
 
         private void btnClientes_Click(object sender, EventArgs e)
         {   
             AbrirForm(new Clientes());
             pEquipos.Visible = false;
+            btnFuzores.Visible = true;
+            PanelEquiposAbierto = false;
         }
 
         private void btnInventario_Click(object sender, EventArgs e)
         {
             AbrirForm(new Inventario());
-            pEquipos.Visible = false;
+            pEquipos.Visible = false; 
+            btnFuzores.Visible = true;
+            PanelEquiposAbierto = false;
         }
 
         private void btnEquipos_Click(object sender, EventArgs e)
@@ -119,6 +125,7 @@ namespace SpeedToner
         private void btnFuzores_Click(object sender, EventArgs e)
         {
             AbrirForm(new Fusores());
+            PanelEquiposAbierto = false;
         }
     }
 }

@@ -148,15 +148,15 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
-        public bool VerificarDuplicados(string NumeroFolio)
+        public bool VerificarDuplicados(string ParametroBusqueda,string sp)
         {
             SqlDataReader leer;
             bool FolioRepetido = false;
             comando.Connection = conexion.AbrirConexion();
-            comando.CommandText = "VerificarFolioExistente";
+            comando.CommandText = sp;
             comando.CommandType = CommandType.StoredProcedure;
 
-            comando.Parameters.AddWithValue("@NumeroFolio", NumeroFolio);
+            comando.Parameters.AddWithValue("@ParametroBusqueda", ParametroBusqueda);
 
 
             leer = comando.ExecuteReader();
@@ -175,6 +175,7 @@ namespace SpeedToner
             }
         }
 
+        //Metodo que nos regresara el registro, para poder mostrarlo en los controles correspondientes
         public SqlDataReader Buscar(string Serie, string sp)
         {
             SqlDataReader leer;
@@ -185,6 +186,21 @@ namespace SpeedToner
             leer = comando.ExecuteReader();
             comando.Parameters.Clear();
             return leer;
+        }
+
+        public bool VerificarExistenciaRegistro(string ParametroBusqueda,string sp)
+        {
+            SqlDataReader leer;
+            bool Encontrado = false;
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = sp;
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@ParametroBusqueda", ParametroBusqueda);
+            leer = comando.ExecuteReader();
+            comando.Parameters.Clear();
+            Encontrado = (leer.Read()) ? true : false;
+            leer.Close();
+            return Encontrado;
         }
 
 
@@ -202,7 +218,6 @@ namespace SpeedToner
             comando.Parameters.AddWithValue("@IdCliente", IdCliente);
             leer = comando.ExecuteReader();
             comando.Parameters.Clear();
-
             return leer;
         }
         public void InsertarCliente(string Empresa)
@@ -273,31 +288,6 @@ namespace SpeedToner
 
             comando.Parameters.Clear();
             conexion.CerrarConexion();
-        }
-
-        public bool VerificarDuplicadosInventario(string Modelo)
-        {
-            SqlDataReader leer;
-            bool ModeloRepetido = false;
-            comando.Connection = conexion.AbrirConexion();
-            comando.CommandText = "VerificarModeloExistente";
-            comando.CommandType = CommandType.StoredProcedure;
-
-            comando.Parameters.AddWithValue("@Modelo", Modelo);
-
-            leer = comando.ExecuteReader();
-            comando.Parameters.Clear();
-            //Nos ayuda a comprobar si el inventario fue modificado(Dependiendo si se haya modificado algo o no)
-            if (leer.Read())
-            {
-                leer.Close();
-                return ModeloRepetido = true;
-            }
-            else
-            {
-                leer.Close();
-                return ModeloRepetido;
-            }
         }
 
 
@@ -408,7 +398,7 @@ namespace SpeedToner
 
         #region Equipos
 
-        public void AgregarEquipo(int IdCliente, string Ubicacion, int Marca, int Modelo, string Serie, int IdRenta, int Precio, string Fecha_Pago)
+        public void AgregarEquipo(int IdCliente, string Ubicacion, int Marca, int Modelo, string Serie, int IdRenta, double Precio, string Fecha_Pago)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "AgregarEquipo";
@@ -429,7 +419,7 @@ namespace SpeedToner
             conexion.CerrarConexion();
         }
 
-        public void ModificarEquipo(int Id, int IdCliente, string Ubicacion, int Marca, int Modelo, string Serie, int IdRenta, int Precio, string Fecha_Pago)
+        public void ModificarEquipo(int Id, int IdCliente, string Ubicacion, int Marca, int Modelo, string Serie, int IdRenta, double Precio, string Fecha_Pago)
         {
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "ModificarEquipo";
@@ -561,7 +551,21 @@ namespace SpeedToner
         {
             //string NombreArchivo = @"C:\Users\Acer\Documents\Diseño web\" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
             //Se tendra que cambiar cuando se cambie a otra computadora
-            string NombreArchivo = @"C:\Users\DELL PC\Documents\Base de datos\" + "Reporte" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            string NombreArchivo;
+            //string NombreArchivo = @"C:\" + "ReporteServicio" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            //string NombreArchivo = @"C:\Users\DELL PC\Documents\Base de datos\" + "Reporte" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "PDF (*.pdf)|*.pdf";
+            //Restaurar la ventana despues del open fileDialog
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                NombreArchivo = saveFileDialog.FileName;
+            }
+            else
+            {
+                NombreArchivo = @"\\administracion-pc\ARCHIVOS COMPARTIDOS\Reportes\" + "Reporte" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            }
             //Lista de las series para evitar que se repitan las series en algunas consultas
             List<string> Series = new List<string>();
             FileStream fs = new FileStream(NombreArchivo, FileMode.Create);
@@ -573,15 +577,11 @@ namespace SpeedToner
 
             //Nos ayudara a controlar el numero de registros que seran mostrados
             int contadorRegistros = 0;
-            
+
             //Instanciamos la clase para la paginacion
             var pe = new PageEventHelperEquipos();
             pw.PageEvent = pe;
             document.Open();
-
-            //Definir el titulo
-            document.AddAuthor("Sergio Manuel García");
-            document.AddTitle("Reporte de ");
 
             //TIPO DE FUENTE
             //Variable para definir tipo de fuente normal
@@ -632,14 +632,6 @@ namespace SpeedToner
             {
                 //Codigo para despues de mostrar 4 registros haga saltos de pagina
                 contadorRegistros++;
-
-                //SE DEBERA DECIDIR SI DEJAR ESTA LINEA DE CODIGO O DEJAR LOS SALTOS AUTOMATICOS COMO NOS LO VA DANDO EL DOCUMENTO
-                //if (contadorRegistros > 4)
-                //{
-                //    document.NewPage();
-                //    contadorRegistros = 0;
-                //    document.Add(new Paragraph("\n"));
-                //}
                 //Si esta vacia que agregue la primer tabla con la serie, marca y modelo
                 if (!Series.Any())
                 {
@@ -698,6 +690,7 @@ namespace SpeedToner
                 Series.Add(reporte[4].ToString());
 
             }
+            reporte.Close();
             document.Close();
 
             //Abrimos el pdf 
@@ -707,6 +700,7 @@ namespace SpeedToner
                 UseShellExecute = true
             };
             p.Start();
+            
         }
 
         //Inserta los titulos de cada Serie en el pdf
@@ -737,7 +731,9 @@ namespace SpeedToner
             comando.CommandType = CommandType.StoredProcedure;
             Inventario = comando.ExecuteReader();
 
-            string NombreArchivo = @"C:\Users\DELL PC\Documents\Base de datos\" + "Inventario" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            //string NombreArchivo = @"C:\Users\Cobranza\Documents\Reportes\" + "ReporteServicio" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            string NombreArchivo = @"C:\Users\DELL PC\Documents\Base de datos\" + "Inventario" + DateTime.Now.ToString("dd-MM-yyyy") + ".pdf";
+            //string NombreArchivo = @"\\administracion-pc\ARCHIVOS COMPARTIDOS\Reportes\Inventario\" + "Reporte" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
             FileStream fs = new FileStream(NombreArchivo, FileMode.Create);
             Document document = new Document(PageSize.LETTER);
             document.SetMargins(25f, 25f, 25f, 25f);
@@ -807,7 +803,9 @@ namespace SpeedToner
 
         public void GenerarReporteEquipos(SqlDataReader leer, string TipoBusqueda, string ParametroBusqueda)
         {
+            //string NombreArchivo = @"\\administracion-pc\ARCHIVOS COMPARTIDOS\Reportes\Equipos\" + "ReporteEquipos" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
             string NombreArchivo = @"C:\Users\DELL PC\Documents\Base de datos\" + "ReporteEquipos" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
+            SaveFileDialog guardar = new SaveFileDialog();
             //Lista de las series para evitar que se repitan las series en algunas consultas
             FileStream fs = new FileStream(NombreArchivo, FileMode.Create);
             Document document = new Document(PageSize.LETTER);
@@ -909,7 +907,7 @@ namespace SpeedToner
 
                 PdfPCell TipoPago = new PdfPCell(new Phrase(leer[6].ToString(), fontParapragh)) { BorderWidth = .5f, Padding = 2 };
 
-                PdfPCell clCosto = new PdfPCell(new Phrase("$" + String.Format("{0:n0}", int.Parse(leer[7].ToString())), fontParapragh)) { BorderWidth = .5f, Padding = 2 };
+                PdfPCell clCosto = new PdfPCell(new Phrase("$" + String.Format("{0:n0}", double.Parse(leer[7].ToString())), fontParapragh)) { BorderWidth = .5f, Padding = 2 };
 
                 PdfPCell clFechaPago = new PdfPCell(new Phrase(leer[8].ToString(), fontParapragh)) { BorderWidth = .5f, Padding = 2 };
 
@@ -1002,6 +1000,7 @@ namespace SpeedToner
 
         public void GenerarReporteFusores(SqlDataReader leer, string Parametro, DateTime FechaInicio, DateTime FechaFinal, string Serie)
         {
+            //string NombreArchivo = @"\\administracion-pc\ARCHIVOS COMPARTIDOS\Reportes\Fusores" + "ReporteFusores" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
             string NombreArchivo = @"C:\Users\DELL PC\Documents\Base de datos\" + "ReporteFusores" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".pdf";
             //Lista de las series para evitar que se repitan las series en algunas consultas
             FileStream fs = new FileStream(NombreArchivo, FileMode.Create);

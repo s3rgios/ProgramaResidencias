@@ -1,0 +1,3 @@
+C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\bin\Release\net6.0-windows8.0\publish\win-x64\SpeedToner.pdb
+C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\bin\Release\net6.0-windows8.0\publish\win-x64\sni.dll
+C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\bin\Release\net6.0-windows8.0\publish\win-x64\SpeedToner.exe

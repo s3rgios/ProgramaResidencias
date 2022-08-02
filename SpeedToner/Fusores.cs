@@ -21,7 +21,6 @@ namespace SpeedToner
 
         CD_Servicios objetoCN = new CD_Servicios();
         CD_Conexion cn = new CD_Conexion();
-
         bool Modificando = false;
         int Id;
 
@@ -46,6 +45,7 @@ namespace SpeedToner
         {
             btnCancelar.Enabled = activado;
             btnEliminar.Enabled = activado;
+            btnGenerarReporte.Enabled = activado;
         }
 
         public void PropiedadesDtgServicios()
@@ -186,28 +186,10 @@ namespace SpeedToner
         #endregion
 
 
-        public void LimpiarForm()
-        {
-            foreach (Control c in this.Controls)
-            {
-                if (c is TextBox)
-                {
-                    c.Text = "";
-                }
-            }
-            dtpFechaFactura.Value = DateTime.Now;
-            dtpFechaInstalacion.Value = DateTime.Now;
-            dtpFechaInicio.Value = DateTime.Now;
-            dtpFechaFinal.Value = DateTime.Now;
-            MostrarFechas(false);
-            txtSerieBusqueda.Visible = false;
-            cboBusqueda.Text = "";
-            txtSerie.Focus();
-            
-        }
-
+        #region Botones
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            bool Repetido = false;
             try
             {
                 if (ValidarCampos())
@@ -230,14 +212,24 @@ namespace SpeedToner
                             return;
                         }
                         objetoCN.ModificarFusor(Id, Serie, SerieSp, NumeroFactura, FechaFactura, Costo, DiasGarantia, Ubicacion, FechaInstalacion);
-                        MessageBox.Show("Fusor modificado correctamente","OPERACION EXITOSA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Fusor modificado correctamente", "OPERACION EXITOSA", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         MostrarDatosFusores();
                     }
                     else
                     {
-                        objetoCN.AgregarFusor(Serie, SerieSp, NumeroFactura, FechaFactura, Costo, DiasGarantia, Ubicacion, FechaInstalacion);
-                        MessageBox.Show("Fusor agregado correctamente", "OPERACION EXITOSA", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        MostrarDatosFusores();
+                        //Verificamos que los numeros de serie no esten duplicados
+                        Repetido = objetoCN.VerificarDuplicados(Serie, "VerificarSerieExistenteFusor");
+                        Repetido = objetoCN.VerificarDuplicados(SerieSp, "VerificarSerieExistenteFusor");
+                        if (Repetido)
+                        {
+                            MessageBox.Show("Ingrese un numero de serie distinto", "SERIE YA EXISTENTE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            objetoCN.AgregarFusor(Serie, SerieSp, NumeroFactura, FechaFactura, Costo, DiasGarantia, Ubicacion, FechaInstalacion);
+                            MessageBox.Show("Fusor agregado correctamente", "OPERACION EXITOSA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MostrarDatosFusores();
+                        }
                     }
                     LimpiarForm();
                 }
@@ -249,22 +241,6 @@ namespace SpeedToner
 
         }
 
-        private void dtgFusores_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            ControlesDesactivadosInicialmente(true);
-            //LimpiarForm();
-            Modificando = true;
-            Id = int.Parse(dtgFusores.CurrentRow.Cells[0].Value.ToString());
-            txtSerie.Text = dtgFusores.CurrentRow.Cells[1].Value.ToString();
-            txtSerieSp.Text = dtgFusores.CurrentRow.Cells[2].Value.ToString();
-            txtFactura.Text = dtgFusores.CurrentRow.Cells[3].Value.ToString();
-            dtpFechaFactura.Value = Convert.ToDateTime(dtgFusores.CurrentRow.Cells[4].Value.ToString());
-            txtUbicacion.Text = dtgFusores.CurrentRow.Cells[9].Value.ToString();
-            txtCosto.Text = dtgFusores.CurrentRow.Cells[6].Value.ToString().Replace("$", "");
-            dtpFechaInstalacion.Value = Convert.ToDateTime(dtgFusores.CurrentRow.Cells[10].Value.ToString());
-            cboDiasGarantía.SelectedItem = dtgFusores.CurrentRow.Cells[7].Value.ToString();
-        }
-
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             Modificando = false;
@@ -272,7 +248,6 @@ namespace SpeedToner
             txtSerie.Focus();
             ControlesDesactivadosInicialmente(false);
         }
-
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Desea eliminar el registro?", "CONFIRME LA ELIMINACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
@@ -294,15 +269,16 @@ namespace SpeedToner
                 {
                     string Parametro = cboBusqueda.SelectedItem.ToString();
                     string Serie = txtSerieBusqueda.Text;
-                    if(Serie != "")
+                    if (Serie != "")
                     {
                         SqlDataReader dr = objetoCN.Buscar(txtSerieBusqueda.Text, "BuscarSerieSp");
                         //Si no nos regresa un registro quiere decir que no existe en nuestra base de datos
                         if (!dr.Read())
                         {
-                            MessageBox.Show("Serie no encontrada", "SERIE NO VALIDA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show("Serie no encontrada", "SERIE NO EXISTENTE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
+                        dr.Close();
                     }
                     DateTime FechaInicio = dtpFechaInicio.Value;
                     DateTime FechaFinal = dtpFechaFinal.Value;
@@ -314,29 +290,6 @@ namespace SpeedToner
             {
                 MessageBox.Show(ex.Message);
             }
-
-        }
-
-        private void cboBusqueda_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string Parametro = cboBusqueda.SelectedItem.ToString();
-            switch (Parametro)
-            {
-                case "Habilitado": MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
-                case "Deshabilitada": MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
-                case "Rango Fecha": MostrarFechas(true); txtSerieBusqueda.Visible = false; break;
-                case "Serie": MostrarFechas(false); txtSerieBusqueda.Visible = true; break;
-                case "Todos": MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
-            }
-
-        }
-
-        public void MostrarFechas(bool Mostrar)
-        {
-            lblFechaFinal.Visible = Mostrar;
-            lblFechaInicio.Visible = Mostrar;
-            dtpFechaInicio.Visible = Mostrar;
-            dtpFechaFinal.Visible = Mostrar;
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -373,6 +326,73 @@ namespace SpeedToner
                 txtBusqueda.Text = "";
                 //BuscandoFolio = false;
             }
+        }
+
+        private void btnBorrador_Click(object sender, EventArgs e)
+        {
+            LimpiarForm();
+            Modificando = false;
+            erFusores.Clear();
+        }
+        #endregion
+
+        #region Eventos
+        private void dtgFusores_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ControlesDesactivadosInicialmente(true);
+            //LimpiarForm();
+            Modificando = true;
+            Id = int.Parse(dtgFusores.CurrentRow.Cells[0].Value.ToString());
+            txtSerie.Text = dtgFusores.CurrentRow.Cells[1].Value.ToString();
+            txtSerieSp.Text = dtgFusores.CurrentRow.Cells[2].Value.ToString();
+            txtFactura.Text = dtgFusores.CurrentRow.Cells[3].Value.ToString();
+            dtpFechaFactura.Value = Convert.ToDateTime(dtgFusores.CurrentRow.Cells[4].Value.ToString());
+            txtUbicacion.Text = dtgFusores.CurrentRow.Cells[9].Value.ToString();
+            txtCosto.Text = dtgFusores.CurrentRow.Cells[6].Value.ToString().Replace("$", "");
+            dtpFechaInstalacion.Value = Convert.ToDateTime(dtgFusores.CurrentRow.Cells[10].Value.ToString());
+            cboDiasGarantía.SelectedItem = dtgFusores.CurrentRow.Cells[7].Value.ToString();
+        }
+
+        private void cboBusqueda_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnGenerarReporte.Enabled = true;
+            string Parametro = cboBusqueda.SelectedItem.ToString();
+            switch (Parametro)
+            {
+                case "Habilitado": MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
+                case "Deshabilitada": MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
+                case "Rango Fecha": MostrarFechas(true); txtSerieBusqueda.Visible = false; break;
+                case "Serie": MostrarFechas(false); txtSerieBusqueda.Visible = true; break;
+                case "Todos": MostrarFechas(false); txtSerieBusqueda.Visible = false; break;
+            }
+
+        }
+        #endregion
+        public void MostrarFechas(bool Mostrar)
+        {
+            lblFechaFinal.Visible = Mostrar;
+            lblFechaInicio.Visible = Mostrar;
+            dtpFechaInicio.Visible = Mostrar;
+            dtpFechaFinal.Visible = Mostrar;
+        }
+
+        public void LimpiarForm()
+        {
+            foreach (Control c in this.Controls)
+            {
+                if (c is TextBox)
+                {
+                    c.Text = "";
+                }
+            }
+            dtpFechaFactura.Value = DateTime.Now;
+            dtpFechaInstalacion.Value = DateTime.Now;
+            dtpFechaInicio.Value = DateTime.Now;
+            dtpFechaFinal.Value = DateTime.Now;
+            MostrarFechas(false);
+            txtSerieBusqueda.Visible = false;
+            cboBusqueda.Text = "";
+            txtSerie.Focus();
         }
     }
 }

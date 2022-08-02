@@ -12,8 +12,8 @@ namespace SpeedToner
     internal class CD_Conexion
     {
         //protected cnn = new SqlConnection
-        private SqlConnection Conexion = new SqlConnection("Server=DESKTOP-QEE7JA6;DataBase= SpeedToner;Integrated Security=true");
-        //private SqlConnection Conexion = new SqlConnection("data source=192.168.0.24,1433;initial catalog=SpeedToner; user id=usuario1;password=1234;");
+        //private SqlConnection Conexion = new SqlConnection("Server=DESKTOP-QEE7JA6;DataBase= SpeedToner;Integrated Security=true");
+        private SqlConnection Conexion = new SqlConnection("data source=192.168.0.70,1433;initial catalog=SpeedToner; user id=usuario;password=1234;");
 
 
         //private SqlConnection Conexion = new SqlConnection("Server=DESKTOP-QFUKV11;DataBase= SpeedToner;Integrated Security=true");
@@ -25,7 +25,6 @@ namespace SpeedToner
                 Conexion.Open();
             }
             return Conexion;
-            
         }
 
         public SqlConnection CerrarConexion()

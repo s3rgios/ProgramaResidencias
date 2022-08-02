@@ -23,6 +23,7 @@ namespace SpeedToner
         CD_Conexion cn = new CD_Conexion();
         //Sabremos si estamos modificando o agregando
         private bool Modificando = false;
+        bool Buscando = false;
         //Guardar el id de un registro
         int Id;
 
@@ -101,7 +102,9 @@ namespace SpeedToner
             dr.Close();
             cn.CerrarConexion();
         }
+        #endregion
 
+        #region Validaciones
         private bool ValidarDatos()
         {
             bool Validado = true;
@@ -110,7 +113,7 @@ namespace SpeedToner
             {
                 if (c is ComboBox || c is TextBox)
                 {
-                    if(c.Text == "" || c.Text == " ")
+                    if (c.Text == "" || c.Text == " ")
                     {
                         erBodega.SetError(c, "Campo obligatorio");
                         Validado = false;
@@ -119,11 +122,17 @@ namespace SpeedToner
             }
             return Validado;
         }
+
+        private void txtSerie_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validacion.SoloLetrasYNumeros(e);
+        }
         #endregion
 
         #region Botones
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            bool SerieDuplicada = false;
             try
             {
                 if (ValidarDatos())
@@ -138,17 +147,25 @@ namespace SpeedToner
                     {
                         if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                         {
-                            MessageBox.Show("!!Modificación cancelada!!");
+                            MessageBox.Show("!!Modificación cancelada!!", "OPERACION CANCELADA", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             LimpiarForm();
                             return;
                         }
                         objetoCN.ModificarBodega(Id, Marca, Modelo, Serie, Ubicacion, Estado, Notas);
-                        MessageBox.Show("¡Equipo modificado correctamente!");
+                        MessageBox.Show("¡Equipo modificado correctamente!","OPERACION EXITOSA", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        objetoCN.AgregarBodega(Marca, Modelo, Serie, Ubicacion, Estado, Notas);
-                        MessageBox.Show("¡Equipo añadido correctamente!");
+                        SerieDuplicada = objetoCN.VerificarDuplicados(Serie, "VerificarDuplicadoSerieBodega");
+                        if (SerieDuplicada)
+                        {
+                            MessageBox.Show("Ingrese un numero de serie distinto", "SERIE YA EXISTENTE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            objetoCN.AgregarBodega(Marca, Modelo, Serie, Ubicacion, Estado, Notas);
+                            MessageBox.Show("¡Equipo añadido correctamente!", "OPERACION EXITOSA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                     Mostrar("MostrarBodega");
                     LimpiarForm();
@@ -173,18 +190,56 @@ namespace SpeedToner
             {
                 if (MessageBox.Show("¿Esta seguro de eliminar el registro?", "CONFIRME LA ELIMINACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 {
-                    MessageBox.Show("!!Eliminacion cancelada!!");
+                    MessageBox.Show("!!Eliminacion cancelada!!","OPERACION CANCELADA", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LimpiarForm();
                     return;
                 }
                 objetoCN.Eliminar(Id, "EliminarBodega");
-                MessageBox.Show("Se ha eliminado el registro correctamente");
+                MessageBox.Show("Se ha eliminado el registro correctamente", "OPERACION EXITOSA", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Mostrar("MostrarEquipos");
                 LimpiarForm();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnBorrador_Click(object sender, EventArgs e)
+        {
+            LimpiarForm();
+            erBodega.Clear();
+            Modificando = true;
+            Buscando = false;
+        }
+
+        //Buscara un equipo en especifico por su numero de serie
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            if (txtBusqueda.Text != "")
+            {
+                SqlDataReader dr;
+                Buscando = true;
+                dr = objetoCN.Buscar(txtBusqueda.Text, "BuscarSerieBodega");
+                if (dr.Read())
+                {
+                    cboMarcas.SelectedItem = dr[1].ToString();
+                    cboModelos.SelectedItem = dr[2].ToString();
+                    txtSerie.Text = dr[3].ToString();
+                    txtUbicacion.Text = dr[4].ToString();
+                    cboEstado.SelectedItem = dr[5].ToString();
+                    rtxtNotas.Text = dr[6].ToString();
+                    dr.Close();
+                }
+                else
+                {
+                    MessageBox.Show("La serie no esta registrado en la base de datos", "REGISTRO NO ENCONTRADO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    dr.Close();
+                }
+            }
+            else
+            {
+                erBodega.SetError(txtBusqueda, "Coloque una serie");
             }
         }
         #endregion
@@ -206,13 +261,12 @@ namespace SpeedToner
             cboEstado.SelectedIndex = -1;
             LlenarComboBox(cboModelos, "SeleccionarModelos", 0);
         }
-
         #region Eventos
         //Nos ayudara a llenar el combobox de modelos dependiendo de su marca
         private void cboMarcas_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Mientras haya una marca seleccionada y mientras no estemos modificando
-            if (cboMarcas.SelectedItem.ToString() != " " && Modificando == false)
+            //Mientras haya una marca seleccionada y mientras no estemos buscando algo
+            if (cboMarcas.SelectedItem.ToString() != " " && Buscando == false)
             {
                 int IdMarca = objetoCN.BuscarId(cboMarcas.SelectedItem.ToString(), "ObtenerIdMarca");
                 //Se mostraran los modelos de acuerdo a la marca que se haya escogido
@@ -239,9 +293,5 @@ namespace SpeedToner
 
         #endregion
 
-        private void txtSerie_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validacion.SoloLetrasYNumeros(e);
-        }
     }
 }

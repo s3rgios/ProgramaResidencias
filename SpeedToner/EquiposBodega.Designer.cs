@@ -48,6 +48,9 @@
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.erBodega = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btnBorrador = new System.Windows.Forms.Button();
+            this.txtBusqueda = new System.Windows.Forms.TextBox();
+            this.btnBuscar = new System.Windows.Forms.Button();
             this.grpDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgEquipos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.erBodega)).BeginInit();
@@ -258,12 +261,48 @@
             // 
             this.erBodega.ContainerControl = this;
             // 
+            // btnBorrador
+            // 
+            this.btnBorrador.BackColor = System.Drawing.Color.Thistle;
+            this.btnBorrador.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnBorrador.Image = ((System.Drawing.Image)(resources.GetObject("btnBorrador.Image")));
+            this.btnBorrador.Location = new System.Drawing.Point(698, 241);
+            this.btnBorrador.Name = "btnBorrador";
+            this.btnBorrador.Size = new System.Drawing.Size(53, 37);
+            this.btnBorrador.TabIndex = 39;
+            this.btnBorrador.UseVisualStyleBackColor = false;
+            this.btnBorrador.Click += new System.EventHandler(this.btnBorrador_Click);
+            // 
+            // txtBusqueda
+            // 
+            this.txtBusqueda.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtBusqueda.Location = new System.Drawing.Point(269, 257);
+            this.txtBusqueda.Name = "txtBusqueda";
+            this.txtBusqueda.PlaceholderText = "Serie";
+            this.txtBusqueda.Size = new System.Drawing.Size(244, 27);
+            this.txtBusqueda.TabIndex = 40;
+            // 
+            // btnBuscar
+            // 
+            this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(105)))), ((int)(((byte)(5)))));
+            this.btnBuscar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnBuscar.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscar.Image")));
+            this.btnBuscar.Location = new System.Drawing.Point(533, 255);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(75, 30);
+            this.btnBuscar.TabIndex = 41;
+            this.btnBuscar.UseVisualStyleBackColor = false;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
             // EquiposBodega
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(57)))), ((int)(((byte)(80)))));
             this.ClientSize = new System.Drawing.Size(1172, 749);
+            this.Controls.Add(this.btnBuscar);
+            this.Controls.Add(this.txtBusqueda);
+            this.Controls.Add(this.btnBorrador);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnGuardar);
@@ -279,6 +318,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dtgEquipos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.erBodega)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -302,5 +342,8 @@
         private Button btnEliminar;
         private Button btnCancelar;
         private ErrorProvider erBodega;
+        private Button btnBorrador;
+        private TextBox txtBusqueda;
+        private Button btnBuscar;
     }
 }

@@ -101,6 +101,19 @@
   <metadata name="erFusores.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="btnBorrador.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
+        rAAAAKwBhgk01AAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAF8SURBVEhLrZU9
+        LwRRFIYHQYgf4Df4DWqJSqXyEYlEFERBpaMRCioSQRCVSAg6JIJCaBRKEhqi0mgFz3t3D3e5M+YOT/Jk
+        55ydvO/O7FdSkB48xXvcww78NybxHa9wFW/L8wz+GQtfwmotoA7nUftZLYoygQpZQQv3mUI9P+emSEKv
+        vAU7S4ef6AqiryQULsZQ+3E3fWEl0276hbRwUYMbGCpZQO3b3JRCVriRVlKPD7jupgB5wg2/pF2LMvt4
+        UTqsJCbcUMkANrspSZrwETfd5FEk/DsNeIiv2KqFYeFSPwVF8MMrMix8GY9QJ3RjDKnh/ejfFp1oJV2Y
+        h9RwcY3n6N/zmJLMcPGCoV/CPCU65wBTw8UlnpUOf5BVkitcjKDeAz2GCJXkDhf6kmzjGw5qEcAv0Yci
+        d7hRizuokiEtAqhEb6auVuG9GMVvJVZQKNzQ398uqmQUq1A0YuZHMQaVbKFuhf7Y1/CuPN/gYoTDGESv
+        vA9P8Amfi5kcfwBW/477tNr8DAAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="btnBuscar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA

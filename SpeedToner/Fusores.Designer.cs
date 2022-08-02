@@ -61,6 +61,7 @@
             this.btnBuscar = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.cboDiasGarantía = new System.Windows.Forms.ComboBox();
+            this.btnBorrador = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtgFusores)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.erFusores)).BeginInit();
             this.SuspendLayout();
@@ -351,12 +352,25 @@
             this.cboDiasGarantía.Size = new System.Drawing.Size(92, 29);
             this.cboDiasGarantía.TabIndex = 34;
             // 
+            // btnBorrador
+            // 
+            this.btnBorrador.BackColor = System.Drawing.Color.Thistle;
+            this.btnBorrador.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnBorrador.Image = ((System.Drawing.Image)(resources.GetObject("btnBorrador.Image")));
+            this.btnBorrador.Location = new System.Drawing.Point(629, 240);
+            this.btnBorrador.Name = "btnBorrador";
+            this.btnBorrador.Size = new System.Drawing.Size(53, 37);
+            this.btnBorrador.TabIndex = 39;
+            this.btnBorrador.UseVisualStyleBackColor = false;
+            this.btnBorrador.Click += new System.EventHandler(this.btnBorrador_Click);
+            // 
             // Fusores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(57)))), ((int)(((byte)(80)))));
             this.ClientSize = new System.Drawing.Size(1172, 749);
+            this.Controls.Add(this.btnBorrador);
             this.Controls.Add(this.cboDiasGarantía);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.btnBuscar);
@@ -432,5 +446,6 @@
         private Button btnBuscar;
         private ComboBox cboDiasGarantía;
         private Label label9;
+        private Button btnBorrador;
     }
 }

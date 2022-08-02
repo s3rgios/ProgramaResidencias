@@ -287,7 +287,7 @@ namespace SpeedToner
                         }
                         else
                         {
-                            bool ModeloDuplicado = objetoCN.VerificarDuplicadosInventario(Modelo);
+                            bool ModeloDuplicado = objetoCN.VerificarDuplicados(Modelo, "VerificarModeloExistente");
                             if (ModeloDuplicado)
                             {
                                 MessageBox.Show("Ingrese un modelo distinto", "EL MODELO YA EXISTE", MessageBoxButtons.OK, MessageBoxIcon.Warning);

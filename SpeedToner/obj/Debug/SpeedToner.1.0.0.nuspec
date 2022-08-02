@@ -8,6 +8,9 @@
     <dependencies>
       <group targetFramework="net6.0-windows7.0">
         <dependency id="System.Data.SqlClient" version="4.8.3" exclude="Build,Analyzers" />
+        <dependency id="iTextSharp" version="5.5.13.3" exclude="Build,Analyzers" />
+        <dependency id="itext7" version="7.2.2" exclude="Build,Analyzers" />
+        <dependency id="itextsharp.xmlworker" version="5.5.13.3" exclude="Build,Analyzers" />
       </group>
     </dependencies>
     <frameworkReferences>
@@ -17,7 +20,7 @@
     </frameworkReferences>
   </metadata>
   <files>
-    <file src="C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\bin\Debug\net6.0-windows\SpeedToner.runtimeconfig.json" target="lib\net6.0-windows7.0\SpeedToner.runtimeconfig.json" />
-    <file src="C:\Users\Acer\Source\Repos\s3rgios\ProgramaResidencias\SpeedToner\bin\Debug\net6.0-windows\SpeedToner.dll" target="lib\net6.0-windows7.0\SpeedToner.dll" />
+    <file src="C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\bin\Debug\net6.0-windows\SpeedToner.runtimeconfig.json" target="lib\net6.0-windows7.0\SpeedToner.runtimeconfig.json" />
+    <file src="C:\Users\DELL PC\source\repos\SpeedToner\SpeedToner\bin\Debug\net6.0-windows\SpeedToner.dll" target="lib\net6.0-windows7.0\SpeedToner.dll" />
   </files>
 </package>

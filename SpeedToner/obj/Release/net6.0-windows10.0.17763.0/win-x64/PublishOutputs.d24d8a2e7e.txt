@@ -1,0 +1,9 @@
+E:\SPT\SpeedToner.pdb
+E:\SPT\D3DCompiler_47_cor3.dll
+E:\SPT\PenImc_cor3.dll
+E:\SPT\PresentationNative_cor3.dll
+E:\SPT\vcruntime140_cor3.dll
+E:\SPT\wpfgfx_cor3.dll
+E:\SPT\Microsoft.Data.SqlClient.SNI.dll
+E:\SPT\sni.dll
+E:\SPT\SpeedToner.exe

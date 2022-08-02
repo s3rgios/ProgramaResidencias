@@ -78,13 +78,10 @@ namespace SpeedToner
         {
             //Solo lectura
             dtgServicios.ReadOnly = true;
-
             //No agregar renglones
             dtgServicios.AllowUserToAddRows = false;
-
             //No borrar renglones
             dtgServicios.AllowUserToDeleteRows = false;
-
             //Ajustar automaticamente el ancho de las columnas
             dtgServicios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             //dtgServicios.AutoResizeColumns(DataGridViewAutoSizeColumnsMo‌​de.Fill);
@@ -233,7 +230,7 @@ namespace SpeedToner
                     }
                     else
                     {
-                        bool FolioRepetido = objetoCN.VerificarDuplicados(NumeroFolio);
+                        bool FolioRepetido = objetoCN.VerificarDuplicados(NumeroFolio, "VerificarFolioExistente");
                         if (FolioRepetido)
                         {
                             MessageBox.Show("El numero de folio ya existe!!", "DUPLICADO", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -289,10 +286,7 @@ namespace SpeedToner
                 MessageBox.Show("No se pudo eliminar el registro: " + ex, "OCURRIO UN PROBLEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
-        private static readonly Regex regex = new Regex("^[a-zA-Z0-9]*$");
-
-
+        
         private void btnBuscar_Click(object sender, EventArgs e)
         {
 
@@ -323,11 +317,11 @@ namespace SpeedToner
                     txtContador.Text = (dr[5].ToString());
                     DateTime FechaRegistro = Convert.ToDateTime((dr[6].ToString()));
                     dtpFecha.Value = FechaRegistro;
-                    txtTecnico.Text = (dr[7].ToString()); ;
-                    txtUsuario.Text = (dr[8].ToString()); ;
-                    txtFusor.Text = (dr[9].ToString()); ;
-                    rtxtServicio.Text = (dr[10].ToString()); ;
-                    rtxtFallas.Text = (dr[11].ToString()); ;
+                    txtTecnico.Text = (dr[7].ToString()); 
+                    txtUsuario.Text = (dr[8].ToString()); 
+                    txtFusor.Text = (dr[9].ToString()); 
+                    rtxtServicio.Text = (dr[10].ToString()); 
+                    rtxtFallas.Text = (dr[11].ToString()); 
                     //Agregamos las opciones dependiendo los registros que nos devolvieron
                 }
                 else
@@ -340,6 +334,12 @@ namespace SpeedToner
                 txtBusqueda.Text = "";
                 BuscandoFolio = false;
             }
+        }
+        private void btnBorrador_Click(object sender, EventArgs e)
+        {
+            LimpiarForm();
+            Modificar = false;
+            erServicios.Clear();
         }
         #endregion
 
@@ -364,6 +364,7 @@ namespace SpeedToner
             cboMarca.SelectedIndex = 0;
             cboModelos.SelectedIndex = 0;
             dtpFecha.Value = DateTime.Now;
+            //Y volvemos a llenar todo el combobox con todos los modelos
             LlenarComboBox(cboModelos, "SeleccionarModelos", 0);
         }
 
@@ -387,7 +388,6 @@ namespace SpeedToner
                 //Agregamos las opciones dependiendo los registros que nos devolvieron
                 cb.Items.Add(dr[0].ToString());
             }
-            
             //Agregamos un espacio en blanco y lo asignamos como opcion por defecto
             cb.Items.Insert(0, " ");
             cb.SelectedIndex = 0;
@@ -411,17 +411,15 @@ namespace SpeedToner
             AbrirForm(new txtCliente());
         }
 
-        //Boton que mostrara los registros dependiendo de lo que solicite el usuario
         
         #region Eventos
 
         //Evento que ayuda a saber el cliente solo con ingresar el id del cliente en el txtCliente
-        private void txtCliente_TextChanged(object sender, EventArgs e)
+        private void txtCliente_TextChanged_1(object sender, EventArgs e)
         {
             if (txtCliente.Text != "")
             {
                 int IdCliente = int.Parse(txtCliente.Text);
-                //Dependiendo el numero que se coloque lo buscara en el stop procedure
                 SqlDataReader dr = objetoCN.BuscarCliente(IdCliente, "SeleccionarCliente");
 
                 while (dr.Read())
@@ -429,7 +427,6 @@ namespace SpeedToner
                     //Asiganmos al combobox el resgistro que nos devuelva la consulta
                     cboClientes.SelectedItem = dr[0].ToString();
                 }
-
                 dr.Close();
                 cn.CerrarConexion();
             }
@@ -485,11 +482,14 @@ namespace SpeedToner
                 int IdMarca = objetoCN.BuscarId(cboMarca.SelectedItem.ToString(), "ObtenerIdMarca");
                 LlenarComboBox(cboModelos, "SeleccionarModelos", IdMarca);
             }
-
         }
+
         #endregion
 
-        
+        private void txtBusqueda_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 
     

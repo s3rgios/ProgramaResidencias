@@ -120,6 +120,8 @@ namespace SpeedToner
 
         private void btnGenerarReporte_Click(object sender, EventArgs e)
         {
+            //Nos ayudara a saber si se encontro algun registro de fusor o serie
+            bool Encontrado = false;
             
             try
             {
@@ -128,14 +130,31 @@ namespace SpeedToner
                     if (txtDato.Text != "")
                     {
                         Parametro = txtDato.Text;
+                        //Vamos a validar si el tanto el fusor o el numero de serie que se busca, esten en la base de datos
+                        switch (TipoBusqueda)
+                        {
+                            case "Serie": Encontrado = objetoCN.VerificarExistenciaRegistro(Parametro, "BuscarSerieServicio"); break;
+                            case "Fusor": Encontrado = objetoCN.VerificarExistenciaRegistro(Parametro, "BuscarServicioFusor"); break;
+                        }
                     }
                     else
                     {
                         Parametro = cboClientes.SelectedItem.ToString();
+                        Encontrado = objetoCN.VerificarExistenciaRegistro(Parametro, "BuscarClienteServicio"); 
                     }
-                    DateTime FechaInicial = dtpFechaInicial.Value;
-                    DateTime FechaFinal = dtpFechaFinal.Value;
-                    objetoCN.GenerarReporte(FechaInicial, FechaFinal, Parametro, TipoBusqueda);
+                    if (Encontrado)
+                    {
+                        DateTime FechaInicial = dtpFechaInicial.Value;
+                        DateTime FechaFinal = dtpFechaFinal.Value;
+                        objetoCN.GenerarReporte(FechaInicial, FechaFinal, Parametro, TipoBusqueda);
+                    }
+                    else
+                    {
+                        txtDato.Text = "";
+                        txtDato.Focus();
+                        MessageBox.Show(TipoBusqueda + " no encontrada en base de datos o aun no hay registros","REGISTRO NO ENCONTRADO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    
                 }
                 
             }catch (Exception ex)

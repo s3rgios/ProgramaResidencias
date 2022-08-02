@@ -203,6 +203,7 @@ namespace SpeedToner
         #region Botones
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            bool SerieRepetida = false;
             try
             {
                 if (ValidarCampos())
@@ -213,7 +214,7 @@ namespace SpeedToner
                     int Modelo = objetoCN.BuscarId(cboModelos.SelectedItem.ToString(), "ObtenerIdModelo");
                     string Serie = txtSerie.Text;
                     int TipoRenta = objetoCN.BuscarId(cboTipoRenta.SelectedItem.ToString(), "ObtenerIdTipoRenta");
-                    int Precio = int.Parse(txtPrecio.Text.Replace(",", ""));
+                    double Precio = double.Parse(txtPrecio.Text.Replace(",", ""));
                     string FechaPago = txtFechaPago.Text;
 
                     if (Modificando)
@@ -221,15 +222,25 @@ namespace SpeedToner
                         //Modificar stop procedure de modificar, para que se pueda cambiar la fecha
                         if (MessageBox.Show("¿Esta seguro de modificar el registro?", "CONFIRME LA MODIFICACION", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                         {
-                            MessageBox.Show("!!Modificación cancelada!!");
+                            MessageBox.Show("!!Modificación cancelada!!", "OPERACION EXITOSA", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             LimpiarForm();
                             return;
                         }
                         objetoCN.ModificarEquipo(Id, Cliente, Ubicacion, Marca, Modelo, Serie, TipoRenta, Precio, FechaPago);
+                        MessageBox.Show("Equipo modificado correctamente", "OPERACION EXITOSA", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        objetoCN.AgregarEquipo(Cliente, Ubicacion, Marca, Modelo, Serie, TipoRenta, Precio, FechaPago);
+                        SerieRepetida = objetoCN.VerificarDuplicados(Serie, "VerificarDuplicadoSerieEquipos");
+                        if (SerieRepetida)
+                        {
+                            MessageBox.Show("Ingrese un numero de serie distinto", "SERIE YA EXISTENTE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            objetoCN.AgregarEquipo(Cliente, Ubicacion, Marca, Modelo, Serie, TipoRenta, Precio, FechaPago);
+                            MessageBox.Show("Equipo agregado correctamente", "OPERACION EXITOSA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                     Mostrar("MostrarEquipos");
                     LimpiarForm();
@@ -334,6 +345,7 @@ namespace SpeedToner
             ControlesDesactivados(true);
             Modificando = true;
             erEquipos.Clear();
+            
 
             Id = int.Parse(dtgEquipos.CurrentRow.Cells[0].Value.ToString());
             cboClientes.SelectedItem = dtgEquipos.CurrentRow.Cells[1].Value.ToString();
@@ -401,5 +413,10 @@ namespace SpeedToner
             LlenarComboBox(cboMarcas, "SeleccionarMarca", 0);
         }
 
+        private void btnBorrador_Click(object sender, EventArgs e)
+        {
+            LimpiarForm();
+            erEquipos.Clear();
+        }
     }
 }
